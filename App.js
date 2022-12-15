@@ -14,7 +14,7 @@ const MyStack = () => {
         <Stack.Screen
           name="Registro"
           component={Registro}
-          options={{ title: "Registro" }}
+          options={{ title: "Registro??" }}
         />
         <Stack.Screen name="Recuperar Password" component={RecuperarPass} />
       </Stack.Navigator>

@@ -15,7 +15,7 @@ const Registro = ({ navigation }) => {
           borderRadius: 7,
         }}
         containerStyle={{
-          width: 250,
+          width: 350,
         }}
       />
       <Button
