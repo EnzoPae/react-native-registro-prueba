@@ -1,25 +1,31 @@
 import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import {useFonts} from 'expo-font';
+import { useEffect } from 'react';
+import * as SplashScreen from 'expo-splash-screen';
 
-import Registro from "./screens/registro";
-import RecuperarPass from "./screens/recuperarPass";
+//Screens
+import Registro from "./src/screens/registro";
 
-const Stack = createNativeStackNavigator();
+export default function App() {
+  
+  const [fontsLoaded] = useFonts({
+    roboto: require('./assets/fonts/RobotoSlab-VariableFont_wght.ttf'),
+  }) 
+  
+  useEffect(() => {
+    async function prepare() {
+      await SplashScreen.preventAutoHideAsync();
+    }
+    prepare();
+  }, []);
 
-const MyStack = () => {
+  if (!fontsLoaded) {
+    return undefined;
+  } else {
+    SplashScreen.hideAsync();
+  }
+  
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Registro"
-          component={Registro}
-          options={{ title: "Registro??" }}
-        />
-        <Stack.Screen name="Recuperar Password" component={RecuperarPass} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Registro/>
   );
-};
-
-export default MyStack
+}
