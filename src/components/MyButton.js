@@ -24,7 +24,7 @@ export default function MyButton({
 
   const btnStyles = {
     height: 65,
-    width: btnSize === "large" ? "80%" : btnSize === "medium" ? 210 : "auto",
+    width: btnSize === "large" ? "70%" : btnSize === "medium" ? 210 : "auto",
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 16,
@@ -44,7 +44,7 @@ export default function MyButton({
     style={btnStyles}
     onPress={onPress}
     >
-      <Text style={{ color: "#fff", fontSize: 16, fontFamily: 'roboto'}}>
+      <Text style={{ color: "#fff", fontSize: 17, fontFamily: 'roboto'}}>
         {label}
       </Text>
     </TouchableOpacity>
