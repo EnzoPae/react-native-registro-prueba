@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
   ScrollView,
+  StatusBar,
 } from "react-native";
 import { Input } from "@rneui/themed";
 import { Formik } from "formik";
@@ -42,13 +43,15 @@ const Registro = () => {
           isValid,
         }) => (
           <>
+            <StatusBar/>
             <ScrollView
               contentContainerStyle={{ alignItems: "center" }}
               style={styles.scroll}
             >
-              <View style={styles.blue}>
-                <Text style={styles.titleText}>Registro</Text>
-              </View>
+            <View style={styles.blue}>
+              <Text style={styles.titleText}>Registro</Text>
+            </View>
+
               <View style={styles.box}>
                 <View style={styles.inputBox}>
                   <Input
@@ -60,9 +63,7 @@ const Registro = () => {
                     style={styles.roboto}
                   />
                   {errors.name && touched.name && (
-                    <Text style={styles.textError}>
-                      {errors.name}
-                    </Text>
+                    <Text style={styles.textError}>{errors.name}</Text>
                   )}
                   <Input
                     name="email"
@@ -73,9 +74,7 @@ const Registro = () => {
                     style={styles.roboto}
                   />
                   {errors.email && touched.email && (
-                    <Text style={styles.textError}> 
-                      {errors.email}
-                    </Text>
+                    <Text style={styles.textError}>{errors.email}</Text>
                   )}
                   <Input
                     name="password"
@@ -87,9 +86,7 @@ const Registro = () => {
                     style={styles.roboto}
                   />
                   {errors.password && touched.password && (
-                    <Text style={styles.textError}>
-                      {errors.password}
-                    </Text>
+                    <Text style={styles.textError}>{errors.password}</Text>
                   )}
                   <Input
                     name="confirmPassword"
@@ -105,7 +102,7 @@ const Registro = () => {
                       errors.confirmPassword
                     }*/
                   />
-                   {errors.confirmPassword && touched.confirmPassword && (
+                  {errors.confirmPassword && touched.confirmPassword && (
                     <Text style={styles.textError}>
                       {errors.confirmPassword}
                     </Text>
@@ -139,7 +136,7 @@ const Registro = () => {
                   />
                 </View>
               </View>
-              <Text/>
+              <Text />
             </ScrollView>
           </>
         )}
@@ -157,17 +154,16 @@ const styles = StyleSheet.create({
   },
   blue: {
     backgroundColor: "#0353A4",
-    height: 160,
+    height: 130,
     width: "100%",
     borderBottomRightRadius: 100,
-    borderBottomLeftRadius: 0,
     justifyContent: "flex-end",
   },
   box: {
     backgroundColor: "#fff",
     width: "80%",
-    height: 475,
-    marginTop: "10%",
+    height: 480,
+    marginTop: 25,
     borderRadius: 60,
     borderTopRightRadius: 0,
     borderBottomLeftRadius: 0,
@@ -196,11 +192,11 @@ const styles = StyleSheet.create({
   },
   textError: {
     fontSize: 10,
-    color: 'red',
+    color: "red",
     marginTop: -20,
     marginBottom: 6,
-    marginLeft: 12
-  }
+    marginLeft: 12,
+  },
 });
 
 export default Registro;
