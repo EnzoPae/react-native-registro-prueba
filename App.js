@@ -5,27 +5,11 @@ import * as SplashScreen from 'expo-splash-screen';
 
 //Screens
 import Registro from "./src/screens/registro";
+import Login from "./src/screens/login";
 
 export default function App() {
-  
-  const [fontsLoaded] = useFonts({
-    roboto: require('./assets/fonts/RobotoSlab-VariableFont_wght.ttf'),
-  }) 
-  
-  useEffect(() => {
-    async function prepare() {
-      await SplashScreen.preventAutoHideAsync();
-    }
-    prepare();
-  }, []);
-
-  if (!fontsLoaded) {
-    return undefined;
-  } else {
-    SplashScreen.hideAsync();
-  }
-  
+    
   return (
-    <Registro/>
+    <Login/>
   );
 }
