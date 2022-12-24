@@ -1,7 +1,6 @@
 import React from "react";
 import { Text, TouchableOpacity } from "react-native";
-import { Colors } from "./Colors";
-import MyFonts from "./Fonts";
+import { Colors } from "../styles/Colors";
 
 const SIZES = ["small", "medium", "large"];
 const TYPES = ["primary", "secondary"];
@@ -16,14 +15,13 @@ export default function MyButton({
   rounded,
 }) {
 
-  MyFonts()
   
   const btnSize = SIZES.includes(size) ? size : "small";
   const btnType = TYPES.includes(type) ? type : "primary";
   const btnRound = ROUNDED.includes(rounded) ? rounded : "small";
 
   const btnStyles = {
-    height: 65,
+    height: 60,
     width: btnSize === "large" ? "70%" : btnSize === "medium" ? 210 : "auto",
     justifyContent: "center",
     alignItems: "center",
@@ -44,7 +42,7 @@ export default function MyButton({
     style={btnStyles}
     onPress={onPress}
     >
-      <Text style={{ color: "#fff", fontSize: 17, fontFamily: 'roboto'}}>
+      <Text style={{ color: "#fff", fontSize: 17, fontWeight: 'bold'}}>
         {label}
       </Text>
     </TouchableOpacity>
