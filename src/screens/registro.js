@@ -37,6 +37,7 @@ const Registro = () => {
     const response = await createUser(values);
     console.log(response.status);
   };
+
   return (
     <SafeAreaView style={globalStyles.loginScreenContainer}>
       <Formik
@@ -57,7 +58,7 @@ const Registro = () => {
             <StatusBar />
             <ScrollView
               contentContainerStyle={{ alignItems: "center" }}
-              style={styles.scroll}
+              style={globalStyles.scroll}
             >
               <View style={globalStyles.loginScreenBlueContainer}>
                 <Text style={globalStyles.loginTitleStyle}>Registro</Text>
@@ -74,14 +75,44 @@ const Registro = () => {
                     value={values.name}
                     placeholder="Nombre y apellido"
                     leftIcon={<Icon name="account" size={20} />}
+                    containerStyle={globalStyles.loginInputContainerStyle}
                     leftIconContainerStyle={globalStyles.loginInputIconStyle}
                     inputStyle={globalStyles.loginInputStyle}
+                    errorMessage={
+                      errors.name &&
+                      touched.name &&
+                      errors.name
+                    }
+                    errorStyle={globalStyles.loginInputErrorStyle}
                   />
-                  {errors.name && touched.name && (
+                  {/*errors.name && touched.name && (
                     <Text style={globalStyles.loginInputTextErrorStyle}>
                       {errors.name}
                     </Text>
-                  )}
+                  )*/}
+                  <Input
+                    name="phoneNumber"
+                    onChangeText={handleChange("phoneNumber")}
+                    onBlur={handleBlur("phoneNumber")}
+                    value={values.phoneNumber}
+                    placeholder="Numero de telefono"
+                    leftIcon={<Icon name="phone" size={20} />}
+                    containerStyle={globalStyles.loginInputContainerStyle}
+                    leftIconContainerStyle={globalStyles.loginInputIconStyle}
+                    inputStyle={globalStyles.loginInputStyle}
+                    keyboardType='numeric'
+                    errorMessage={
+                      errors.phoneNumber &&
+                      touched.phoneNumber &&
+                      errors.phoneNumber
+                    }
+                    errorStyle={globalStyles.loginInputErrorStyle}
+                  />
+                  {/*errors.name && touched.name && (
+                    <Text style={globalStyles.loginInputTextErrorStyle}>
+                      {errors.phoneNumber}
+                    </Text>
+                  )*/}
                   <Input
                     name="email"
                     onChangeText={handleChange("email")}
@@ -89,14 +120,22 @@ const Registro = () => {
                     value={values.email}
                     placeholder="Email"
                     leftIcon={<Icon name="email" size={20} />}
+                    containerStyle={globalStyles.loginInputContainerStyle}
                     leftIconContainerStyle={globalStyles.loginInputIconStyle}
                     inputStyle={globalStyles.loginInputStyle}
+                    keyboardType='email-address'
+                    errorMessage={
+                      errors.email &&
+                      touched.email &&
+                      errors.email
+                    }
+                    errorStyle={globalStyles.loginInputErrorStyle}
                   />
-                  {errors.email && touched.email && (
+                  {/*errors.email && touched.email && (
                     <Text style={globalStyles.loginInputTextErrorStyle}>
                       {errors.email}
                     </Text>
-                  )}
+                  )*/}
                   <Input
                     name="password"
                     onChangeText={handleChange("password")}
@@ -105,14 +144,21 @@ const Registro = () => {
                     placeholder="Contraseña"
                     secureTextEntry={true}
                     leftIcon={<Icon name="lock" size={20} />}
+                    containerStyle={globalStyles.loginInputContainerStyle}
                     leftIconContainerStyle={globalStyles.loginInputIconStyle}
                     inputStyle={globalStyles.loginInputStyle}
+                    errorMessage={
+                      errors.password &&
+                      touched.password &&
+                      errors.password
+                    }
+                    errorStyle={globalStyles.loginInputErrorStyle}
                   />
-                  {errors.password && touched.password && (
+                  {/*errors.password && touched.password && (
                     <Text style={globalStyles.loginInputTextErrorStyle}>
                       {errors.password}
                     </Text>
-                  )}
+                  )*/}
                   <Input
                     name="confirmPassword"
                     onChangeText={handleChange("confirmPassword")}
@@ -121,19 +167,21 @@ const Registro = () => {
                     placeholder="Confirmar contraseña"
                     secureTextEntry={true}
                     leftIcon={<Icon name="lock-check" size={20} />}
+                    containerStyle={globalStyles.loginInputContainerStyle}
                     leftIconContainerStyle={globalStyles.loginInputIconStyle}
                     inputStyle={globalStyles.loginInputStyle}
-                    /*errorMessage={
+                    errorMessage={
                       errors.confirmPassword &&
                       touched.confirmPassword &&
                       errors.confirmPassword
-                    }*/
+                    }
+                    errorStyle={globalStyles.loginInputErrorStyle}
                   />
-                  {errors.confirmPassword && touched.confirmPassword && (
+                  {/*errors.confirmPassword && touched.confirmPassword && (
                     <Text style={globalStyles.loginInputTextErrorStyle}>
                       {errors.confirmPassword}
                     </Text>
-                  )}
+                  )*/}
                   {/*EJEMPLO DE COMO PASAR ERRORES */}
                 </View>
                 <View
@@ -156,7 +204,7 @@ const Registro = () => {
                   <Text
                     style={{
                       fontSize: 12,
-                      fontWeight: "bold",
+                      fontFamily: 'nunito',
                       color: Colors.grey,
                     }}
                   >
@@ -169,7 +217,7 @@ const Registro = () => {
                     <Text
                       style={{
                         fontSize: 12,
-                        fontWeight: "bold",
+                        fontFamily: 'nunito',
                         color: Colors.primary,
                       }}
                     >
@@ -196,10 +244,8 @@ const styles = StyleSheet.create({
   inputBox: {
     marginLeft: 25,
     marginRight: 25,
-    marginBottom: 10,
-  },
-  scroll: {
-    width: "100%",
+    marginBottom: 20
+
   },
 });
 
