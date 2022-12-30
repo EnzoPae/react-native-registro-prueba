@@ -28,7 +28,7 @@ const Login = () => {
       <StatusBar />
       <ScrollView
         contentContainerStyle={{ alignItems: "center" }}
-        style={styles.scroll}
+        style={globalStyles.scroll}
       >
         <View style={globalStyles.loginScreenBlueContainer}>
           <Text style={globalStyles.loginTitleStyle}>Bienvenido</Text>
@@ -59,7 +59,7 @@ const Login = () => {
                 marginBottom: 20,
               }}
             >
-              <Text>¿Olvidate tu contraseña?</Text>
+              <Text style={{fontFamily: 'nunito'}}>¿Olvidaste tu contraseña?</Text>
             </TouchableOpacity>
           </View>
           <View
@@ -75,7 +75,7 @@ const Login = () => {
             <Text
               style={{
                 fontSize: 12,
-                fontWeight: "bold",
+                fontFamily: 'nunito',
                 color: Colors.grey,
               }}
             >
@@ -88,7 +88,7 @@ const Login = () => {
               <Text
                 style={{
                   fontSize: 12,
-                  fontWeight: "bold",
+                  fontFamily: 'nunito',
                   color: Colors.primary,
                 }}
               >
@@ -113,9 +113,6 @@ const styles = StyleSheet.create({
     marginLeft: 25,
     marginRight: 25,
     marginBottom: 10,
-  },
-  scroll: {
-    width: "100%",
   },
 });
 
