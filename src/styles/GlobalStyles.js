@@ -2,6 +2,10 @@ import { StyleSheet } from "react-native";
 import { Colors } from "./Colors";
 
 export const globalStyles = StyleSheet.create({
+  //Basics
+  scroll: {
+    width: "100%",
+  },
   //Login-Register screens styles
   loginScreenContainer: {
     flex: 1,
@@ -22,8 +26,8 @@ export const globalStyles = StyleSheet.create({
   loginScreenWhiteContainer: {
     justifyContent: "center",
     width: "80%",
-    height: 480,
-    marginTop: 150,
+    height: 490,
+    marginTop: 120,
     borderRadius: 60,
     borderTopLeftRadius: 0,
     elevation: 8,
@@ -33,7 +37,7 @@ export const globalStyles = StyleSheet.create({
     justifyContent: "center",
     width: "80%",
     height: 400,
-    marginTop: 150,
+    marginTop: 130,
     borderRadius: 60,
     borderTopLeftRadius: 0,
     elevation: 8,
@@ -41,31 +45,35 @@ export const globalStyles = StyleSheet.create({
   },
   loginTitleStyle: {
     fontSize: 40,
-    fontWeight: 'bold',
     width: '80%',
-    marginTop: 40,
+    marginTop: 20,
     color: Colors.white,
+    fontFamily: 'nunito',
   },
   loginSubTitleStyle: {
     fontSize: 14,
-    fontWeight: 'bold',
+    marginLeft: 2,
     width: '80%',
     marginBottom: 5,
-    color: Colors.pseudoWhite
+    color: Colors.pseudoWhite,
+    fontFamily: 'nunito'
+  },
+  loginInputContainerStyle: {
+    height: 60
   },
   loginInputStyle: {
-    fontSize: 16,
+    fontSize: 14,
     marginBottom: -7,
+    fontFamily: 'nunito'
   },
-  loginInputTextErrorStyle: {
-    fontSize: 8,
-    marginTop: -22,
-    marginBottom: 11,
-    marginLeft: 12,
-    color: "red",
+  loginInputErrorStyle: {
+    fontSize: 10,
+    fontFamily: 'nunito'
   },
   loginInputIconStyle: {
     marginBottom: -3,
     marginRight: 5,
-  }
+  },
+
+  //CreateTrip Screen
 })
