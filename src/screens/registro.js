@@ -5,25 +5,26 @@ import {
   StyleSheet,
   View,
   ScrollView,
-  StatusBar,
   TouchableOpacity,
 } from "react-native";
 
-//External libraries
+//Components
 import { Input } from "@rneui/themed";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { StatusBar } from 'expo-status-bar';
+import MyButton from "../components/MyButton";
 
 //Formik & API
 import { Formik } from "formik";
 import { createUser } from "../api/userAPI";
 import { signUpValidationSchema } from "../Schemas/signupFormSchema";
 
-//Components
-import MyButton from "../components/MyButton";
-
 //Styles
 import { Colors } from "../styles/Colors";
 import { globalStyles } from "../styles/GlobalStyles";
+
+//Navigation 
+import { useNavigation } from "@react-navigation/native";
 
 //Start
 const Registro = () => {
@@ -33,6 +34,9 @@ const Registro = () => {
     password: null,
     confirmPassword: null,
   };
+
+  const nav = useNavigation()
+  
   const handleEnviar = async (values) => {
     const response = await createUser(values);
     console.log(response.status);
@@ -55,7 +59,6 @@ const Registro = () => {
           isValid,
         }) => (
           <>
-            <StatusBar />
             <ScrollView
               contentContainerStyle={{ alignItems: "center" }}
               style={globalStyles.scroll}
@@ -182,7 +185,6 @@ const Registro = () => {
                       {errors.confirmPassword}
                     </Text>
                   )*/}
-                  {/*EJEMPLO DE COMO PASAR ERRORES */}
                 </View>
                 <View
                   style={{
@@ -211,7 +213,7 @@ const Registro = () => {
                     ¿Ya estas registrado?{" "}
                   </Text>
                   <TouchableOpacity
-                    onPress={() => alert("Go to the Login")}
+                    onPress={() => nav.navigate('Login')}
                     style={{ flexDirection: "row" }}
                   >
                     <Text
@@ -236,6 +238,7 @@ const Registro = () => {
           </>
         )}
       </Formik>
+      <StatusBar style="light" />
     </SafeAreaView>
   );
 };
