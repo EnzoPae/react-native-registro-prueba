@@ -5,27 +5,30 @@ import {
   StyleSheet,
   View,
   ScrollView,
-  StatusBar,
   TouchableOpacity,
 } from "react-native";
 
-//External libraries
+//Components
 import { Input } from "@rneui/themed";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
-//Components
+import { StatusBar } from 'expo-status-bar';
 import MyButton from "../components/MyButton";
 
 //Styles
 import { Colors } from "../styles/Colors";
 import { globalStyles } from "../styles/GlobalStyles";
 
+//Navigation 
+import { useNavigation } from "@react-navigation/native";
+
+
 //Start
 
 const Login = () => {
+  const nav = useNavigation()
+
   return (
     <SafeAreaView style={globalStyles.loginScreenContainer}>
-      <StatusBar />
       <ScrollView
         contentContainerStyle={{ alignItems: "center" }}
         style={globalStyles.scroll}
@@ -52,7 +55,7 @@ const Login = () => {
               inputStyle={globalStyles.loginInputStyle}
             />
             <TouchableOpacity
-              onPress={() => alert("Go to recover password")}
+              onPress={() => nav.navigate('RecoverPassword')}
               style={{
                 alignItems: "flex-end",
                 marginRight: 10,
@@ -82,7 +85,7 @@ const Login = () => {
               ¿Aun no tienes una cuenta?{" "}
             </Text>
             <TouchableOpacity
-              onPress={() => alert("Go to Register")}
+              onPress={() => nav.navigate('Registro')}
               style={{ flexDirection: "row" }}
             >
               <Text
@@ -104,6 +107,7 @@ const Login = () => {
         </View>
         <Text />
       </ScrollView>
+      <StatusBar style="light" />
     </SafeAreaView>
   );
 };
