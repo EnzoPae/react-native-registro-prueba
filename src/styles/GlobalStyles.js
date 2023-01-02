@@ -27,7 +27,7 @@ export const globalStyles = StyleSheet.create({
     justifyContent: "center",
     width: "80%",
     height: 490,
-    marginTop: 120,
+    marginTop: 130,
     borderRadius: 60,
     borderTopLeftRadius: 0,
     elevation: 8,
@@ -37,7 +37,7 @@ export const globalStyles = StyleSheet.create({
     justifyContent: "center",
     width: "80%",
     height: 400,
-    marginTop: 130,
+    marginTop: 140,
     borderRadius: 60,
     borderTopLeftRadius: 0,
     elevation: 8,
@@ -46,7 +46,7 @@ export const globalStyles = StyleSheet.create({
   loginTitleStyle: {
     fontSize: 40,
     width: '80%',
-    marginTop: 20,
+    marginTop: 40,
     color: Colors.white,
     fontFamily: 'nunito',
   },
@@ -74,6 +74,4 @@ export const globalStyles = StyleSheet.create({
     marginBottom: -3,
     marginRight: 5,
   },
-
-  //CreateTrip Screen
 })
