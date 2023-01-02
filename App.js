@@ -2,16 +2,11 @@ import React from "react";
 import { useEffect } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-
-//Screens
-import Registro from "./src/screens/registro";
-import Login from "./src/screens/login";
-import Principal from "./src/screens/principal";
-import CreateTrip from "./src/screens/createTrip";
+import MyNavigation from "./src/navigation/navigation";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
-    'nunito': require("./assets/fonts/Nunito-Regular.ttf"),
+    nunito: require("./assets/fonts/Nunito-Regular.ttf"),
   });
 
   useEffect(() => {
@@ -27,7 +22,5 @@ export default function App() {
     SplashScreen.hideAsync();
   }
 
-  return (
-    <Principal/>
-  );
+  return <MyNavigation />;
 }
