@@ -22,7 +22,7 @@ export default function MyButton({
 
   const btnStyles = {
     height: 60,
-    width: btnSize === "large" ? "70%" : btnSize === "medium" ? 210 : "auto",
+    width: btnSize === "large" ? "70%" : btnSize === "medium" ? 210 : 180,
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 16,
