@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Text,
   SafeAreaView,
@@ -16,7 +16,8 @@ import MyButton from "../components/MyButton";
 import { globalStyles } from "../styles/GlobalStyles";
 import { Colors } from "../styles/Colors";
 
-const CreateTrip = () => {
+const CrearViajeScreen = () => {
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={globalStyles.scroll}>
@@ -63,7 +64,7 @@ const CreateTrip = () => {
   );
 };
 
-export default CreateTrip;
+export default CrearViajeScreen;
 
 const styles = StyleSheet.create({
   container: {

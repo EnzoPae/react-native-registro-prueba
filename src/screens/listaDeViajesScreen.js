@@ -5,14 +5,14 @@ import { Colors } from "../styles/Colors";
 //Navigation 
 import { useNavigation } from "@react-navigation/native";
 
-const TripList = () => {
+const ListaDeViajesScreen = () => {
   const nav = useNavigation()
 
   return (
     <View style={styles.container}>
       <Text>Lista de Viajes</Text>
       <View style={styles.addBtn}>
-        <TouchableOpacity onPress={() => nav.navigate('CreateTrip')}>
+        <TouchableOpacity onPress={() => nav.navigate('CrearViaje')}>
           <Avatar
             size={"large"}
             rounded={true}
@@ -25,7 +25,7 @@ const TripList = () => {
   );
 };
 
-export default TripList;
+export default ListaDeViajesScreen;
 
 const styles = StyleSheet.create({
   container: {

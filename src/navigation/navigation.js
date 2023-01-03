@@ -6,10 +6,10 @@ import { NavigationContainer } from "@react-navigation/native";
 
 import Registro from "../screens/registro";
 import Login from "../screens/login";
-import CreateTrip from "../screens/createTrip";
 import RecoverPassword from "../screens/recoverPassword";
-import TrucksList from "../screens/trucksList";
-import TripList from "../screens/tripList";
+import CrearViajeScreen from "../screens/crearViajeScreen";
+import ListaDeCamionesScreen from "../screens/listaDeCamionesScreen";
+import ListaDeViajesScreen from "../screens/listaDeViajesScreen";
 
 export default function MyNavigation() {
   const Drawer = createDrawerNavigator();
@@ -20,10 +20,10 @@ export default function MyNavigation() {
   return isAuth ? (
     <>
       <NavigationContainer>
-        <Drawer.Navigator initialRouteName="Principal">
-          <Drawer.Screen name="TripList" component={TripList} />
-          <Drawer.Screen name="CreateTrip" component={CreateTrip} options={{headerShown: true, title:'Crear nuevo viaje'}}/>
-          <Drawer.Screen name="TrucksList" component={TrucksList} />
+        <Drawer.Navigator initialRouteName="ListaDeViajes">
+          <Drawer.Screen name="ListaDeViajes" component={ListaDeViajesScreen} />
+          <Drawer.Screen name="CrearViaje" component={CrearViajeScreen} options={{headerShown: true, title:'Crear nuevo viaje'}}/>
+          <Drawer.Screen name="ListaDeCamiones" component={ListaDeCamionesScreen} />
         </Drawer.Navigator>
       </NavigationContainer>
     </>
@@ -38,12 +38,4 @@ export default function MyNavigation() {
       </NavigationContainer>
     </>
   );
-}
-
-{
-  /*<Drawer.Navigator initialRouteName="Login">
-          <Drawer.Screen name="Login" component={Login} options={{ headerShown: false }} />
-          <Drawer.Screen name="Registro" component={Registro} options={{ headerShown: false }} />
-          <Drawer.Screen name="RecoverPassword" component={RecoverPassword} options={{ headerShown: false }} />
-        </Drawer.Navigator>*/
 }
