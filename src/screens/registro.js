@@ -15,8 +15,8 @@ import { StatusBar } from 'expo-status-bar';
 import MyButton from "../components/MyButton";
 
 //Formik & API
-import { Formik } from "formik";
 import { createUser } from "../api/userAPI";
+import { Formik } from "formik";
 import { signUpValidationSchema } from "../Schemas/signupFormSchema";
 
 //Styles
@@ -88,11 +88,6 @@ const Registro = () => {
                     }
                     errorStyle={globalStyles.loginInputErrorStyle}
                   />
-                  {/*errors.name && touched.name && (
-                    <Text style={globalStyles.loginInputTextErrorStyle}>
-                      {errors.name}
-                    </Text>
-                  )*/}
                   <Input
                     name="phoneNumber"
                     onChangeText={handleChange("phoneNumber")}
@@ -111,11 +106,6 @@ const Registro = () => {
                     }
                     errorStyle={globalStyles.loginInputErrorStyle}
                   />
-                  {/*errors.name && touched.name && (
-                    <Text style={globalStyles.loginInputTextErrorStyle}>
-                      {errors.phoneNumber}
-                    </Text>
-                  )*/}
                   <Input
                     name="email"
                     onChangeText={handleChange("email")}
@@ -134,11 +124,6 @@ const Registro = () => {
                     }
                     errorStyle={globalStyles.loginInputErrorStyle}
                   />
-                  {/*errors.email && touched.email && (
-                    <Text style={globalStyles.loginInputTextErrorStyle}>
-                      {errors.email}
-                    </Text>
-                  )*/}
                   <Input
                     name="password"
                     onChangeText={handleChange("password")}
@@ -157,11 +142,6 @@ const Registro = () => {
                     }
                     errorStyle={globalStyles.loginInputErrorStyle}
                   />
-                  {/*errors.password && touched.password && (
-                    <Text style={globalStyles.loginInputTextErrorStyle}>
-                      {errors.password}
-                    </Text>
-                  )*/}
                   <Input
                     name="confirmPassword"
                     onChangeText={handleChange("confirmPassword")}
@@ -180,11 +160,6 @@ const Registro = () => {
                     }
                     errorStyle={globalStyles.loginInputErrorStyle}
                   />
-                  {/*errors.confirmPassword && touched.confirmPassword && (
-                    <Text style={globalStyles.loginInputTextErrorStyle}>
-                      {errors.confirmPassword}
-                    </Text>
-                  )*/}
                 </View>
                 <View
                   style={{
