@@ -6,5 +6,6 @@ export const Colors = {
   white: '#fff',
   pseudoWhite: '#dedede',
   grey: '#bababa',
-  backgroundGrey: '#f0f0f0',    
+  backgroundGrey: '#f0f0f0',
+  blackLabel: '#858585',    
 }
