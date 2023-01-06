@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import MyNavigation from "./src/navigation/navigation";
+import { AuthProvider } from "./src/contexts/AuthContext";
+import { AxiosProvider } from "./src/contexts/AxiosConfig";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -22,5 +24,11 @@ export default function App() {
     SplashScreen.hideAsync();
   }
 
-  return <MyNavigation />;
+  return (
+    <AuthProvider>
+      <AxiosProvider>
+        <MyNavigation />
+      </AxiosProvider>
+    </AuthProvider>
+  )
 }
