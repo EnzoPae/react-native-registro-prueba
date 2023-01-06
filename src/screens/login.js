@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useContext} from "react";
 import {
   Text,
   SafeAreaView,
@@ -25,22 +25,49 @@ import { globalStyles } from "../styles/GlobalStyles";
 
 //Navigation
 import { useNavigation } from "@react-navigation/native";
-
+//Auth
+import { AuthContext } from "../contexts/AuthContext";
+import * as Keychain from 'react-native-keychain';
+import { AxiosContext } from "../contexts/AxiosConfig";
 //Start
 const Login = () => {
+  const authContext = useContext(AuthContext);
+  const {publicAxios} = useContext(AxiosContext);
   const nav = useNavigation();
-
   const initialValues = {
     email: null,
     password: null,
   };
+  const onLogin = async (values) => {
+    try {
+      const response = await publicAxios.post('/api/user/login', {
+        userMail:values.email,
+        userPassword:values.password,
+      });
 
+      const {accessToken} = response.data;
+      authContext.setAuthState({
+        accessToken,
+        authenticated: true,
+      });
+
+      await Keychain.setGenericPassword(
+        'token',
+        JSON.stringify({
+          accessToken,
+        }),
+      );
+    } catch (error) {
+      console.log(error.message)
+      Alert.alert('Login Failed', error.response.data.msj);
+    }
+  };
   return (
     <SafeAreaView style={globalStyles.loginScreenContainer}>
       <Formik
         initialValues={initialValues}
         validationSchema={signInValidationSchema}
-        //onSubmit={(values) => handleEnviar(values)}
+        onSubmit={(values) => onLogin(values)}
       >
         {({
           handleChange,
