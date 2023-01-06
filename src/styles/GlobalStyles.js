@@ -37,7 +37,7 @@ export const globalStyles = StyleSheet.create({
     justifyContent: "center",
     width: "80%",
     height: 400,
-    marginTop: 140,
+    marginTop: 170,
     borderRadius: 60,
     borderTopLeftRadius: 0,
     elevation: 8,
@@ -54,7 +54,6 @@ export const globalStyles = StyleSheet.create({
     fontSize: 14,
     marginLeft: 2,
     width: '80%',
-    marginBottom: 5,
     color: Colors.pseudoWhite,
     fontFamily: 'nunito'
   },
