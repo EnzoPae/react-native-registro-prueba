@@ -6,11 +6,12 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 
 //Formik
 import { Formik } from "formik";
-import { signInValidationSchema } from "../Schemas/signinFormSchema";
+import { signInValidationSchema } from "../Schemas/signInFormSchema";
 
 //Components
 import { Input } from "@rneui/themed";
@@ -116,6 +117,7 @@ const Login = () => {
                     label={"INGRESAR"}
                     size={"medium"}
                     onPress={handleSubmit}
+                    
                   />
                 </View>
                 <View
