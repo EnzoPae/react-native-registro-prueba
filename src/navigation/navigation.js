@@ -22,7 +22,17 @@ export default function MyNavigation() {
       <NavigationContainer>
         <Drawer.Navigator initialRouteName="ListaDeViajes">
           <Drawer.Screen name="ListaDeViajes" component={ListaDeViajesScreen} />
-          <Drawer.Screen name="CrearViaje" component={CrearViajeScreen} options={{headerShown: true, title:'Crear nuevo viaje'}}/>
+          <Drawer.Screen 
+            name="CrearViaje" 
+            component={CrearViajeScreen} 
+            options={
+              {
+                headerShown: true, 
+                title:'Crear nuevo viaje', 
+                headerStyle: {backgroundColor: Colors.primary, height: 100},
+                headerTintColor: Colors.white,
+                headerTitleStyle: {fontFamily: 'nunito'}
+                }}/>
           <Drawer.Screen name="ListaDeCamiones" component={ListaDeCamionesScreen} />
         </Drawer.Navigator>
       </NavigationContainer>
