@@ -10,6 +10,7 @@ import RecoverPassword from "../screens/recoverPassword";
 import CrearViajeScreen from "../screens/crearViajeScreen";
 import ListaDeCamionesScreen from "../screens/listaDeCamionesScreen";
 import ListaDeViajesScreen from "../screens/listaDeViajesScreen";
+import * as SecureStore from 'expo-secure-store';
 import { AuthContext } from "../contexts/AuthContext";
 export default function MyNavigation() {
   const authContext = useContext(AuthContext);
@@ -19,8 +20,9 @@ export default function MyNavigation() {
 
   const loadJWT = useCallback(async () => {
     try {
-      const value = await Keychain.getGenericPassword();
-      const jwt = JSON.parse(value.password);
+      const value = await SecureStore.getItemAsync('token');
+      console.log(value)
+      const jwt = JSON.parse(value);
       authContext.setAuthState({
         accessToken: jwt.accessToken || null,
         authenticated: jwt.accessToken !== null,
@@ -28,7 +30,7 @@ export default function MyNavigation() {
       setStatus('success');
     } catch (error) {
       setStatus('error');
-      console.log(`Keychain Error: ${error.message}`);
+      console.log(`SecureStore navigation Error: ${error.message}`);
       authContext.setAuthState({
         accessToken: null,
         authenticated: false,
