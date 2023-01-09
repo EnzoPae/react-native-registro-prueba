@@ -27,7 +27,7 @@ import { globalStyles } from "../styles/GlobalStyles";
 import { useNavigation } from "@react-navigation/native";
 //Auth
 import { AuthContext } from "../contexts/AuthContext";
-import * as Keychain from 'react-native-keychain';
+import * as SecureStore from 'expo-secure-store';
 import { AxiosContext } from "../contexts/AxiosConfig";
 //Start
 const Login = () => {
@@ -51,14 +51,15 @@ const Login = () => {
         authenticated: true,
       });
 
-      await Keychain.setGenericPassword(
+      await SecureStore.setItemAsync(
         'token',
         JSON.stringify({
           accessToken,
         }),
       );
+      console.log(authContext.getAccessToken())
     } catch (error) {
-      console.log(error.message)
+      console.log(`Error en login.js: ${error.message}`)
       Alert.alert('Login Failed', error.response.data.msj);
     }
   };
