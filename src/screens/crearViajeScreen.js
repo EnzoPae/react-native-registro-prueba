@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Text,
   SafeAreaView,
@@ -12,15 +12,40 @@ import {
 import { StatusBar } from "expo-status-bar";
 import { Input } from "@rneui/themed";
 import MyButton from "../components/MyButton";
+import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 //Styles
 import { globalStyles } from "../styles/GlobalStyles";
 import { Colors } from "../styles/Colors";
 
 const CrearViajeScreen = () => {
+  const [date, setDate] = useState(new Date(1598051730000));
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setDate(currentDate);
+  };
+
+  const showMode = (currentMode) => {
+    DateTimePickerAndroid.open({
+      value: date,
+      onChange,
+      mode: currentMode,
+      is24Hour: true,
+    });
+  };
+
+  const showDatepicker = () => {
+    showMode("date");
+  };
+
+  const showTimepicker = () => {
+    showMode("time");
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={globalStyles.scroll}>
-        <View style={{marginTop: 25}}>
+        <View style={{ marginTop: 25 }}>
           <Input
             containerStyle={styles.inputContainer}
             inputContainerStyle={styles.inputContainerStyle}
@@ -46,7 +71,7 @@ const CrearViajeScreen = () => {
             labelStyle={styles.label}
             multiline={true}
             numberOfLines={10}
-            textAlignVertical={'top'}
+            textAlignVertical={"top"}
           />
           <Input
             containerStyle={styles.inputContainer}
@@ -56,6 +81,25 @@ const CrearViajeScreen = () => {
             labelStyle={styles.label}
             keyboardType={"numeric"}
           />
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-around" }}
+          >
+            <TouchableOpacity
+              style={styles.dateButtom}
+              onPress={showDatepicker}
+              title="Show date picker!"
+            >
+              <Text>Fecha</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.dateButtom}
+              onPress={showTimepicker}
+              title="Show time picker!"
+            >
+              <Text>Hora</Text>
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.dateText}>{date.toLocaleString()}</Text>
           <View style={styles.viewCenter}>
             <MyButton label={"CREAR VIAJE"} size={"medium"} />
           </View>
@@ -82,23 +126,24 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 7,
     backgroundColor: Colors.white,
-    height: 50,
+    height: 40,
   },
   inputComentsContainerStyle: {
     borderWidth: 1,
     borderRadius: 7,
     backgroundColor: Colors.white,
     height: 100,
-    textAlignVertical: 'top',
+    textAlignVertical: "top",
   },
   inputContainerStyle2: {
     borderWidth: 1,
     borderRadius: 7,
     backgroundColor: Colors.white,
     width: 70,
+    height: 40,
   },
   label: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "normal",
     fontFamily: "nunito",
     color: Colors.blackLabel,
@@ -113,13 +158,28 @@ const styles = StyleSheet.create({
   },
   inputStyleComents: {
     fontFamily: "nunito",
-    fontSize: 15,
+    fontSize: 14,
     marginLeft: 10,
     marginTop: 10,
   },
   inputStyleCantidad: {
     fontFamily: "nunito",
-    fontSize: 16,
-    textAlign: 'center'
+    fontSize: 14,
+    textAlign: "center",
   },
+  dateButtom: {
+    paddingHorizontal: 30,
+    paddingVertical: 15,
+    backgroundColor: Colors.white,
+    marginBottom: 20,
+    marginTop: 15,
+    borderRadius: 10,
+    elevation: 3,
+  },
+  dateText: {
+    textAlign: 'center',
+    marginBottom: 20,
+    fontFamily: 'nunito',
+    fontSize: 16
+  }
 });
