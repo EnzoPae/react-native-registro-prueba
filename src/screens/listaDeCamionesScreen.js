@@ -1,8 +1,12 @@
 import React from "react";
 import { Text } from "react-native";
+import { StatusBar } from "expo-status-bar";
 
 const ListaDeCamionesScreen = () => {
-  return <Text>Pantalla de lista de camiones</Text>;
+  return (
+  <StatusBar style="light" />
+  )
+  
 };
 
 export default ListaDeCamionesScreen;
