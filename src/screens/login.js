@@ -57,7 +57,6 @@ const Login = () => {
           accessToken,
         }),
       );
-      console.log(authContext.getAccessToken())
     } catch (error) {
       console.log(`Error en login.js: ${error.message}`)
       Alert.alert('Login Failed', error.response.data.msj);
