@@ -29,8 +29,8 @@ export default function MyNavigation() {
       console.log(value);
       const jwt = JSON.parse(value);
       authContext.setAuthState({
-        accessToken: jwt.accessToken || null,
-        authenticated: jwt.accessToken !== null,
+        accessToken: jwt || null,
+        authenticated: jwt !== null,
       });
       setStatus("success");
     } catch (error) {
