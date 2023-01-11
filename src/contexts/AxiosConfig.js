@@ -8,10 +8,10 @@ const {Provider} = AxiosContext;
 const AxiosProvider = ({children}) => {
   const authContext = useContext(AuthContext);
   const authAxios = axios.create({
-    baseURL: 'http://	181.95.152.149:4005',
+    baseURL: 'http://181.95.152.149:4005',
   });
   const publicAxios = axios.create({
-    baseURL: 'http://	181.95.152.149:4005',
+    baseURL: 'http://181.95.152.149:4005',
   });
   authAxios.defaults.withCredentials = true;
   authAxios.interceptors.response.use(function (response) {
