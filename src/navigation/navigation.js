@@ -26,7 +26,6 @@ export default function MyNavigation() {
   const loadJWT = useCallback(async () => {
     try {
       const value = await SecureStore.getItemAsync("token");
-      console.log(value);
       const jwt = JSON.parse(value);
       authContext.setAuthState({
         accessToken: jwt || null,
@@ -43,6 +42,14 @@ export default function MyNavigation() {
     }
   }, []);
 
+  const handleLogout = async()=>{
+    try {
+      await authContext.logout()
+    } catch (error) {
+      console.log(`Error en logoout: ${error}`)
+    }
+  }
+
   useEffect(() => {
     loadJWT();
   }, [loadJWT]);
@@ -53,7 +60,7 @@ export default function MyNavigation() {
       </>
     );
   }
-  return authContext?.authState?.authenticated === true ? (
+  return authContext?.authState?.authenticated === false ? (
     <>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Login">
@@ -80,7 +87,7 @@ export default function MyNavigation() {
       <NavigationContainer>
         <Drawer.Navigator
           initialRouteName="ListaDeViajes"
-          drawerContent={(props) => <MenuDrawer {...props} />}
+          drawerContent={(props) => <MenuDrawer {...props} handleLogout={handleLogout}/>}
         >
           <Drawer.Screen name="ListaDeViajes" component={ListaDeViajesScreen} 
           options={{
@@ -118,7 +125,7 @@ export default function MyNavigation() {
   );
 }
 
-const MenuDrawer = ({ navigation }) => {
+const MenuDrawer = ({ navigation ,handleLogout}) => {
   return (
     <View style={styles.container}>
       <View
@@ -147,7 +154,7 @@ const MenuDrawer = ({ navigation }) => {
         label={'plus-circle'}
       />
       <View style={styles.cerrarSesion}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handleLogout}>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Icon name="cog" size={14} />
             <Text style={{ fontFamily: "nunito" }}> Cerrar sesión</Text>
