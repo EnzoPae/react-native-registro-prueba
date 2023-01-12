@@ -8,7 +8,7 @@ export const signUpValidationSchema = yup.object().shape({
     .typeError("Pone letras"),
   phoneNumber: yup
     .string()
-    .matches(/(01)(\d){8}\b/, "Enter a valid phone number")
+    .matches(/^(?:(?:00)?549?)?0?(?:11|[2368]\d)(?:(?=\d{0,2}15)\d{2})??\d{8}$/, "Enter a valid phone number")
     .required("El numero de telefono es obligatorio"),
   email: yup
     .string()
