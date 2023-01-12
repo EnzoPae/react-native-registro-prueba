@@ -16,8 +16,16 @@ import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 //Styles
 import { globalStyles } from "../styles/GlobalStyles";
 import { Colors } from "../styles/Colors";
+//Formik & Yup
+import { crearViajeValidationSchema } from "../Schemas/crearViajeValidationSchema";
+import { Formik } from "formik";
 
 const CrearViajeScreen = () => {
+  const initialValues = {
+    origen: null,
+    destino: null,
+  };
+
   const [date, setDate] = useState(new Date(1598051730000));
 
   const onChange = (event, selectedDate) => {
@@ -44,67 +52,112 @@ const CrearViajeScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={globalStyles.scroll}>
-        <View style={{ marginTop: 25 }}>
-          <Input
-            containerStyle={styles.inputContainer}
-            inputContainerStyle={styles.inputContainerStyle}
-            inputStyle={styles.inputStyle}
-            label={"Origen"}
-            labelStyle={styles.label}
-            placeholder={"Ingrese ubicacion de origen"}
-          />
-          <Input
-            containerStyle={styles.inputContainer}
-            inputContainerStyle={styles.inputContainerStyle}
-            inputStyle={styles.inputStyle}
-            label={"Destino"}
-            labelStyle={styles.label}
-            placeholder={"Ingrese ubicacion de destino"}
-          />
-          <Input
-            style={{ textAlignVertical: "top" }}
-            containerStyle={styles.inputContainer}
-            inputContainerStyle={styles.inputComentsContainerStyle}
-            inputStyle={styles.inputStyleComents}
-            label={"Comentarios"}
-            labelStyle={styles.label}
-            multiline={true}
-            numberOfLines={10}
-            textAlignVertical={"top"}
-          />
-          <Input
-            containerStyle={styles.inputContainer}
-            inputContainerStyle={styles.inputContainerStyle2}
-            inputStyle={styles.inputStyleCantidad}
-            label={"Cantidad de camiones"}
-            labelStyle={styles.label}
-            keyboardType={"numeric"}
-          />
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-around" }}
-          >
-            <TouchableOpacity
-              style={styles.dateButtom}
-              onPress={showDatepicker}
-              title="Show date picker!"
-            >
-              <Text>Fecha</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.dateButtom}
-              onPress={showTimepicker}
-              title="Show time picker!"
-            >
-              <Text>Hora</Text>
-            </TouchableOpacity>
-          </View>
-          <Text style={styles.dateText}>{date.toLocaleString()}</Text>
-          <View style={styles.viewCenter}>
-            <MyButton label={"CREAR VIAJE"} size={"medium"} />
-          </View>
-        </View>
-      </ScrollView>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={crearViajeValidationSchema}
+        onSubmit={(values) => handleEnviar(values)}
+      >
+        {({
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          values,
+          errors,
+          touched,
+          isValid,
+        }) => (
+          <>
+            <ScrollView style={globalStyles.scroll}>
+              <View style={{ marginTop: 25 }}>
+                <Input
+                  name="origen"
+                  onChangeText={handleChange("origen")}
+                  onBlur={handleBlur("origen")}
+                  value={values.origen}
+                  containerStyle={styles.inputContainer}
+                  inputContainerStyle={styles.inputContainerStyle}
+                  inputStyle={styles.inputStyle}
+                  label={"Origen"}
+                  labelStyle={styles.label}
+                  placeholder={"Ingrese ubicacion de origen"}
+                  errorMessage={
+                    errors.origen && touched.origen && errors.origen
+                  }
+                  errorStyle={globalStyles.formInputErrorStyle}
+                />
+                <Input
+                  name="destino"
+                  onChangeText={handleChange("destino")}
+                  onBlur={handleBlur("destino")}
+                  value={values.destino}
+                  containerStyle={styles.inputContainer}
+                  inputContainerStyle={styles.inputContainerStyle}
+                  inputStyle={styles.inputStyle}
+                  label={"Destino"}
+                  labelStyle={styles.label}
+                  placeholder={"Ingrese ubicacion de destino"}
+                  errorMessage={
+                    errors.destino && touched.destino && errors.destino
+                  }
+                  errorStyle={globalStyles.formInputErrorStyle}
+                />
+                <Input
+                  style={{ textAlignVertical: "top" }}
+                  containerStyle={styles.inputContainer}
+                  inputContainerStyle={styles.inputComentsContainerStyle}
+                  inputStyle={styles.inputStyleComents}
+                  label={"Comentarios"}
+                  labelStyle={styles.label}
+                  multiline={true}
+                  numberOfLines={10}
+                  textAlignVertical={"top"}
+                />
+                <Input
+                  name="cantidad"
+                  onChangeText={handleChange("cantidad")}
+                  onBlur={handleBlur("cantidad")}
+                  value={values.cantidad}
+                  containerStyle={styles.inputContainer}
+                  inputContainerStyle={styles.inputContainerStyle2}
+                  inputStyle={styles.inputStyleCantidad}
+                  label={"Cantidad de camiones"}
+                  labelStyle={styles.label}
+                  keyboardType={"numeric"}
+                  errorMessage={
+                    errors.cantidad && touched.cantidad && errors.cantidad
+                  }
+                  errorStyle={globalStyles.formInputErrorStyle}
+                />
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-around",
+                  }}
+                >
+                  <TouchableOpacity
+                    style={styles.dateButtom}
+                    onPress={showDatepicker}
+                    title="Show date picker!"
+                  >
+                    <Text>Fecha</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.dateButtom}
+                    onPress={showTimepicker}
+                    title="Show time picker!"
+                  >
+                    <Text>Hora</Text>
+                  </TouchableOpacity>
+                </View>
+                <Text style={styles.dateText}>{date.toLocaleString()}</Text>
+                <View style={styles.viewCenter}>
+                  <MyButton label={"CREAR VIAJE"} size={"medium"} />
+                </View>
+              </View>
+            </ScrollView>
+          </>
+        )}
+      </Formik>
       <StatusBar style="light" />
     </SafeAreaView>
   );
@@ -126,7 +179,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 7,
     backgroundColor: Colors.white,
-    height: 40,
+    height: 45,
   },
   inputComentsContainerStyle: {
     borderWidth: 1,
@@ -177,9 +230,9 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   dateText: {
-    textAlign: 'center',
+    textAlign: "center",
     marginBottom: 20,
-    fontFamily: 'nunito',
-    fontSize: 16
-  }
+    fontFamily: "nunito",
+    fontSize: 16,
+  },
 });
