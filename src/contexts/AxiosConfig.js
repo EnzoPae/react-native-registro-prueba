@@ -8,10 +8,10 @@ const {Provider} = AxiosContext;
 const AxiosProvider = ({children}) => {
   const authContext = useContext(AuthContext);
   const authAxios = axios.create({
-    baseURL: 'http://192.168.0.198:4005',
+    baseURL: 'http://webports.duckdns.org:4005',
   });
   const publicAxios = axios.create({
-    baseURL: 'http://192.168.0.198:4005',
+    baseURL: 'http://webports.duckdns.org:4005',
   });
   authAxios.defaults.withCredentials = true;
   authAxios.interceptors.response.use(function (response) {
