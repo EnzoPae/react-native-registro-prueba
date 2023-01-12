@@ -73,4 +73,11 @@ export const globalStyles = StyleSheet.create({
     marginBottom: -3,
     marginRight: 5,
   },
+  //
+  formInputErrorStyle: {
+    fontSize: 10,
+    fontFamily: 'nunito',
+    marginTop: 0,
+    marginBottom: 10
+  }
 })
