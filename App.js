@@ -5,7 +5,7 @@ import * as SplashScreen from "expo-splash-screen";
 import MyNavigation from "./src/navigation/navigation";
 import { AuthProvider } from "./src/contexts/AuthContext";
 import { AxiosProvider } from "./src/contexts/AxiosConfig";
-
+import { NavigationContainer } from "@react-navigation/native";
 export default function App() {
   const [fontsLoaded] = useFonts({
     nunito: require("./assets/fonts/Nunito-Regular.ttf"),
@@ -26,9 +26,11 @@ export default function App() {
 
   return (
     <AuthProvider>
-      <AxiosProvider>
-        <MyNavigation />
-      </AxiosProvider>
+      <NavigationContainer>
+        <AxiosProvider>
+          <MyNavigation />
+        </AxiosProvider>
+      </NavigationContainer>
     </AuthProvider>
   )
 }

@@ -17,7 +17,9 @@ import ListaDeViajesScreen from "../screens/listaDeViajesScreen";
 import * as SecureStore from "expo-secure-store";
 import { AuthContext } from "../contexts/AuthContext";
 import DrawerButton from "../components/DrawerButton";
+import Logout from "../services/logout";
 export default function MyNavigation() {
+
   const authContext = useContext(AuthContext);
   const Drawer = createDrawerNavigator();
   const Stack = createNativeStackNavigator();
@@ -62,7 +64,6 @@ export default function MyNavigation() {
   }
   return authContext?.authState?.authenticated === false ? (
     <>
-      <NavigationContainer>
         <Stack.Navigator initialRouteName="Login">
           <Stack.Screen
             name="Login"
@@ -80,11 +81,9 @@ export default function MyNavigation() {
             options={{ headerShown: false }}
           />
         </Stack.Navigator>
-      </NavigationContainer>
     </>
   ) : (
     <>
-      <NavigationContainer>
         <Drawer.Navigator
           initialRouteName="ListaDeViajes"
           drawerContent={(props) => <MenuDrawer {...props} handleLogout={handleLogout}/>}
@@ -97,6 +96,7 @@ export default function MyNavigation() {
             headerTintColor: Colors.white,
             headerTitleStyle: { fontFamily: "nunito" },
           }}/>
+          <Drawer.Screen name="Logout" component={Logout}/>
           <Drawer.Screen
             name="CrearViaje"
             component={CrearViajeScreen}
@@ -120,7 +120,6 @@ export default function MyNavigation() {
             }}
           />
         </Drawer.Navigator>
-      </NavigationContainer>
     </>
   );
 }

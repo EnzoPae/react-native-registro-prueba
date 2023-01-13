@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import {
   Text,
   SafeAreaView,
@@ -19,8 +19,10 @@ import { Colors } from "../styles/Colors";
 //Formik & Yup
 import { crearViajeValidationSchema } from "../Schemas/crearViajeValidationSchema";
 import { Formik } from "formik";
-
+//API
+import { AxiosContext } from "../contexts/AxiosConfig";
 const CrearViajeScreen = () => {
+  const {authAxios} = useContext(AxiosContext)
   const initialValues = {
     origen: null,
     destino: null,
@@ -50,6 +52,14 @@ const CrearViajeScreen = () => {
     showMode("time");
   };
 
+  const handleCreateTrip = async()=>{
+    try {
+      const api_response = await authAxios.get('/api/trips')
+      //console.log(api_response)
+    } catch (error) {
+      console.log(`Error creando viaje: ${error}`)
+    }
+  };
   return (
     <SafeAreaView style={styles.container}>
       <Formik
@@ -151,7 +161,7 @@ const CrearViajeScreen = () => {
                 </View>
                 <Text style={styles.dateText}>{date.toLocaleString()}</Text>
                 <View style={styles.viewCenter}>
-                  <MyButton label={"CREAR VIAJE"} size={"medium"} />
+                  <MyButton label={"CREAR VIAJE"} size={"medium"} onPress={handleCreateTrip}/>
                 </View>
               </View>
             </ScrollView>

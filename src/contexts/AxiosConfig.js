@@ -2,11 +2,12 @@ import React, {createContext, useContext} from 'react';
 import axios from 'axios';
 import config from '../constants';
 import {AuthContext} from './AuthContext';
-
+import { useNavigation } from '@react-navigation/native';
 const AxiosContext = createContext();
 const {Provider} = AxiosContext;
 
 const AxiosProvider = ({children}) => {
+  const navigation = useNavigation()
   const authContext = useContext(AuthContext);
   const authAxios = axios.create({
     baseURL: config.BASE_URL,
@@ -19,16 +20,15 @@ const AxiosProvider = ({children}) => {
       return response;
     }, function (error) {
       if(error.response.status === 401){
-        /*Aca se deberia mandar para otra pantalla
-        o hacer alguna accion que lo mande para otro lado*/
-        console.log('Intercepo 401')
+        /*Se deslogea al usuario*/
+        navigation.navigate("Logout")
     }
       return Promise.reject(error);
     });
   authAxios.interceptors.request.use(
     config => {
       if (!config.headers.Authorization) {
-        config.headers.Authorization = `Bearer ${authContext.getAccessToken()}`;
+        config.headers.Authorization = `Bearer ${authContext.getAccessToken().accessToken}`;
       }
       return config;
     },
