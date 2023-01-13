@@ -58,7 +58,7 @@ const CrearViajeScreen = () => {
     const merged = {...values,date}
     try {
       const api_response = await authAxios.post('/api/trips',merged)
-      console.log(api_response)
+      //TODO ver el codigo de respuesta
     } catch (error) {
       console.log(`Error creando viaje: ${error}`)
     }
