@@ -26,6 +26,8 @@ const CrearViajeScreen = () => {
   const initialValues = {
     origen: null,
     destino: null,
+    distancia: null,
+    cantidad: null,
   };
 
   const [date, setDate] = useState(new Date(1598051730000));
@@ -112,6 +114,22 @@ const CrearViajeScreen = () => {
                   errorStyle={globalStyles.formInputErrorStyle}
                 />
                 <Input
+                  name="distancia"
+                  onChangeText={handleChange("distancia")}
+                  onBlur={handleBlur("distancia")}
+                  value={values.distancia}
+                  containerStyle={styles.inputContainer}
+                  inputContainerStyle={styles.inputContainerStyle}
+                  inputStyle={styles.inputStyle}
+                  label={"Distancia"}
+                  labelStyle={styles.label}
+                  placeholder={"Ingrese la distancia de viaje"}
+                  errorMessage={
+                    errors.distancia && touched.distancia && errors.distancia
+                  }
+                  errorStyle={globalStyles.formInputErrorStyle}
+                />
+                <Input
                   style={{ textAlignVertical: "top" }}
                   containerStyle={styles.inputContainer}
                   inputContainerStyle={styles.inputComentsContainerStyle}
@@ -161,7 +179,7 @@ const CrearViajeScreen = () => {
                 </View>
                 <Text style={styles.dateText}>{date.toLocaleString()}</Text>
                 <View style={styles.viewCenter}>
-                  <MyButton label={"CREAR VIAJE"} size={"medium"} onPress={handleCreateTrip}/>
+                  <MyButton label={"CREAR VIAJE"} size={"medium"} onPress={handleSubmit}/>
                 </View>
               </View>
             </ScrollView>
