@@ -14,4 +14,8 @@ export const crearViajeValidationSchema = yup.object().shape({
     .matches(/^[0-9]*$/, "Solo acepta numeros")
     .required("Este campo es obligatorio")
     .typeError("Este campo es obligatorio"),
+  distancia: yup
+    .string()
+    .required("Este campo es obligatorio")
+    .typeError("Este campo es obligatorio"),
 });
