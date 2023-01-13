@@ -1,5 +1,6 @@
 import React, {createContext, useContext} from 'react';
 import axios from 'axios';
+import config from '../constants';
 import {AuthContext} from './AuthContext';
 
 const AxiosContext = createContext();
@@ -8,10 +9,10 @@ const {Provider} = AxiosContext;
 const AxiosProvider = ({children}) => {
   const authContext = useContext(AuthContext);
   const authAxios = axios.create({
-    baseURL: 'http://webports.duckdns.org:4005',
+    baseURL: config.BASE_URL,
   });
   const publicAxios = axios.create({
-    baseURL: 'http://webports.duckdns.org:4005',
+    baseURL: config.BASE_URL,
   });
   authAxios.defaults.withCredentials = true;
   authAxios.interceptors.response.use(function (response) {
@@ -20,6 +21,7 @@ const AxiosProvider = ({children}) => {
       if(error.response.status === 401){
         /*Aca se deberia mandar para otra pantalla
         o hacer alguna accion que lo mande para otro lado*/
+        console.log('Intercepo 401')
     }
       return Promise.reject(error);
     });
