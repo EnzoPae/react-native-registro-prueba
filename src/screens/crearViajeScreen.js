@@ -54,10 +54,11 @@ const CrearViajeScreen = () => {
     showMode("time");
   };
 
-  const handleCreateTrip = async()=>{
+  const handleCreateTrip = async(values)=>{
+    const merged = {...values,date}
     try {
-      const api_response = await authAxios.get('/api/trips')
-      //console.log(api_response)
+      const api_response = await authAxios.post('/api/trips',merged)
+      console.log(api_response)
     } catch (error) {
       console.log(`Error creando viaje: ${error}`)
     }
@@ -67,7 +68,7 @@ const CrearViajeScreen = () => {
       <Formik
         initialValues={initialValues}
         validationSchema={crearViajeValidationSchema}
-        onSubmit={(values) => handleEnviar(values)}
+        onSubmit={(values) => handleCreateTrip(values)}
       >
         {({
           handleChange,
