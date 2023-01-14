@@ -14,6 +14,7 @@ import RecoverPassword from "../screens/recoverPassword";
 import CrearViajeScreen from "../screens/crearViajeScreen";
 import ListaDeCamionesScreen from "../screens/listaDeCamionesScreen";
 import ListaDeViajesScreen from "../screens/listaDeViajesScreen";
+import ListaViajesFede from "../screens/ListaViajesFede";
 import * as SecureStore from "expo-secure-store";
 import { AuthContext } from "../contexts/AuthContext";
 import DrawerButton from "../components/DrawerButton";
@@ -88,7 +89,7 @@ export default function MyNavigation() {
           initialRouteName="ListaDeViajes"
           drawerContent={(props) => <MenuDrawer {...props} handleLogout={handleLogout}/>}
         >
-          <Drawer.Screen name="ListaDeViajes" component={ListaDeViajesScreen} 
+          <Drawer.Screen name="ListaDeViajes" component={ListaViajesFede} 
           options={{
             headerShown: true,
             title: "Listado de Viajes",
