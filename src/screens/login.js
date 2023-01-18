@@ -28,7 +28,7 @@ import { useNavigation } from "@react-navigation/native";
 //Auth
 import { AuthContext } from "../contexts/AuthContext";
 import * as SecureStore from "expo-secure-store";
-import { AxiosContext } from "../contexts/AxiosConfig";
+import { AxiosContext } from "../contexts/AxiosContext";
 //Start
 const Login = () => {
   const authContext = useContext(AuthContext);

@@ -4,7 +4,7 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import MyNavigation from "./src/navigation/navigation";
 import { AuthProvider } from "./src/contexts/AuthContext";
-import { AxiosProvider } from "./src/contexts/AxiosConfig";
+import { AxiosProvider } from "./src/contexts/AxiosContext";
 import { NavigationContainer } from "@react-navigation/native";
 export default function App() {
   const [fontsLoaded] = useFonts({

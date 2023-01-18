@@ -21,7 +21,7 @@ import { login } from "../styles/GlobalStyles";
 import { crearViajeValidationSchema } from "../Schemas/crearViajeValidationSchema";
 import { Formik } from "formik";
 //API
-import { AxiosContext } from "../contexts/AxiosConfig";
+import { AxiosContext } from "../contexts/AxiosContext";
 const CrearViajeScreen = () => {
   const { authAxios } = useContext(AxiosContext);
   const initialValues = {
