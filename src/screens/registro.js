@@ -11,7 +11,7 @@ import {
 //Components
 import { Input } from "@rneui/themed";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { StatusBar } from 'expo-status-bar';
+import { StatusBar } from "expo-status-bar";
 import MyButton from "../components/MyButton";
 
 //Formik & API
@@ -22,8 +22,9 @@ import { signUpValidationSchema } from "../Schemas/signupFormSchema";
 //Styles
 import { Colors } from "../styles/Colors";
 import { globalStyles } from "../styles/GlobalStyles";
+import { login } from "../styles/GlobalStyles";
 
-//Navigation 
+//Navigation
 import { useNavigation } from "@react-navigation/native";
 
 //Start
@@ -35,15 +36,15 @@ const Registro = () => {
     confirmPassword: null,
   };
 
-  const nav = useNavigation()
-  
+  const nav = useNavigation();
+
   const handleEnviar = async (values) => {
     const response = await createUser(values);
     console.log(response.status);
   };
 
   return (
-    <SafeAreaView style={globalStyles.loginScreenContainer}>
+    <SafeAreaView style={login.container}>
       <Formik
         initialValues={initialValues}
         validationSchema={signUpValidationSchema}
@@ -61,170 +62,151 @@ const Registro = () => {
           <>
             <ScrollView
               contentContainerStyle={{ alignItems: "center" }}
-              style={globalStyles.scroll}
+              style={{ width: "100%" }}
             >
-              <View style={globalStyles.loginScreenBlueContainer}>
-                <Text style={globalStyles.loginTitleStyle}>Registro</Text>
-                <Text style={globalStyles.loginSubTitleStyle}>
-                  Ingrese los datos para poder registrarse
-                </Text>
-              </View>
-              <View style={globalStyles.loginScreenWhiteContainer}>
-                <View style={styles.inputBox}>
-                  <Input
-                    name="name"
-                    onChangeText={handleChange("name")}
-                    onBlur={handleBlur("name")}
-                    value={values.name}
-                    placeholder="Nombre y apellido"
-                    leftIcon={<Icon name="account" size={20} />}
-                    containerStyle={globalStyles.loginInputContainerStyle}
-                    leftIconContainerStyle={globalStyles.loginInputIconStyle}
-                    inputStyle={globalStyles.loginInputStyle}
-                    errorMessage={
-                      errors.name &&
-                      touched.name &&
-                      errors.name
-                    }
-                    errorStyle={globalStyles.loginInputErrorStyle}
-                  />
-                  <Input
-                    name="phoneNumber"
-                    onChangeText={handleChange("phoneNumber")}
-                    onBlur={handleBlur("phoneNumber")}
-                    value={values.phoneNumber}
-                    placeholder="Numero de telefono"
-                    leftIcon={<Icon name="phone" size={20} />}
-                    containerStyle={globalStyles.loginInputContainerStyle}
-                    leftIconContainerStyle={globalStyles.loginInputIconStyle}
-                    inputStyle={globalStyles.loginInputStyle}
-                    keyboardType='numeric'
-                    errorMessage={
-                      errors.phoneNumber &&
-                      touched.phoneNumber &&
-                      errors.phoneNumber
-                    }
-                    errorStyle={globalStyles.loginInputErrorStyle}
-                  />
-                  <Input
-                    name="email"
-                    onChangeText={handleChange("email")}
-                    onBlur={handleBlur("email")}
-                    value={values.email}
-                    placeholder="Email"
-                    leftIcon={<Icon name="email" size={20} />}
-                    containerStyle={globalStyles.loginInputContainerStyle}
-                    leftIconContainerStyle={globalStyles.loginInputIconStyle}
-                    inputStyle={globalStyles.loginInputStyle}
-                    keyboardType='email-address'
-                    errorMessage={
-                      errors.email &&
-                      touched.email &&
-                      errors.email
-                    }
-                    errorStyle={globalStyles.loginInputErrorStyle}
-                  />
-                  <Input
-                    name="password"
-                    onChangeText={handleChange("password")}
-                    onBlur={handleBlur("password")}
-                    value={values.password}
-                    placeholder="Contraseña"
-                    secureTextEntry={true}
-                    leftIcon={<Icon name="lock" size={20} />}
-                    containerStyle={globalStyles.loginInputContainerStyle}
-                    leftIconContainerStyle={globalStyles.loginInputIconStyle}
-                    inputStyle={globalStyles.loginInputStyle}
-                    errorMessage={
-                      errors.password &&
-                      touched.password &&
-                      errors.password
-                    }
-                    errorStyle={globalStyles.loginInputErrorStyle}
-                  />
-                  <Input
-                    name="confirmPassword"
-                    onChangeText={handleChange("confirmPassword")}
-                    onBlur={handleBlur("confirmPassword")}
-                    value={values.confirmPassword}
-                    placeholder="Confirmar contraseña"
-                    secureTextEntry={true}
-                    leftIcon={<Icon name="lock-check" size={20} />}
-                    containerStyle={globalStyles.loginInputContainerStyle}
-                    leftIconContainerStyle={globalStyles.loginInputIconStyle}
-                    inputStyle={globalStyles.loginInputStyle}
-                    errorMessage={
-                      errors.confirmPassword &&
-                      touched.confirmPassword &&
-                      errors.confirmPassword
-                    }
-                    errorStyle={globalStyles.loginInputErrorStyle}
-                  />
+              <View style={login.marginBox}>
+                <View style={login.titleBox}>
+                  <Text style={login.title}>Bienvenido</Text>
+                  <Text style={login.subTitle}>
+                    Ingresa tus datos para acceder
+                  </Text>
                 </View>
-                <View
+                <Input
+                  name="name"
+                  onChangeText={handleChange("name")}
+                  onBlur={handleBlur("name")}
+                  value={values.name}
+                  inputContainerStyle={login.inputContainerStyle}
+                  placeholder="Nombre y apellido"
+                  placeholderTextColor={Colors.grey}
+                  leftIcon={<Icon name="account" size={20} />}
+                  containerStyle={login.containerStyle}
+                  leftIconContainerStyle={login.leftIconContainerStyle}
+                  inputStyle={login.inputStyle}
+                  errorMessage={errors.name && touched.name && errors.name}
+                  errorStyle={login.errorStyle}
+                />
+                <Input
+                  name="phoneNumber"
+                  onChangeText={handleChange("phoneNumber")}
+                  onBlur={handleBlur("phoneNumber")}
+                  value={values.phoneNumber}
+                  inputContainerStyle={login.inputContainerStyle}
+                  placeholder="3364######"
+                  placeholderTextColor={Colors.grey}
+                  leftIcon={<Icon name="phone" size={20} />}
+                  containerStyle={login.containerStyle}
+                  leftIconContainerStyle={login.leftIconContainerStyle}
+                  inputStyle={login.inputStyle}
+                  keyboardType="numeric"
+                  errorMessage={
+                    errors.phoneNumber &&
+                    touched.phoneNumber &&
+                    errors.phoneNumber
+                  }
+                  errorStyle={login.errorStyle}
+                />
+                <Input
+                  name="email"
+                  onChangeText={handleChange("email")}
+                  onBlur={handleBlur("email")}
+                  value={values.email}
+                  inputContainerStyle={login.inputContainerStyle}
+                  placeholder="Ejemplo@gmail.com"
+                  placeholderTextColor={Colors.grey}
+                  leftIcon={<Icon name="email" size={20} />}
+                  containerStyle={login.containerStyle}
+                  leftIconContainerStyle={login.leftIconContainerStyle}
+                  inputStyle={login.inputStyle}
+                  keyboardType="email-address"
+                  errorMessage={errors.email && touched.email && errors.email}
+                  errorStyle={login.errorStyle}
+                />
+                <Input
+                  name="password"
+                  onChangeText={handleChange("password")}
+                  onBlur={handleBlur("password")}
+                  value={values.password}
+                  inputContainerStyle={login.inputContainerStyle}
+                  placeholder="Contraseña"
+                  placeholderTextColor={Colors.grey}
+                  secureTextEntry={true}
+                  leftIcon={<Icon name="lock" size={20} />}
+                  containerStyle={login.containerStyle}
+                  leftIconContainerStyle={login.leftIconContainerStyle}
+                  inputStyle={login.inputStyle}
+                  errorMessage={
+                    errors.password && touched.password && errors.password
+                  }
+                  errorStyle={login.errorStyle}
+                />
+                <Input
+                  name="confirmPassword"
+                  onChangeText={handleChange("confirmPassword")}
+                  onBlur={handleBlur("confirmPassword")}
+                  value={values.confirmPassword}
+                  inputContainerStyle={login.inputContainerStyle}
+                  placeholder="Confirmar contraseña"
+                  placeholderTextColor={Colors.grey}
+                  secureTextEntry={true}
+                  leftIcon={<Icon name="lock-check" size={20} />}
+                  containerStyle={login.containerStyle}
+                  leftIconContainerStyle={login.leftIconContainerStyle}
+                  inputStyle={login.inputStyle}
+                  errorMessage={
+                    errors.confirmPassword &&
+                    touched.confirmPassword &&
+                    errors.confirmPassword
+                  }
+                />
+              </View>
+              <View
+                style={{
+                  alignItems: "center",
+                  marginBottom: 20,
+                }}
+              >
+                <MyButton
+                  onPress={handleSubmit}
+                  disabled={!isValid}
+                  label={"REGISTRARSE"}
+                />
+              </View>
+              <View style={{ flexDirection: "row", justifyContent: "center", marginBottom: 30 }}>
+                <Text
                   style={{
-                    alignItems: "center",
-                    marginBottom: 20,
-                    marginTop: 0,
+                    fontSize: 12,
+                    color: Colors.grey,
                   }}
                 >
-                  <MyButton
-                    onPress={handleSubmit}
-                    disabled={!isValid}
-                    label={"REGISTRARSE"}
-                    size={"large"}
-                  />
-                </View>
-                <View
-                  style={{ flexDirection: "row", justifyContent: "center" }}
+                  ¿Ya estas registrado?{" "}
+                </Text>
+                <TouchableOpacity
+                  onPress={() => nav.navigate("Login")}
+                  style={{ flexDirection: "row" }}
                 >
                   <Text
                     style={{
                       fontSize: 12,
-                      fontFamily: 'nunito',
-                      color: Colors.grey,
+                      color: Colors.primary,
                     }}
                   >
-                    ¿Ya estas registrado?{" "}
+                    Ingresa
                   </Text>
-                  <TouchableOpacity
-                    onPress={() => nav.navigate('Login')}
-                    style={{ flexDirection: "row" }}
-                  >
-                    <Text
-                      style={{
-                        fontSize: 12,
-                        fontFamily: 'nunito',
-                        color: Colors.primary,
-                      }}
-                    >
-                      Ingresa
-                    </Text>
-                    <Icon
-                      name="chevron-right-circle"
-                      size={18}
-                      color={Colors.primary}
-                    />
-                  </TouchableOpacity>
-                </View>
+                  <Icon
+                    name="chevron-right-circle"
+                    size={17.5}
+                    color={Colors.primary}
+                  />
+                </TouchableOpacity>
               </View>
-              <Text />
             </ScrollView>
           </>
         )}
       </Formik>
-      <StatusBar style="light" />
+      <StatusBar style="light" backgroundColor={Colors.primary} />
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  inputBox: {
-    marginLeft: 25,
-    marginRight: 25,
-    marginBottom: 20
-
-  },
-});
 
 export default Registro;

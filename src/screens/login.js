@@ -1,4 +1,4 @@
-import React,{useContext} from "react";
+import React, { useContext } from "react";
 import {
   Text,
   SafeAreaView,
@@ -21,18 +21,18 @@ import MyButton from "../components/MyButton";
 
 //Styles
 import { Colors } from "../styles/Colors";
-import { globalStyles } from "../styles/GlobalStyles";
+import { login } from "../styles/GlobalStyles";
 
 //Navigation
 import { useNavigation } from "@react-navigation/native";
 //Auth
 import { AuthContext } from "../contexts/AuthContext";
-import * as SecureStore from 'expo-secure-store';
+import * as SecureStore from "expo-secure-store";
 import { AxiosContext } from "../contexts/AxiosConfig";
 //Start
 const Login = () => {
   const authContext = useContext(AuthContext);
-  const {publicAxios} = useContext(AxiosContext);
+  const { publicAxios } = useContext(AxiosContext);
   const nav = useNavigation();
   const initialValues = {
     email: null,
@@ -40,30 +40,30 @@ const Login = () => {
   };
   const onLogin = async (values) => {
     try {
-      const response = await publicAxios.post('/api/user/login', {
-        userMail:values.email,
-        userPassword:values.password,
+      const response = await publicAxios.post("/api/user/login", {
+        userMail: values.email,
+        userPassword: values.password,
       });
 
-      const {accessToken} = response.data;
+      const { accessToken } = response.data;
       authContext.setAuthState({
         accessToken,
         authenticated: true,
       });
 
       await SecureStore.setItemAsync(
-        'token',
+        "token",
         JSON.stringify({
           accessToken,
-        }),
+        })
       );
     } catch (error) {
-      console.log(`Error en login.js: ${error.message}`)
-      Alert.alert('Login Failed', error.response.data.msj);
+      console.log(`Error en login.js: ${error.message}`);
+      Alert.alert("Login Failed", error.response.data.msj);
     }
   };
   return (
-    <SafeAreaView style={globalStyles.loginScreenContainer}>
+    <SafeAreaView style={login.container}>
       <Formik
         initialValues={initialValues}
         validationSchema={signInValidationSchema}
@@ -81,71 +81,69 @@ const Login = () => {
           <>
             <ScrollView
               contentContainerStyle={{ alignItems: "center" }}
-              style={globalStyles.scroll}
+              style={{ width: "100%" }}
             >
-              <View style={globalStyles.loginScreenBlueContainer}>
-                <Text style={globalStyles.loginTitleStyle}>Bienvenido</Text>
-                <Text style={globalStyles.loginSubTitleStyle}>
-                  Ingrese los datos de su cuenta para acceder
-                </Text>
-              </View>
-              <View style={globalStyles.loginScreenWhiteContainerShort}>
-                <View style={styles.inputBox}>
-                  <Input
-                    name="email"
-                    onChangeText={handleChange("email")}
-                    onBlur={handleBlur("email")}
-                    value={values.email}
-                    placeholder="Email"
-                    leftIcon={<Icon name="email" size={20} />}
-                    leftIconContainerStyle={globalStyles.loginInputIconStyle}
-                    inputStyle={globalStyles.loginInputStyle}
-                    keyboardType="email-address"
-                    errorMessage={errors.email && touched.email && errors.email}
-                    errorStyle={globalStyles.loginInputErrorStyle}
-                  />
-                  <Input
-                    name="password"
-                    onChangeText={handleChange("password")}
-                    onBlur={handleBlur("password")}
-                    value={values.password}
-                    placeholder="Contraseña"
-                    secureTextEntry={true}
-                    leftIcon={<Icon name="lock" size={20} />}
-                    leftIconContainerStyle={globalStyles.loginInputIconStyle}
-                    inputStyle={globalStyles.loginInputStyle}
-                    errorMessage={
-                      errors.password && touched.password && errors.password
-                    }
-                    errorStyle={globalStyles.loginInputErrorStyle}
-                  />
-                  <TouchableOpacity
-                    onPress={() => nav.navigate("RecoverPassword")}
-                    style={{
-                      alignItems: "flex-end",
-                      marginRight: 10,
-                      marginBottom: 8,
-                      marginTop: 10,
-                    }}
-                  >
-                    <Text style={{ fontFamily: "nunito" }}>
-                      ¿Olvidaste tu contraseña?
-                    </Text>
-                  </TouchableOpacity>
+              <View style={login.marginBox}>
+                <View style={login.titleBox}>
+                  <Text style={login.title}>Bienvenido</Text>
+                  <Text style={login.subTitle}>
+                    Ingresa tus datos para acceder
+                  </Text>
                 </View>
+                <Input
+                  name="email"
+                  onChangeText={handleChange("email")}
+                  onBlur={handleBlur("email")}
+                  value={values.email}
+                  inputContainerStyle={login.inputContainerStyle}
+                  placeholder="Email"
+                  placeholderTextColor={Colors.grey}
+                  leftIcon={<Icon name="email" size={20} />}
+                  leftIconContainerStyle={login.leftIconContainerStyle}
+                  inputStyle={login.inputStyle}
+                  keyboardType="email-address"
+                  errorMessage={errors.email && touched.email && errors.email}
+                  errorStyle={login.errorStyle}
+                />
+                <Input
+                  name="password"
+                  onChangeText={handleChange("password")}
+                  onBlur={handleBlur("password")}
+                  value={values.password}
+                  inputContainerStyle={login.inputContainerStyle}
+                  placeholder="Contraseña"
+                  placeholderTextColor={Colors.grey}
+                  secureTextEntry={true}
+                  leftIcon={<Icon name="lock" size={20} />}
+                  leftIconContainerStyle={login.leftIconContainerStyle}
+                  inputStyle={login.inputStyle}
+                  errorMessage={
+                    errors.password && touched.password && errors.password
+                  }
+                  errorStyle={login.errorStyle}
+                />
+                <TouchableOpacity
+                  onPress={() => nav.navigate("RecoverPassword")}
+                  style={{
+                    width: "90%",
+                    alignItems: "flex-end",
+                    marginRight: 10,
+                    marginBottom: 30,
+                    marginTop: -5,
+                  }}
+                >
+                  <Text style={{ fontSize: 12, fontWeight: "bold" }}>
+                    ¿Olvidaste tu contraseña?
+                  </Text>
+                </TouchableOpacity>
+
                 <View
                   style={{
                     alignItems: "center",
                     marginBottom: 20,
-                    marginTop: 0,
                   }}
                 >
-                  <MyButton
-                    label={"INGRESAR"}
-                    size={"medium"}
-                    onPress={handleSubmit}
-                    
-                  />
+                  <MyButton label={"INGRESAR"} onPress={handleSubmit} />
                 </View>
                 <View
                   style={{ flexDirection: "row", justifyContent: "center" }}
@@ -153,11 +151,10 @@ const Login = () => {
                   <Text
                     style={{
                       fontSize: 12,
-                      fontFamily: "nunito",
                       color: Colors.grey,
                     }}
                   >
-                    ¿Aun no tienes una cuenta?{" "}
+                    ¿Aún no tienes una cuenta?{" "}
                   </Text>
                   <TouchableOpacity
                     onPress={() => nav.navigate("Registro")}
@@ -166,7 +163,6 @@ const Login = () => {
                     <Text
                       style={{
                         fontSize: 12,
-                        fontFamily: "nunito",
                         color: Colors.primary,
                       }}
                     >
@@ -174,7 +170,7 @@ const Login = () => {
                     </Text>
                     <Icon
                       name="chevron-right-circle"
-                      size={18}
+                      size={17.5}
                       color={Colors.primary}
                     />
                   </TouchableOpacity>
@@ -185,17 +181,9 @@ const Login = () => {
           </>
         )}
       </Formik>
-      <StatusBar style="light" />
+      <StatusBar style="light" backgroundColor={Colors.primary} />
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  inputBox: {
-    marginLeft: 25,
-    marginRight: 25,
-    marginBottom: 10,
-  },
-});
 
 export default Login;

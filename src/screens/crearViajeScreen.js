@@ -1,4 +1,4 @@
-import React, { useState,useContext } from "react";
+import React, { useState, useContext } from "react";
 import {
   Text,
   SafeAreaView,
@@ -11,18 +11,19 @@ import {
 //Components
 import { StatusBar } from "expo-status-bar";
 import { Input } from "@rneui/themed";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import MyButton from "../components/MyButton";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 //Styles
-import { globalStyles } from "../styles/GlobalStyles";
 import { Colors } from "../styles/Colors";
+import { login } from "../styles/GlobalStyles";
 //Formik & Yup
 import { crearViajeValidationSchema } from "../Schemas/crearViajeValidationSchema";
 import { Formik } from "formik";
 //API
 import { AxiosContext } from "../contexts/AxiosConfig";
 const CrearViajeScreen = () => {
-  const {authAxios} = useContext(AxiosContext)
+  const { authAxios } = useContext(AxiosContext);
   const initialValues = {
     origen: null,
     destino: null,
@@ -54,17 +55,17 @@ const CrearViajeScreen = () => {
     showMode("time");
   };
 
-  const handleCreateTrip = async(values)=>{
-    const merged = {...values,date}
+  const handleCreateTrip = async (values) => {
+    const merged = { ...values, date };
     try {
-      const api_response = await authAxios.post('/api/trips',merged)
+      const api_response = await authAxios.post("/api/trips", merged);
       //TODO ver el codigo de respuesta
     } catch (error) {
-      console.log(`Error creando viaje: ${error}`)
+      console.log(`Error creando viaje: ${error}`);
     }
   };
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={{backgroundColor: Colors.white, flex: 1}}>
       <Formik
         initialValues={initialValues}
         validationSchema={crearViajeValidationSchema}
@@ -80,87 +81,89 @@ const CrearViajeScreen = () => {
           isValid,
         }) => (
           <>
-            <ScrollView style={globalStyles.scroll}>
-              <View style={{ marginTop: 25 }}>
+            <ScrollView style={{ width: "100%" }}>
+              <View style={{ marginHorizontal: 10, marginTop: 20 }}>
                 <Input
                   name="origen"
                   onChangeText={handleChange("origen")}
                   onBlur={handleBlur("origen")}
                   value={values.origen}
-                  containerStyle={styles.inputContainer}
-                  inputContainerStyle={styles.inputContainerStyle}
-                  inputStyle={styles.inputStyle}
+                  containerStyle={[login.containerStyle, {marginBottom: 10}]}
+                  inputContainerStyle={login.inputContainerStyle}
+                  inputStyle={login.inputStyle}
                   label={"Origen"}
-                  labelStyle={styles.label}
+                  labelStyle={login.labelStyle}
                   placeholder={"Ingrese ubicacion de origen"}
+                  placeholderTextColor={Colors.grey}
+                  leftIcon={<Icon name="chevron-double-right" size={25} />}
+                  leftIconContainerStyle={login.leftIconContainerStyle}
                   errorMessage={
                     errors.origen && touched.origen && errors.origen
                   }
-                  errorStyle={globalStyles.formInputErrorStyle}
+                  errorStyle={login.errorStyle}
                 />
                 <Input
                   name="destino"
                   onChangeText={handleChange("destino")}
                   onBlur={handleBlur("destino")}
                   value={values.destino}
-                  containerStyle={styles.inputContainer}
-                  inputContainerStyle={styles.inputContainerStyle}
-                  inputStyle={styles.inputStyle}
+                  containerStyle={[login.containerStyle, {marginBottom: 10}]}
+                  inputContainerStyle={login.inputContainerStyle}
+                  inputStyle={login.inputStyle}
                   label={"Destino"}
-                  labelStyle={styles.label}
+                  labelStyle={login.labelStyle}
                   placeholder={"Ingrese ubicacion de destino"}
+                  placeholderTextColor={Colors.grey}
+                  leftIcon={<Icon name="chevron-triple-right" size={25} />}
+                  leftIconContainerStyle={login.leftIconContainerStyle}
                   errorMessage={
                     errors.destino && touched.destino && errors.destino
                   }
-                  errorStyle={globalStyles.formInputErrorStyle}
+                  errorStyle={login.errorStyle}
                 />
+                <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
                 <Input
                   name="distancia"
                   onChangeText={handleChange("distancia")}
                   onBlur={handleBlur("distancia")}
                   value={values.distancia}
-                  containerStyle={styles.inputContainer}
-                  inputContainerStyle={styles.inputContainerStyle}
-                  inputStyle={styles.inputStyle}
+                  containerStyle={[login.containerStyle, {width:'50%'}]}
+                  inputContainerStyle={login.inputContainerStyle}
+                  inputStyle={login.inputStyle}
                   label={"Distancia"}
-                  labelStyle={styles.label}
-                  placeholder={"Ingrese la distancia de viaje"}
+                  labelStyle={login.labelStyle}
+                  leftIcon={<Icon name="map-marker-right" size={25} />}
+                  leftIconContainerStyle={login.leftIconContainerStyle}
                   errorMessage={
                     errors.distancia && touched.distancia && errors.distancia
                   }
-                  errorStyle={globalStyles.formInputErrorStyle}
-                />
-                <Input
-                  style={{ textAlignVertical: "top" }}
-                  containerStyle={styles.inputContainer}
-                  inputContainerStyle={styles.inputComentsContainerStyle}
-                  inputStyle={styles.inputStyleComents}
-                  label={"Comentarios"}
-                  labelStyle={styles.label}
-                  multiline={true}
-                  numberOfLines={10}
-                  textAlignVertical={"top"}
+                  errorStyle={login.errorStyle}
                 />
                 <Input
                   name="cantidad"
                   onChangeText={handleChange("cantidad")}
                   onBlur={handleBlur("cantidad")}
                   value={values.cantidad}
-                  containerStyle={styles.inputContainer}
-                  inputContainerStyle={styles.inputContainerStyle2}
-                  inputStyle={styles.inputStyleCantidad}
+                  containerStyle={[login.containerStyle, {width:'50%'}]}
+                  inputContainerStyle={login.inputContainerStyle}
+                  inputStyle={login.inputStyle}
                   label={"Cantidad de camiones"}
-                  labelStyle={styles.label}
+                  labelStyle={login.labelStyle}
                   keyboardType={"numeric"}
+                  leftIcon={<Icon name="truck-check" size={25} />}
+                  leftIconContainerStyle={login.leftIconContainerStyle}
                   errorMessage={
                     errors.cantidad && touched.cantidad && errors.cantidad
                   }
-                  errorStyle={globalStyles.formInputErrorStyle}
+                  errorStyle={login.errorStyle}
                 />
+                </View>
                 <View
                   style={{
                     flexDirection: "row",
                     justifyContent: "space-around",
+                    alignItems: 'baseline',
+                    marginBottom: 30,
                   }}
                 >
                   <TouchableOpacity
@@ -177,17 +180,31 @@ const CrearViajeScreen = () => {
                   >
                     <Text>Hora</Text>
                   </TouchableOpacity>
+                  <Text>{date.toLocaleString()}</Text>
                 </View>
-                <Text style={styles.dateText}>{date.toLocaleString()}</Text>
-                <View style={styles.viewCenter}>
-                  <MyButton label={"CREAR VIAJE"} size={"medium"} onPress={handleSubmit}/>
-                </View>
+                <Input
+                  style={{ textAlignVertical: "top" }}
+                  containerStyle={login.containerStyle}
+                  inputContainerStyle={login.inputContainerStyle}
+                  inputStyle={[login.inputStyle, {marginTop: 5, marginLeft: 10}]}
+                  label={"Comentarios"}
+                  labelStyle={login.labelStyle}
+                  multiline={true}
+                  numberOfLines={5}
+                  textAlignVertical={"top"}
+                />
               </View>
+                <View style={{alignItems: 'center'}}>
+                  <MyButton
+                    label={"CREAR VIAJE"}
+                    onPress={handleSubmit}
+                  />
+                </View>
             </ScrollView>
           </>
         )}
       </Formik>
-      <StatusBar style="light" />
+      <StatusBar style="light" backgroundColor={Colors.primary} />
     </SafeAreaView>
   );
 };
@@ -195,73 +212,11 @@ const CrearViajeScreen = () => {
 export default CrearViajeScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.white,
-  },
-  inputContainer: {
-    width: "95%",
-    alignSelf: "center",
-    marginBottom: -10,
-  },
-  inputContainerStyle: {
-    borderWidth: 1,
-    borderRadius: 7,
-    backgroundColor: Colors.white,
-    height: 45,
-  },
-  inputComentsContainerStyle: {
-    borderWidth: 1,
-    borderRadius: 7,
-    backgroundColor: Colors.white,
-    height: 100,
-    textAlignVertical: "top",
-  },
-  inputContainerStyle2: {
-    borderWidth: 1,
-    borderRadius: 7,
-    backgroundColor: Colors.white,
-    width: 70,
-    height: 40,
-  },
-  label: {
-    fontSize: 14,
-    fontWeight: "normal",
-    fontFamily: "nunito",
-    color: Colors.blackLabel,
-  },
-  viewCenter: {
-    alignItems: "center",
-  },
-  inputStyle: {
-    fontFamily: "nunito",
-    fontSize: 14,
-    marginLeft: 10,
-  },
-  inputStyleComents: {
-    fontFamily: "nunito",
-    fontSize: 14,
-    marginLeft: 10,
-    marginTop: 10,
-  },
-  inputStyleCantidad: {
-    fontFamily: "nunito",
-    fontSize: 14,
-    textAlign: "center",
-  },
   dateButtom: {
-    paddingHorizontal: 30,
-    paddingVertical: 15,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
     backgroundColor: Colors.white,
-    marginBottom: 20,
-    marginTop: 15,
-    borderRadius: 10,
+    borderRadius: 5,
     elevation: 3,
-  },
-  dateText: {
-    textAlign: "center",
-    marginBottom: 20,
-    fontFamily: "nunito",
-    fontSize: 16,
   },
 });
