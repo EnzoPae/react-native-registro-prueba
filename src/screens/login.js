@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   Text,
   SafeAreaView,
@@ -29,8 +29,13 @@ import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../contexts/AuthContext";
 import * as SecureStore from "expo-secure-store";
 import { AxiosContext } from "../contexts/AxiosContext";
+import Spinner from "../components/Spinner";
+import ModalAlert from "../components/ModalAlert";
 //Start
 const Login = () => {
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
+  const [msj, setMsj] = useState(null)
   const authContext = useContext(AuthContext);
   const { publicAxios } = useContext(AxiosContext);
   const nav = useNavigation();
@@ -39,18 +44,17 @@ const Login = () => {
     password: null,
   };
   const onLogin = async (values) => {
+    setLoading(true)
     try {
       const response = await publicAxios.post("/api/user/login", {
         userMail: values.email,
         userPassword: values.password,
       });
-
       const { accessToken } = response.data;
       authContext.setAuthState({
         accessToken,
         authenticated: true,
       });
-
       await SecureStore.setItemAsync(
         "token",
         JSON.stringify({
@@ -58,12 +62,19 @@ const Login = () => {
         })
       );
     } catch (error) {
-      console.log(`Error en login.js: ${error.message}`);
-      Alert.alert("Login Failed", error.response.data.msj);
+      setError(true)
+      setMsj(error.response.data.msj)
+    }finally{
+      setLoading(false)
     }
   };
+  if (loading) return <Spinner/>
   return (
     <SafeAreaView style={login.container}>
+      <ModalAlert
+        modalVisible={error}
+        setModalVisible={setError}
+        msj={msj} />
       <Formik
         initialValues={initialValues}
         validationSchema={signInValidationSchema}

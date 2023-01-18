@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Text,
   SafeAreaView,
@@ -13,7 +13,8 @@ import { Input } from "@rneui/themed";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { StatusBar } from "expo-status-bar";
 import MyButton from "../components/MyButton";
-
+import ModalAlert from "../components/ModalAlert";
+import Spinner from "../components/Spinner";
 //Formik & API
 import { createUser } from "../api/userAPI";
 import { Formik } from "formik";
@@ -29,6 +30,11 @@ import { useNavigation } from "@react-navigation/native";
 
 //Start
 const Registro = () => {
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
+  const [msj, setMsj] = useState(null)
+  const [modalType, setModalType] = useState(null)
+  const [modalVisible, setModalVisible] = useState(false)
   const initialValues = {
     name: null,
     email: null,
@@ -39,10 +45,23 @@ const Registro = () => {
   const nav = useNavigation();
 
   const handleEnviar = async (values) => {
-    const response = await createUser(values);
-    console.log(response.status);
+    setLoading(true)
+    try {
+      const response = await createUser(values);
+      if(response.status === 200){
+        setModalVisible(true)
+        setModalType('ok')
+        setMsj("Registro exitoso")
+      }
+    } catch (error) {
+      setModalVisible(true)
+      setModalType('error')
+      setMsj(error.response.data.msj)
+    }finally{
+      setLoading(false)
+    }
   };
-
+  if(loading) return <Spinner/>
   return (
     <SafeAreaView style={login.container}>
       <Formik
@@ -205,6 +224,11 @@ const Registro = () => {
         )}
       </Formik>
       <StatusBar style="light" backgroundColor={Colors.primary} />
+      <ModalAlert
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        type={modalType}
+        msj={msj} />
     </SafeAreaView>
   );
 };
