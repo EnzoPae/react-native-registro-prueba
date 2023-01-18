@@ -1,83 +1,58 @@
 import { StyleSheet } from "react-native";
 import { Colors } from "./Colors";
 
-export const globalStyles = StyleSheet.create({
-  //Basics
-  scroll: {
-    width: "100%",
+export const login = StyleSheet.create({
+  containerStyle: {
+    marginBottom: 5,
   },
-  //Login-Register screens styles
-  loginScreenContainer: {
-    flex: 1,
-    justifyContent: "flex-start",
-    alignItems: "center",
-    backgroundColor: Colors.lightBlue,
+  inputContainerStyle: {
+    backgroundColor: "#fff",
+    borderWidth: 0.5,
+    borderBottomWidth: 0.5,
+    borderColor: '#000',
+    borderRadius: 3,
   },
-  loginScreenBlueContainer: {
-    position: "absolute",
-    alignItems: "center", 
-    height: "50%",
-    width: "100%",
-    borderBottomRightRadius: 300,
-    borderBottomLeftRadius: 300,
-    elevation: 8,
-    backgroundColor: Colors.primary,
-  },
-  loginScreenWhiteContainer: {
-    justifyContent: "center",
-    width: "80%",
-    height: 490,
-    marginTop: 130,
-    borderRadius: 60,
-    borderTopLeftRadius: 0,
-    elevation: 8,
-    backgroundColor: Colors.white,
-  },
-  loginScreenWhiteContainerShort: {
-    justifyContent: "center",
-    width: "80%",
-    height: 400,
-    marginTop: 170,
-    borderRadius: 60,
-    borderTopLeftRadius: 0,
-    elevation: 8,
-    backgroundColor: Colors.white,
-  },
-  loginTitleStyle: {
-    fontSize: 40,
-    width: '80%',
-    marginTop: 40,
-    color: Colors.white,
-    fontFamily: 'nunito',
-  },
-  loginSubTitleStyle: {
+  inputStyle: {
     fontSize: 14,
-    marginLeft: 2,
-    width: '80%',
-    color: Colors.pseudoWhite,
-    fontFamily: 'nunito'
   },
-  loginInputContainerStyle: {
-    height: 60
-  },
-  loginInputStyle: {
+  labelStyle: {
+    color: Colors.subBlack ,
     fontSize: 14,
-    marginBottom: -7,
-    fontFamily: 'nunito'
+    fontWeight: "normal",
+    marginTop: -15,
   },
-  loginInputErrorStyle: {
+  errorStyle: {
+    marginLeft: 15,
     fontSize: 10,
-    fontFamily: 'nunito'
-  },
-  loginInputIconStyle: {
-    marginBottom: -3,
-    marginRight: 5,
-  },
-  //
-  formInputErrorStyle: {
-    fontSize: 10,
-    fontFamily: 'nunito',
     marginTop: 0,
-    marginBottom: 10
-  }
-})
+  },
+  leftIconContainerStyle: {
+    marginLeft: 15,
+    marginRight: 10,
+  },
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "flex-start",
+    backgroundColor: Colors.white,
+  },
+  marginBox: {
+    width: "95%",
+    alignItems: "center",
+    marginTop: 60,
+  },
+  title: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: Colors.black,
+  },
+  subTitle: {
+    fontSize: 15,
+    color: Colors.subBlack,
+  },
+  titleBox: {
+    width: "93%",
+    alignItems: "flex-start",
+    marginBottom: 25,
+  },
+});
