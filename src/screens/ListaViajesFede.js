@@ -1,42 +1,39 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext, useMemo } from 'react'
+import { useIsFocused } from '@react-navigation/native';
 import { ListItem, Icon } from '@rneui/themed';
+import { AxiosContext } from '../contexts/AxiosContext'
+import { Text } from 'react-native';
 export default function ListaViajesFede() {
+  const isFocused = useIsFocused()
+  const { authAxios } = useContext(AxiosContext)
   const [expanded, setExpanded] = useState(false)
-  const viajes = [
-    {
-      id: 0,
-      desc: "San Nicolas - Rosario",
-      data: {
-        estado: "Descargando",
-        fecha: "03/07/2023",
-        hora: "10:30",
-        comentario: "esto es un comentario",
+  const [trips, setTrips] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
+  useEffect(() => {
+    if (isFocused) {
+      console.log('first')
+      const getTrips = async () => {
+        try {
+          setLoading(true)
+          const response = await authAxios.get('/api/trips')
+          setTrips(response.data)
+        } catch (error) {
+          //TODO mostrar ERROR
+          setError(true)
+          console.log(error.response.data.msj)
+        } finally {
+          setLoading(false)
+        }
       }
-    },
-    {
-      id: 1,
-      desc: "San Pedro - Mendoza",
-      data: {
-        estado: "En viaje",
-        fecha: "07/03/2023",
-        hora: "17:40",
-        comentario: "Viaje Urea Granulada",
-      }
-    },
-    {
-      id: 2,
-      desc: "Chacra la k-g-ta - Rosario",
-      data: {
-        estado: "Finalizado",
-        fecha: "03/07/2023",
-        hora: "10:30",
-        comentario: "esto es un comentario",
-      }
-    },
-  ]
+      getTrips()
+    }
+  }, [isFocused])
+
   return (
+    //TODO mostrar cargando
     <>
-      {viajes.map((v, i) => {
+      {trips.map((v, i) => {
         return (
           <ListItem.Accordion
             key={`accordion${i}`}
