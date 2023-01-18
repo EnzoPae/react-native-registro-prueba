@@ -2,7 +2,9 @@ import React, { useState, useEffect, useContext, useMemo } from 'react'
 import { useIsFocused } from '@react-navigation/native';
 import { ListItem, Icon } from '@rneui/themed';
 import { AxiosContext } from '../contexts/AxiosContext'
-import { Text } from 'react-native';
+import ModalAlert from '../components/ModalAlert';
+import Spinner from '../components/Spinner';
+import { SafeAreaView } from 'react-native';
 export default function ListaViajesFede() {
   const isFocused = useIsFocused()
   const { authAxios } = useContext(AxiosContext)
@@ -10,30 +12,32 @@ export default function ListaViajesFede() {
   const [trips, setTrips] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
+  const [msj, setMsj] = useState(null)
   useEffect(() => {
     if (isFocused) {
-      console.log('first')
       const getTrips = async () => {
         try {
           setLoading(true)
           const response = await authAxios.get('/api/trips')
           setTrips(response.data)
         } catch (error) {
-          //TODO mostrar ERROR
           setError(true)
-          console.log(error.response.data.msj)
+          setMsj(error.response.data.msj)
         } finally {
           setLoading(false)
         }
       }
       getTrips()
+    } else {
+      setError(false)
+      setLoading(false)
+      setTrips([])
     }
   }, [isFocused])
-
+  if(loading) return <Spinner/>
   return (
-    //TODO mostrar cargando
-    <>
-      {trips.map((v, i) => {
+    <SafeAreaView>
+      {!loading ? trips.map((v, i) => {
         return (
           <ListItem.Accordion
             key={`accordion${i}`}
@@ -64,7 +68,11 @@ export default function ListaViajesFede() {
             </ListItem>
           </ListItem.Accordion>
         )
-      })}
-    </>
+      }) : null}
+      <ModalAlert
+        modalVisible={error}
+        setModalVisible={setError}
+        msj={msj} />
+    </SafeAreaView>
   )
 }
