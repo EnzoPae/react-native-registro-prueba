@@ -5,12 +5,9 @@ import { Colors } from "../styles/Colors";
 
 const TYPES = ["ok", "error"];
 
-export default function ModalAlert({ children, onPress, type, modalVisible, setModalVisible }) {
-  console.log(modalVisible)
+export default function ModalAlert({type, modalVisible, setModalVisible,msj }) {
   const modalType = TYPES.includes(type) ? type : "error";
-
   //const [modalVisible, setModalVisible] = useState(false);
-
   return (
     <View>
       <Modal
@@ -18,7 +15,7 @@ export default function ModalAlert({ children, onPress, type, modalVisible, setM
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
+          Alert.alert("Se cerró modal.");
           setModalVisible(!modalVisible);
         }}
       >
@@ -36,7 +33,8 @@ export default function ModalAlert({ children, onPress, type, modalVisible, setM
             color={"#ec4b4b"}
           />
           <Text style={styles.modalText}>
-            Algo ha salido mal, intentalo nuevamente.
+            {msj ? msj :
+            "Algo ha salido mal, intentalo nuevamente."}
           </Text>
           <TouchableOpacity
             style={[styles.button, styles.buttonClose]}
