@@ -1,11 +1,11 @@
 export const Colors = {
   primary: '#0353A4',
   lightBlue: "#d8e8f8", 
-  secondary: '#696969',
-  black: '#000',
+  black: '#3d3d3d',
+  subBlack: '#575757',    
   white: '#fff',
   pseudoWhite: '#dedede',
-  grey: '#bababa',
+  grey: '#aaaaaa',
   backgroundGrey: '#f0f0f0',
-  blackLabel: '#858585',    
+  blackLabel: '#858585',
 }
