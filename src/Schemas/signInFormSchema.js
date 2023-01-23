@@ -5,10 +5,10 @@ export const signInValidationSchema = yup.object().shape({
     .string()
     .email("Ingrese un mail valido")
     .required("El email es obligatorio")
-    .typeError("Pone letras"),
+    .typeError("Ingrese un mail valido"),
   password: yup
     .string()
     .min(4, ({ min }) => `La contraseña debe tener al menos ${min} caracteres`)
     .required("La contraseña es obligatoria")
-    .typeError("Pone letras"),
+    .typeError("La contraseña es obligatoria"),
 });
