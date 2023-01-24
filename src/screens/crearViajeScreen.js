@@ -48,6 +48,7 @@ const CrearViajeScreen = () => {
   const initialValues = {
     distancia: null,
     cantidad: null,
+    comentarios: null,
   };
 
   const onChange = (event, selectedDate) => {
@@ -291,6 +292,10 @@ const CrearViajeScreen = () => {
                   <Text>{date.toLocaleString()}</Text>
                 </View>
                 <Input
+                  name={'comentarios'}
+                  onChangeText={handleChange("comentarios")}
+                  onBlur={handleBlur("comentarios")}
+                  value={values.comentarios}
                   style={{ textAlignVertical: "top" }}
                   containerStyle={login.containerStyle}
                   inputContainerStyle={login.inputContainerStyle}
