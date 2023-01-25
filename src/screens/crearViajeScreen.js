@@ -32,8 +32,9 @@ const CrearViajeScreen = () => {
   const [loading, setLoading] = useState(false)
   const [loadingLocalidadesD, setLoadingLocalidadesD] = useState(false)
   const [loadingLocalidadesO, setLoadingLocalidadesO] = useState(false)
-  const [error, setError] = useState(false)
-  const [msjError, setMsjError] = useState(null)
+  const [modalVisible, setModalVisible] = useState(false)
+  const [msjModal, setMsjModal] = useState(null)
+  const [modalType, setModalType] = useState('error')
   const [provincias, setProvincias] = useState([])
   const [localidadesD, setLocalidadesD] = useState(undefined)
   const [localidadesO, setLocalidadesO] = useState(undefined)
@@ -76,16 +77,24 @@ const CrearViajeScreen = () => {
   //Func que se ejecuta cuando se aprieta crear viaje
   const handleCreateTrip = async (values) => {
     if(!origen.id_localidad || !origen.id_provincia || !destino.id_localidad || !destino.id_provincia){
-      setError(true)
-      setMsjError('Faltan completar datos del origen o destino.')
+      setModalType('error')
+      setMsjModal('Faltan completar datos del origen o destino.')
+      setModalVisible(true)
       return
     }
     const merged = { ...values, date, origen,destino };
     try {
       const api_response = await authAxios.post("/api/trips", merged);
-      //TODO ver el codigo de respuesta
+      if(api_response.status){
+        setModalType('ok')
+        setMsjModal('Viaje creado con exito.')
+        setModalVisible(true)
+      }
     } catch (error) {
       console.log(`Error creando viaje: ${error}`);
+      setModalType('error')
+      setMsjModal('Error interno del servidor.')
+      setModalVisible(true)
     }
   };
   //Pedir provincias a la API
@@ -96,8 +105,9 @@ const CrearViajeScreen = () => {
       setProvincias(response.data)
     } catch (error) {
       console.log(error)
-      setError(true)
-      setMsjError('Error obteniendo provincias')
+      setModalType('error')
+      setMsjModal('Error obteniendo provincias')
+      setModalVisible(true)
     } finally {
       setLoading(false)
     }
@@ -118,8 +128,9 @@ const CrearViajeScreen = () => {
         setLocalidadesO(response.data)        
       }
     } catch (error) {
-      setError(true)
+      setModalType('error')
       setMsjError('Error obteniendo provincias')
+      setModalVisible(true)
     } finally {
       setLoadingLocalidadesO(false)
       setLoadingLocalidadesD(false)
@@ -139,8 +150,8 @@ const CrearViajeScreen = () => {
         id_localidad: null,
       })
       setLoading(false)
-      setError(false)
-      setMsjError(null)
+      setModalVisible(false)
+      setMsjModal(null)
     }
   }, [isFocused])
 
@@ -318,9 +329,10 @@ const CrearViajeScreen = () => {
         )}
       </Formik>
       <ModalAlert
-        modalVisible={error}
-        setModalVisible={setError}
-        msj={msjError} />
+        type={modalType}
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        msj={msjModal} />
       <StatusBar style="light" backgroundColor={Colors.primary} />
     </SafeAreaView>
   );
