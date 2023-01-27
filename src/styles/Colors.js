@@ -8,4 +8,6 @@ export const Colors = {
   grey: '#aaaaaa',
   backgroundGrey: '#f0f0f0',
   blackLabel: '#858585',
+  modalError: '#ec4b4b',
+  modalOk: '#0e9a2d'
 }
