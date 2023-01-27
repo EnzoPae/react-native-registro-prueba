@@ -7,9 +7,19 @@ const TYPES = ["ok", "error"];
 
 export default function ModalAlert({type, modalVisible, setModalVisible,msj }) {
   const modalType = TYPES.includes(type) ? type : "error";
+
+  //Styles
+  const btnStyles = {
+    width: 300,
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    elevation: 8,
+    backgroundColor: modalType === 'ok' ? Colors.modalOk : Colors.modalError,
+  }
   //const [modalVisible, setModalVisible] = useState(false);
   return (
-    <View>
+    <View style={styles.container}>
       <Modal
         animationType="fade"
         transparent={true}
@@ -27,17 +37,17 @@ export default function ModalAlert({type, modalVisible, setModalVisible,msj }) {
           />
           <Icon
             containerStyle={{ position: "absolute", top: 15 }}
-            name= {modalType === 'ok' ? 'plus' : 'warning'}
+            name= {modalType === 'ok' ? 'checkmark-circle-outline' : 'warning'}
             type="ionicon"
             size={60}
-            color={"#ec4b4b"}
+            color={modalType === 'ok' ? Colors.modalOk : Colors.modalError}
           />
           <Text style={styles.modalText}>
             {msj ? msj :
             "Algo ha salido mal, intentalo nuevamente."}
           </Text>
           <TouchableOpacity
-            style={[styles.button, styles.buttonClose]}
+            style={btnStyles}
             onPress={() => setModalVisible(!modalVisible)}
           >
             <Text style={styles.textStyle}>Aceptar</Text>
@@ -49,6 +59,18 @@ export default function ModalAlert({type, modalVisible, setModalVisible,msj }) {
 }
 
 const styles = StyleSheet.create({
+  modalView: {
+    backgroundColor: Colors.white,
+    borderRadius: 10,
+    width: 300,
+    height: 200,
+    alignItems: "center",
+    justifyContent: "flex-end",
+    elevation: 8,
+    overflow: "hidden",
+    alignSelf: 'center',
+    marginVertical: '50%'
+  },
   textStyle: {
     color: "white",
     fontWeight: "bold",
@@ -59,29 +81,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     textAlign: "center",
     width: "80%",
-    fontFamily: "nunito",
     fontSize: 14,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: Colors.white,
-    borderRadius: 10,
-    width: 300,
-    height: 200,
-    alignItems: "center",
-    justifyContent: "flex-end",
-    elevation: 8,
-    overflow: "hidden",
-  },
-  button: {
-    width: 300,
-    height: 50,
-    justifyContent: "center",
-    alignItems: "center",
-    elevation: 8,
-  },
-  buttonClose: {
-    backgroundColor: "#ec4b4b",
   },
 })
 
