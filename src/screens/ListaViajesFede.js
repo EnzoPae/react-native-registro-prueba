@@ -45,7 +45,7 @@ export default function ListaViajesFede() {
               <>
                 <Icon name="place" size={30} />
                 <ListItem.Content>
-                  <ListItem.Title>{v.desc}</ListItem.Title>
+                  <ListItem.Title>{v.desc_localidad_o} - {v.desc_localidad_d}</ListItem.Title>
                 </ListItem.Content>
               </>
             }
@@ -57,12 +57,12 @@ export default function ListaViajesFede() {
             {/*CONTENIDO DEL ACORDION*/}
             <ListItem key={`item${i}`} bottomDivider>
               <ListItem.Content>
-                <ListItem.Title>*Estado</ListItem.Title>
-                <ListItem.Subtitle>{v.data.estado}</ListItem.Subtitle>
+                <ListItem.Title>*Origen</ListItem.Title>
+                <ListItem.Subtitle>{v.desc_localidad_o}</ListItem.Subtitle>
+                <ListItem.Title>*Destino</ListItem.Title>
+                <ListItem.Subtitle>{v.desc_localidad_d}</ListItem.Subtitle>
                 <ListItem.Title>*Fecha</ListItem.Title>
-                <ListItem.Subtitle>{v.data.fecha} {v.data.hora}</ListItem.Subtitle>
-                <ListItem.Title>*Observaciones</ListItem.Title>
-                <ListItem.Subtitle>{v.data.comentario}</ListItem.Subtitle>
+                <ListItem.Subtitle>{String(v.fecha_viaje).split('T')[0]} - {String(v.fecha_viaje).split('T')[1].slice(0,8)}</ListItem.Subtitle>
               </ListItem.Content>
               <ListItem.Chevron />
             </ListItem>
