@@ -26,7 +26,6 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   text: {
-    fontFamily: "nunito",
     marginLeft: 8
   },
 
