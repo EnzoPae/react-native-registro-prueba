@@ -31,7 +31,7 @@ export default function MyNavigation() {
     try {
       const token_str = await SecureStore.getItemAsync('token')
       if(token_str){
-        const token = (token_str.slice(15)).slice(0,-1)
+        const token = (token_str.slice(16)).slice(0,-2)
         authContext.setAuthState({
           accessToken: token,
           authenticated: true,
