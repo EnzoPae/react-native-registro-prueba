@@ -95,7 +95,6 @@ export default function MyNavigation() {
             title: "Listado de Viajes",
             headerStyle: { backgroundColor: Colors.primary, height: 100 },
             headerTintColor: Colors.white,
-            headerTitleStyle: { fontFamily: "nunito" },
           }}/>
           <Drawer.Screen name="Logout" component={Logout}/>
           <Drawer.Screen
@@ -106,7 +105,6 @@ export default function MyNavigation() {
               title: "Crear nuevo Viaje",
               headerStyle: { backgroundColor: Colors.primary, height: 100 },
               headerTintColor: Colors.white,
-              headerTitleStyle: { fontFamily: "nunito" },
             }}
           />
           <Drawer.Screen
@@ -117,7 +115,6 @@ export default function MyNavigation() {
               title: "Listado de Camiones",
               headerStyle: { backgroundColor: Colors.primary, height: 100 },
               headerTintColor: Colors.white,
-              headerTitleStyle: { fontFamily: "nunito" },
             }}
           />
         </Drawer.Navigator>
@@ -129,7 +126,7 @@ const MenuDrawer = ({ navigation ,handleLogout}) => {
   return (
     <View style={styles.container}>
       <View
-        style={{ flexDirection: "row", alignItems: "center", marginBottom: 15 }}
+        style={{ flexDirection: "row", alignItems: "center", marginBottom: 15, overflow:'hidden' }}
       >
         <Icon name="account-circle" size={80} />
         <View style={{ marginLeft: 5 }}>
@@ -157,7 +154,7 @@ const MenuDrawer = ({ navigation ,handleLogout}) => {
         <TouchableOpacity onPress={handleLogout}>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Icon name="cog" size={14} />
-            <Text style={{ fontFamily: "nunito" }}> Cerrar sesión</Text>
+            <Text> Cerrar sesión</Text>
           </View>
           <View style={styles.separator} />
         </TouchableOpacity>
@@ -171,12 +168,9 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 15,
     marginTop: 30,
-  },
-  nameText: {
-    fontFamily: "nunito",
+    overflow: 'hidden'
   },
   subText: {
-    fontFamily: "nunito",
     fontSize: 12,
     color: Colors.pseudoWhite,
   },
