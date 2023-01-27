@@ -19,6 +19,7 @@ import * as SecureStore from "expo-secure-store";
 import { AuthContext } from "../contexts/AuthContext";
 import DrawerButton from "../components/DrawerButton";
 import Logout from "../services/logout";
+import Spinner from "../components/Spinner";
 export default function MyNavigation() {
 
   const authContext = useContext(AuthContext);
@@ -28,13 +29,21 @@ export default function MyNavigation() {
 
   const loadJWT = useCallback(async () => {
     try {
-      const value = await SecureStore.getItemAsync("token");
-      const jwt = JSON.parse(value);
-      authContext.setAuthState({
-        accessToken: jwt || null,
-        authenticated: jwt !== null,
-      });
-      setStatus("success");
+      const token_str = await SecureStore.getItemAsync('token')
+      if(token_str){
+        const token = (token_str.slice(15)).slice(0,-1)
+        authContext.setAuthState({
+          accessToken: token,
+          authenticated: true,
+        });
+        setStatus("success");
+      }else{
+        authContext.setAuthState({
+          accessToken: null,
+          authenticated: false,
+        });
+        setStatus("success");
+      }
     } catch (error) {
       setStatus("error");
       console.log(`SecureStore navigation Error: ${error.message}`);
@@ -59,7 +68,7 @@ export default function MyNavigation() {
   if (status === "loading") {
     return (
       <>
-        <Text>CARGANDO</Text>
+        <Spinner/>
       </>
     );
   }
