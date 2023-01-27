@@ -8,7 +8,7 @@ import { SafeAreaView } from 'react-native';
 export default function ListaViajesFede() {
   const isFocused = useIsFocused()
   const { authAxios } = useContext(AxiosContext)
-  const [expanded, setExpanded] = useState(false)
+  const [expandedItems, setExpanded] = useState([])
   const [trips, setTrips] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
@@ -49,9 +49,13 @@ export default function ListaViajesFede() {
                 </ListItem.Content>
               </>
             }
-            isExpanded={expanded}
+            isExpanded={expandedItems.includes(i)}
             onPress={() => {
-              setExpanded(!expanded);
+              if (expandedItems.includes(i)) {
+                setExpanded(expandedItems.filter(id => id !== i));
+              } else {
+                setExpanded([...expandedItems, i]);
+              }
             }}
           >
             {/*CONTENIDO DEL ACORDION*/}
