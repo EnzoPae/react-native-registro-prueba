@@ -56,3 +56,10 @@ export const login = StyleSheet.create({
     marginBottom: 25,
   },
 });
+
+export const tripListStyles = StyleSheet.create({
+  itemStyle: {
+    fontSize: 12,
+    marginLeft: 5
+  }
+}) 
