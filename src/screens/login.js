@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import {
   Text,
   SafeAreaView,
-  StyleSheet,
   View,
   ScrollView,
   TouchableOpacity,
@@ -18,13 +17,13 @@ import { Input } from "@rneui/themed";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { StatusBar } from "expo-status-bar";
 import MyButton from "../components/MyButton";
+import LoginLink from "../components/LoginLink";
+import RecoverPassLink from "../components/RecoverPassLink";
 
 //Styles
 import { Colors } from "../styles/Colors";
 import { login } from "../styles/GlobalStyles";
 
-//Navigation
-import { useNavigation } from "@react-navigation/native";
 //Auth
 import { AuthContext } from "../contexts/AuthContext";
 import * as SecureStore from "expo-secure-store";
@@ -33,18 +32,17 @@ import Spinner from "../components/Spinner";
 import ModalAlert from "../components/ModalAlert";
 //Start
 const Login = () => {
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(false)
-  const [msj, setMsj] = useState(null)
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [msj, setMsj] = useState(null);
   const authContext = useContext(AuthContext);
   const { publicAxios } = useContext(AxiosContext);
-  const nav = useNavigation();
   const initialValues = {
     email: null,
     password: null,
   };
   const onLogin = async (values) => {
-    setLoading(true)
+    setLoading(true);
     try {
       const response = await publicAxios.post("/api/user/login", {
         userMail: values.email,
@@ -62,19 +60,16 @@ const Login = () => {
         })
       );
     } catch (error) {
-      setError(true)
-      setMsj(error.response.data.msj)
-    }finally{
-      setLoading(false)
+      setError(true);
+      setMsj(error.response.data.msj);
+    } finally {
+      setLoading(false);
     }
   };
-  if (loading) return <Spinner/>
+  if (loading) return <Spinner />;
   return (
     <SafeAreaView style={login.container}>
-      <ModalAlert
-        modalVisible={error}
-        setModalVisible={setError}
-        msj={msj} />
+      <ModalAlert modalVisible={error} setModalVisible={setError} msj={msj} />
       <Formik
         initialValues={initialValues}
         validationSchema={signInValidationSchema}
@@ -133,21 +128,7 @@ const Login = () => {
                   }
                   errorStyle={login.errorStyle}
                 />
-                <TouchableOpacity
-                  onPress={() => nav.navigate("RecoverPassword")}
-                  style={{
-                    width: "90%",
-                    alignItems: "flex-end",
-                    marginRight: 10,
-                    marginBottom: 30,
-                    marginTop: -5,
-                  }}
-                >
-                  <Text style={{ fontSize: 12, fontWeight: "bold" }}>
-                    ¿Olvidaste tu contraseña?
-                  </Text>
-                </TouchableOpacity>
-
+                <RecoverPassLink/>
                 <View
                   style={{
                     alignItems: "center",
@@ -156,36 +137,7 @@ const Login = () => {
                 >
                   <MyButton label={"INGRESAR"} onPress={handleSubmit} />
                 </View>
-                <View
-                  style={{ flexDirection: "row", justifyContent: "center" }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      color: Colors.grey,
-                    }}
-                  >
-                    ¿Aún no tienes una cuenta?{" "}
-                  </Text>
-                  <TouchableOpacity
-                    onPress={() => nav.navigate("Registro")}
-                    style={{ flexDirection: "row" }}
-                  >
-                    <Text
-                      style={{
-                        fontSize: 12,
-                        color: Colors.primary,
-                      }}
-                    >
-                      Regístrate
-                    </Text>
-                    <Icon
-                      name="chevron-right-circle"
-                      size={17.5}
-                      color={Colors.primary}
-                    />
-                  </TouchableOpacity>
-                </View>
+                <LoginLink type={"login"}/>
               </View>
               <Text />
             </ScrollView>
