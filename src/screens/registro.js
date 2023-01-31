@@ -15,6 +15,7 @@ import { StatusBar } from "expo-status-bar";
 import MyButton from "../components/MyButton";
 import ModalAlert from "../components/ModalAlert";
 import Spinner from "../components/Spinner";
+import LoginLink from "../components/LoginLink";
 //Formik & API
 import { createUser } from "../api/userAPI";
 import { Formik } from "formik";
@@ -22,19 +23,15 @@ import { signUpValidationSchema } from "../Schemas/signupFormSchema";
 
 //Styles
 import { Colors } from "../styles/Colors";
-import { globalStyles } from "../styles/GlobalStyles";
 import { login } from "../styles/GlobalStyles";
-
-//Navigation
-import { useNavigation } from "@react-navigation/native";
 
 //Start
 const Registro = () => {
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(false)
-  const [msj, setMsj] = useState(null)
-  const [modalType, setModalType] = useState(null)
-  const [modalVisible, setModalVisible] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [msj, setMsj] = useState(null);
+  const [modalType, setModalType] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
   const initialValues = {
     name: null,
     email: null,
@@ -42,26 +39,24 @@ const Registro = () => {
     confirmPassword: null,
   };
 
-  const nav = useNavigation();
-
   const handleEnviar = async (values) => {
-    setLoading(true)
+    setLoading(true);
     try {
       const response = await createUser(values);
-      if(response.status === 200){
-        setModalVisible(true)
-        setModalType('ok')
-        setMsj("Registro exitoso")
+      if (response.status === 200) {
+        setModalVisible(true);
+        setModalType("ok");
+        setMsj("Registro exitoso");
       }
     } catch (error) {
-      setModalVisible(true)
-      setModalType('error')
-      setMsj(error.response.data.msj)
-    }finally{
-      setLoading(false)
+      setModalVisible(true);
+      setModalType("error");
+      setMsj(error.response.data.msj);
+    } finally {
+      setLoading(false);
     }
   };
-  if(loading) return <Spinner/>
+  if (loading) return <Spinner />;
   return (
     <SafeAreaView style={login.container}>
       <Formik
@@ -191,34 +186,7 @@ const Registro = () => {
                   label={"REGISTRARSE"}
                 />
               </View>
-              <View style={{ flexDirection: "row", justifyContent: "center", marginBottom: 30 }}>
-                <Text
-                  style={{
-                    fontSize: 12,
-                    color: Colors.grey,
-                  }}
-                >
-                  ¿Ya estas registrado?{" "}
-                </Text>
-                <TouchableOpacity
-                  onPress={() => nav.navigate("Login")}
-                  style={{ flexDirection: "row" }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      color: Colors.primary,
-                    }}
-                  >
-                    Ingresa
-                  </Text>
-                  <Icon
-                    name="chevron-right-circle"
-                    size={17.5}
-                    color={Colors.primary}
-                  />
-                </TouchableOpacity>
-              </View>
+              <LoginLink type={"register"} />
             </ScrollView>
           </>
         )}
@@ -228,7 +196,8 @@ const Registro = () => {
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
         type={modalType}
-        msj={msj} />
+        msj={msj}
+      />
     </SafeAreaView>
   );
 };
