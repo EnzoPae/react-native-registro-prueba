@@ -20,24 +20,30 @@ import { AuthContext } from "../contexts/AuthContext";
 import DrawerButton from "../components/DrawerButton";
 import Logout from "../services/logout";
 import Spinner from "../components/Spinner";
+import jwt from 'jwt-decode'
 export default function MyNavigation() {
-
   const authContext = useContext(AuthContext);
   const Drawer = createDrawerNavigator();
   const Stack = createNativeStackNavigator();
   const [status, setStatus] = useState("loading");
-
+  const [userData, setUserData] = useState({})
   const loadJWT = useCallback(async () => {
     try {
       const token_str = await SecureStore.getItemAsync('token')
-      if(token_str){
-        const token = (token_str.slice(16)).slice(0,-2)
+      if (token_str) {
+        const token = (token_str.slice(16)).slice(0, -2)
+        const { userName, userMail } = jwt(token)
+        setUserData({
+          ...userData, userName, userMail
+        })
+        console.log(userData)
         authContext.setAuthState({
           accessToken: token,
           authenticated: true,
+          userName: userData.userName,
         });
         setStatus("success");
-      }else{
+      } else {
         authContext.setAuthState({
           accessToken: null,
           authenticated: false,
@@ -54,7 +60,7 @@ export default function MyNavigation() {
     }
   }, []);
 
-  const handleLogout = async()=>{
+  const handleLogout = async () => {
     try {
       await authContext.logout()
     } catch (error) {
@@ -68,79 +74,78 @@ export default function MyNavigation() {
   if (status === "loading") {
     return (
       <>
-        <Spinner/>
+        <Spinner />
       </>
     );
   }
   return authContext?.authState?.authenticated === false ? (
     <>
-        <Stack.Navigator initialRouteName="Login">
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Registro"
-            component={Registro}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="RecoverPassword"
-            component={RecoverPassword}
-            options={{ headerShown: false }}
-          />
-        </Stack.Navigator>
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Registro"
+          component={Registro}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="RecoverPassword"
+          component={RecoverPassword}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
     </>
   ) : (
     <>
-        <Drawer.Navigator
-          initialRouteName="ListaDeViajes"
-          drawerContent={(props) => <MenuDrawer {...props} handleLogout={handleLogout}/>}
-        >
-          <Drawer.Screen name="ListaDeViajes" component={ListaViajesFede} 
+      <Drawer.Navigator
+        initialRouteName="ListaDeViajes"
+        drawerContent={(props) => <MenuDrawer {...props} handleLogout={handleLogout} userData={userData} />}
+      >
+        <Drawer.Screen name="ListaDeViajes" component={ListaViajesFede}
           options={{
             headerShown: true,
             title: "Listado de Viajes",
             headerStyle: { backgroundColor: Colors.primary, height: 100 },
             headerTintColor: Colors.white,
-          }}/>
-          <Drawer.Screen name="Logout" component={Logout}/>
-          <Drawer.Screen
-            name="CrearViaje"
-            component={CrearViajeScreen}
-            options={{
-              headerShown: true,
-              title: "Crear nuevo Viaje",
-              headerStyle: { backgroundColor: Colors.primary, height: 100 },
-              headerTintColor: Colors.white,
-            }}
-          />
-          <Drawer.Screen
-            name="ListaDeCamiones"
-            component={ListaDeCamionesScreen}
-            options={{
-              headerShown: true,
-              title: "Listado de Camiones",
-              headerStyle: { backgroundColor: Colors.primary, height: 100 },
-              headerTintColor: Colors.white,
-            }}
-          />
-        </Drawer.Navigator>
+          }} />
+        <Drawer.Screen name="Logout" component={Logout} />
+        <Drawer.Screen
+          name="CrearViaje"
+          component={CrearViajeScreen}
+          options={{
+            headerShown: true,
+            title: "Crear nuevo Viaje",
+            headerStyle: { backgroundColor: Colors.primary, height: 100 },
+            headerTintColor: Colors.white,
+          }}
+        />
+        <Drawer.Screen
+          name="ListaDeCamiones"
+          component={ListaDeCamionesScreen}
+          options={{
+            headerShown: true,
+            title: "Listado de Camiones",
+            headerStyle: { backgroundColor: Colors.primary, height: 100 },
+            headerTintColor: Colors.white,
+          }}
+        />
+      </Drawer.Navigator>
     </>
   );
 }
 
-const MenuDrawer = ({ navigation ,handleLogout}) => {
+const MenuDrawer = ({ navigation, handleLogout, userData }) => {
   return (
     <View style={styles.container}>
       <View
-        style={{ flexDirection: "row", alignItems: "center", marginBottom: 15, overflow:'hidden' }}
+        style={{ flexDirection: "row", alignItems: "center", marginBottom: 15, overflow: 'hidden' }}
       >
         <Icon name="account-circle" size={80} />
         <View style={{ marginLeft: 5 }}>
-          <Text style={styles.nameText}>Lionel Andres Messi</Text>
-          <Text style={styles.subText}>Atleta profecional</Text>
+          <Text style={styles.nameText}>{userData.userName}</Text>
           <View style={styles.separator} />
         </View>
       </View>

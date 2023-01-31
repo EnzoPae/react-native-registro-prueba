@@ -1,7 +1,7 @@
 //AuthContext.js
 import React, {createContext, useState,useEffect} from 'react';
 import * as SecureStore from 'expo-secure-store';
-
+import jwt from 'jwt-decode'
 const AuthContext = createContext(null);
 const {Provider} = AuthContext;
 
@@ -11,14 +11,17 @@ const AuthProvider = ({children}) => {
       const token_str = await SecureStore.getItemAsync('token')
       if(token_str){
         const token = (token_str.slice(15)).slice(0,-1)
+        const User = jwt(token)
         setAuthState({
           accessToken:token,
           authenticated: true,
+          userName: User.userName,
         });
       }else{
         setAuthState({
           accessToken:null,
           authenticated: false,
+          userName: null
         });        
       }
     }
@@ -27,6 +30,7 @@ const AuthProvider = ({children}) => {
   const [authState, setAuthState] = useState({
     accessToken: null,
     authenticated: null,
+    userName: null,
   });
 
   const logout = async () => {
@@ -34,6 +38,7 @@ const AuthProvider = ({children}) => {
     setAuthState({
       accessToken: null,
       authenticated: false,
+      userName:null,
     });
   };
 
