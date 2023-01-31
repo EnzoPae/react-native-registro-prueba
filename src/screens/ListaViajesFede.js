@@ -1,10 +1,18 @@
 import React, { useState, useEffect, useContext, useMemo } from "react";
+import { SafeAreaView, ScrollView } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
-import { ListItem, Icon } from "@rneui/themed";
+//Axios
 import { AxiosContext } from "../contexts/AxiosContext";
+//Components
+import { ListItem, Icon } from "@rneui/themed";
 import ModalAlert from "../components/ModalAlert";
 import Spinner from "../components/Spinner";
-import { SafeAreaView, ScrollView } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import FloatButton from "../components/floatButton";
+//Styles
+import { Colors } from "../styles/Colors";
+import { tripListStyles } from "../styles/GlobalStyles";
+//Start
 export default function ListaViajesFede() {
   const isFocused = useIsFocused();
   const { authAxios } = useContext(AxiosContext);
@@ -36,59 +44,66 @@ export default function ListaViajesFede() {
   }, [isFocused]);
   if (loading) return <Spinner />;
   return (
-    <SafeAreaView>
-      <ScrollView
-        style={{ width: "100%" }}
-      >
-        {!loading
-          ? trips.map((v, i) => {
-              return (
-                <ListItem.Accordion
-                  key={`accordion${i}`}
-                  content={
-                    <>
-                      <Icon name="place" size={30} />
-                      <ListItem.Content>
-                        <ListItem.Title>
-                          {v.desc_localidad_o} - {v.desc_localidad_d}
-                        </ListItem.Title>
-                      </ListItem.Content>
-                    </>
-                  }
-                  isExpanded={expandedItems.includes(i)}
-                  onPress={() => {
-                    if (expandedItems.includes(i)) {
-                      setExpanded(expandedItems.filter((id) => id !== i));
-                    } else {
-                      setExpanded([...expandedItems, i]);
+    <>
+      <SafeAreaView>
+        <ScrollView style={{ width: "100%" }}>
+          {!loading
+            ? trips.map((v, i) => {
+                return (
+                  <ListItem.Accordion
+                    topDivider
+                    key={`accordion${i}`}
+                    content={
+                      <>
+                        <Icon name="place" size={25} />
+                        <ListItem.Content>
+                          <ListItem.Title style={tripListStyles.itemStyle}>
+                            {v.desc_localidad_o} - {v.desc_localidad_d}
+                          </ListItem.Title>
+                        </ListItem.Content>
+                      </>
                     }
-                  }}
-                >
-                  {/*CONTENIDO DEL ACORDION*/}
-                  <ListItem key={`item${i}`} bottomDivider>
-                    <ListItem.Content>
-                      <ListItem.Title>*Origen</ListItem.Title>
-                      <ListItem.Subtitle>
-                        {v.desc_localidad_o}
-                      </ListItem.Subtitle>
-                      <ListItem.Title>*Destino</ListItem.Title>
-                      <ListItem.Subtitle>
-                        {v.desc_localidad_d}
-                      </ListItem.Subtitle>
-                      <ListItem.Title>*Fecha</ListItem.Title>
-                      <ListItem.Subtitle>
-                        {String(v.fecha_viaje).split("T")[0]} -{" "}
-                        {String(v.fecha_viaje).split("T")[1].slice(0, 8)}
-                      </ListItem.Subtitle>
-                    </ListItem.Content>
-                    <ListItem.Chevron />
-                  </ListItem>
-                </ListItem.Accordion>
-              );
-            })
-          : null}
-        <ModalAlert modalVisible={error} setModalVisible={setError} msj={msj} />
-      </ScrollView>
-    </SafeAreaView>
+                    isExpanded={expandedItems.includes(i)}
+                    onPress={() => {
+                      if (expandedItems.includes(i)) {
+                        setExpanded(expandedItems.filter((id) => id !== i));
+                      } else {
+                        setExpanded([...expandedItems, i]);
+                      }
+                    }}
+                  >
+                    {/*CONTENIDO DEL ACORDION*/}
+                    <ListItem key={`item${i}`} bottomDivider>
+                      <ListItem.Content>
+                        <ListItem.Title>*Origen</ListItem.Title>
+                        <ListItem.Subtitle>
+                          {v.desc_localidad_o}
+                        </ListItem.Subtitle>
+                        <ListItem.Title>*Destino</ListItem.Title>
+                        <ListItem.Subtitle>
+                          {v.desc_localidad_d}
+                        </ListItem.Subtitle>
+                        <ListItem.Title>*Fecha</ListItem.Title>
+                        <ListItem.Subtitle>
+                          {String(v.fecha_viaje).split("T")[0]} -{" "}
+                          {String(v.fecha_viaje).split("T")[1].slice(0, 8)}
+                        </ListItem.Subtitle>
+                      </ListItem.Content>
+                      <ListItem.Chevron />
+                    </ListItem>
+                  </ListItem.Accordion>
+                );
+              })
+            : null}
+          <ModalAlert
+            modalVisible={error}
+            setModalVisible={setError}
+            msj={msj}
+          />
+        </ScrollView>
+        <StatusBar style="light" backgroundColor={Colors.primary} />
+      </SafeAreaView>
+      <FloatButton />
+    </>
   );
 }
