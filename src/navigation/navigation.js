@@ -21,6 +21,7 @@ import DrawerButton from "../components/DrawerButton";
 import Logout from "../services/logout";
 import Spinner from "../components/Spinner";
 import jwt from 'jwt-decode'
+import actViajeScreen from "../screens/actViajeScreen";
 export default function MyNavigation() {
   const authContext = useContext(AuthContext);
   const Drawer = createDrawerNavigator();
@@ -36,7 +37,6 @@ export default function MyNavigation() {
         setUserData({
           ...userData, userName, userMail
         })
-        console.log(userData)
         authContext.setAuthState({
           accessToken: token,
           authenticated: true,
@@ -128,6 +128,16 @@ export default function MyNavigation() {
           options={{
             headerShown: true,
             title: "Listado de Camiones",
+            headerStyle: { backgroundColor: Colors.primary, height: 100 },
+            headerTintColor: Colors.white,
+          }}
+        />
+        <Drawer.Screen
+          name="ActViaje"
+          component={actViajeScreen}
+          options={{
+            headerShown: true,
+            title: "Actualizar viaje",
             headerStyle: { backgroundColor: Colors.primary, height: 100 },
             headerTintColor: Colors.white,
           }}
