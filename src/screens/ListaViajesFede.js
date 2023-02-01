@@ -12,8 +12,11 @@ import FloatButton from "../components/floatButton";
 //Styles
 import { Colors } from "../styles/Colors";
 import { tripListStyles } from "../styles/GlobalStyles";
-//Start
+import MyButton from "../components/MyButton";
+//Navigation
+import { useNavigation } from "@react-navigation/native";
 export default function ListaViajesFede() {
+  const navigation = useNavigation()
   const isFocused = useIsFocused();
   const { authAxios } = useContext(AxiosContext);
   const [expandedItems, setExpanded] = useState([]);
@@ -88,6 +91,10 @@ export default function ListaViajesFede() {
                           {String(v.fecha_viaje).split("T")[0]} -{" "}
                           {String(v.fecha_viaje).split("T")[1].slice(0, 8)}
                         </ListItem.Subtitle>
+                        <MyButton 
+                          label={'Modificar'}
+                          onPress={()=>navigation.navigate('ActViaje',v)}
+                        />
                       </ListItem.Content>
                       <ListItem.Chevron />
                     </ListItem>
