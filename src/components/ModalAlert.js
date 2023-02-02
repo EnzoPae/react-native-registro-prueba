@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Text, TouchableOpacity, View, Modal, StyleSheet } from "react-native";
+import React from "react";
+import { Text, TouchableOpacity, View, Modal, StyleSheet, Alert } from "react-native";
 import { Icon } from "@rneui/base";
 import { Colors } from "../styles/Colors";
 
@@ -25,7 +25,7 @@ export default function ModalAlert({type, modalVisible, setModalVisible,msj }) {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert("Se cerró modal.");
+          Alert.alert("Se recomienda cerrar la advertencia previo a cambiar de pantalla");
           setModalVisible(!modalVisible);
         }}
       >
