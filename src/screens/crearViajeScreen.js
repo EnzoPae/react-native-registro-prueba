@@ -76,16 +76,16 @@ const CrearViajeScreen = () => {
 
   //Func que se ejecuta cuando se aprieta crear viaje
   const handleCreateTrip = async (values) => {
-    if(!origen.id_localidad || !origen.id_provincia || !destino.id_localidad || !destino.id_provincia){
+    if (!origen.id_localidad || !origen.id_provincia || !destino.id_localidad || !destino.id_provincia) {
       setModalType('error')
       setMsjModal('Faltan completar datos del origen o destino.')
       setModalVisible(true)
       return
     }
-    const merged = { ...values, date, origen,destino };
+    const merged = { ...values, date, origen, destino };
     try {
       const api_response = await authAxios.post("/api/trips", merged);
-      if(api_response.status){
+      if (api_response.status) {
         setModalType('ok')
         setMsjModal('Viaje creado con exito.')
         setModalVisible(true)
@@ -118,14 +118,14 @@ const CrearViajeScreen = () => {
   */
   const handleSelectProvincia = async (selector) => {
     try {
-      if(selector === 'd'){
+      if (selector === 'd') {
         setLoadingLocalidadesD(true)
         const response = await authAxios.get(`/api/locations/localidades?id=${destino.id_provincia}`)
         setLocalidadesD(response.data)
-      }else{
+      } else {
         setLoadingLocalidadesO(true)
         const response = await authAxios.get(`/api/locations/localidades?id=${origen.id_provincia}`)
-        setLocalidadesO(response.data)        
+        setLocalidadesO(response.data)
       }
     } catch (error) {
       setModalType('error')
@@ -181,7 +181,7 @@ const CrearViajeScreen = () => {
                       ...origen,
                       id_provincia: val
                     })}
-                    onSelect={()=>handleSelectProvincia('o')}
+                    onSelect={() => handleSelectProvincia('o')}
                     data={provincias}
                     //save="value"
                     search={true}
@@ -191,11 +191,11 @@ const CrearViajeScreen = () => {
                   />
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginBottom: 20 }}>
-                  {!loadingLocalidadesO ? !origen.id_provincia ? <Text>Seleccione una provincia...</Text>:
+                  {!loadingLocalidadesO ? !origen.id_provincia ? <Text>Seleccione una provincia...</Text> :
                     <SelectList
                       setSelected={(val) => setOrigen({
                         ...origen,
-                        id_localidad:val
+                        id_localidad: val
                       })}
                       //onSelect={handleSelectProvincia}
                       data={localidadesO}
@@ -213,7 +213,7 @@ const CrearViajeScreen = () => {
                       ...destino,
                       id_provincia: val
                     })}
-                    onSelect={()=>handleSelectProvincia('d')}
+                    onSelect={() => handleSelectProvincia('d')}
                     data={provincias}
                     //save="value"
                     search={true}
@@ -222,13 +222,13 @@ const CrearViajeScreen = () => {
                     placeholder={'Provincia'}
                   />
                 </View>
-                
+
                 <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginBottom: 20 }}>
-                  {!loadingLocalidadesD ? !destino.id_provincia ? <Text>Seleccione una provincia...</Text>:
+                  {!loadingLocalidadesD ? !destino.id_provincia ? <Text>Seleccione una provincia...</Text> :
                     <SelectList
                       setSelected={(val) => setDestino({
                         ...destino,
-                        id_localidad:val
+                        id_localidad: val
                       })}
                       //onSelect={handleSelectProvincia}
                       data={localidadesD}
@@ -300,7 +300,10 @@ const CrearViajeScreen = () => {
                   >
                     <Text>Hora</Text>
                   </TouchableOpacity>
-                  <Text>{date.toLocaleString()}</Text>
+                  <Text>
+                    {String(date.toISOString()).split("T")[0]} -{" "}
+                    {String(date.toISOString()).split("T")[1].slice(0, 8)}
+                  </Text>
                 </View>
                 <Input
                   name={'comentarios'}
