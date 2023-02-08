@@ -80,9 +80,9 @@ const Registro = () => {
             >
               <View style={login.marginBox}>
                 <View style={login.titleBox}>
-                  <Text style={login.title}>Bienvenido</Text>
+                  <Text style={login.title}>Registro</Text>
                   <Text style={login.subTitle}>
-                    Ingresa tus datos para acceder
+                    Ingrese los datos para crear una cuenta 
                   </Text>
                 </View>
                 <Input
