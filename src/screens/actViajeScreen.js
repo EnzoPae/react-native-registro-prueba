@@ -84,7 +84,6 @@ const ActViajeScreen = ({ route }) => {
         }
         const merged = { ...values, date, origen, destino,id:viajeParam.id };
         try {
-            console.log('first')
             const api_response = await authAxios.patch("/api/trips", merged);
             if (api_response.status) {
                 setModalType('ok')
@@ -156,7 +155,6 @@ const ActViajeScreen = ({ route }) => {
     }
     useEffect(() => {
         if (isFocused) {
-            console.log(viajeParam)
             handleLoad()
             getProvincias()
         } else {
