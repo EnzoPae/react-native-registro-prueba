@@ -63,3 +63,17 @@ export const tripListStyles = StyleSheet.create({
     marginLeft: 5
   }
 }) 
+
+export const createTripStyles = StyleSheet.create({
+  boxSelect: {
+    borderWidth: 0.5,
+    borderBottomWidth: 0.5,
+    borderColor: '#000',
+    borderRadius: 3,
+    width: '97%',
+    alignSelf: 'center'
+  },
+  inputSelect: {
+    
+  }
+}) 
