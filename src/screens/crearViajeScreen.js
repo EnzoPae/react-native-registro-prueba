@@ -19,7 +19,7 @@ import ModalAlert from "../components/ModalAlert";
 import { SelectList } from 'react-native-dropdown-select-list'
 //Styles
 import { Colors } from "../styles/Colors";
-import { login } from "../styles/GlobalStyles";
+import { createTripStyles, login, tripListStyles } from "../styles/GlobalStyles";
 //Formik & Yup
 import { crearViajeValidationSchema } from "../Schemas/crearViajeValidationSchema";
 import { Formik } from "formik";
@@ -174,8 +174,8 @@ const CrearViajeScreen = () => {
         }) => (
           <>
             <ScrollView style={{ width: "100%" }}>
-              <View style={{ marginHorizontal: 10, marginTop: 20 }}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginBottom: 20 }}>
+              <View style={{ marginHorizontal: 10, marginTop: 20}}>
+                <View style={{ marginBottom: 20 }}>
                   <SelectList
                     setSelected={(val) => setOrigen({
                       ...origen,
@@ -188,9 +188,10 @@ const CrearViajeScreen = () => {
                     notFoundText={'No hay resultados'}
                     searchPlaceholder={'Buscar provincia'}
                     placeholder={'Provincia'}
+                    boxStyles={createTripStyles.boxSelect}
                   />
                 </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginBottom: 20 }}>
+                <View style={{ marginBottom: 20 }}>
                   {!loadingLocalidadesO ? !origen.id_provincia ? <Text>Seleccione una provincia...</Text> :
                     <SelectList
                       setSelected={(val) => setOrigen({
@@ -204,10 +205,11 @@ const CrearViajeScreen = () => {
                       notFoundText={'No hay resultados'}
                       searchPlaceholder={'Buscar localidad'}
                       placeholder={'Localidad'}
+                      boxStyles={createTripStyles.boxSelect}
                     />
                     : <Text>Cargando localidades...</Text>}
                 </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginBottom: 20 }}>
+                <View style={{ marginBottom: 20 }}>
                   <SelectList
                     setSelected={(val) => setDestino({
                       ...destino,
@@ -220,10 +222,11 @@ const CrearViajeScreen = () => {
                     notFoundText={'No hay resultados'}
                     searchPlaceholder={'Buscar provincia'}
                     placeholder={'Provincia'}
+                    boxStyles={createTripStyles.boxSelect}
                   />
                 </View>
 
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginBottom: 20 }}>
+                <View style={{marginBottom: 20 }}>
                   {!loadingLocalidadesD ? !destino.id_provincia ? <Text>Seleccione una provincia...</Text> :
                     <SelectList
                       setSelected={(val) => setDestino({
@@ -237,6 +240,7 @@ const CrearViajeScreen = () => {
                       notFoundText={'No hay resultados'}
                       searchPlaceholder={'Buscar localidad'}
                       placeholder={'Localidad'}
+                      boxStyles={createTripStyles.boxSelect}
                     />
                     : <Text>Cargando localidades...</Text>}
                 </View>
