@@ -34,6 +34,7 @@ const Registro = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const initialValues = {
     name: null,
+    phoneNumber: null,
     email: null,
     password: null,
     confirmPassword: null,
