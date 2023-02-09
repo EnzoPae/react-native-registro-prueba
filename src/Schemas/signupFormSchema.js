@@ -13,7 +13,8 @@ export const signUpValidationSchema = yup.object().shape({
       /^(?:(?:00)?549?)?0?(?:11|[2368]\d)(?:(?=\d{0,2}15)\d{2})??\d{8}$/,
       "Enter a valid phone number"
     )
-    .required("El numero de telefono es obligatorio"),
+    .required("El numero de telefono es obligatorio")
+    .typeError("Este campo es obligatorio"),
   email: yup
     .string()
     .email("Ingrese un mail valido")
