@@ -24,8 +24,16 @@ export default function ListaViajesFede() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [msj, setMsj] = useState(null);
+  /*
+    Primero hay que ver si se esa viendo la pantalla
+    ya que el useEffect se ejecuta cuando salis de la misma tamb
+  */
   useEffect(() => {
     if (isFocused) {
+      /*
+        En este caso declaro la func dentro del hook
+        y suponiendo que ya se focuseo la pantalla
+      */
       const getTrips = async () => {
         try {
           setLoading(true);
@@ -40,6 +48,11 @@ export default function ListaViajesFede() {
       };
       getTrips();
     } else {
+      /*
+        En este caso se pierde el foco de la pantalla
+        aprovecho para limpiar los estados y dejarlos 
+        con sus valores iniciales
+      */
       setError(false);
       setLoading(false);
       setTrips([]);
