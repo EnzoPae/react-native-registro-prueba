@@ -179,9 +179,7 @@ export default function ListaViajesFede() {
                         v.camiones_asigandos > 0 ?
                           <MyButton
                             label={'Ver choferes asignados'}
-                            onPress={() => {
-                              console.log('se abre un modal')
-                            }}
+                            onPress={() => navigation.navigate('DriversTrip', v)}
                           />
                           : null
                       }

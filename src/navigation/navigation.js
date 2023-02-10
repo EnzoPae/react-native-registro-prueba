@@ -13,7 +13,7 @@ import Login from "../screens/login";
 import RecoverPassword from "../screens/recoverPassword";
 import CrearViajeScreen from "../screens/crearViajeScreen";
 import ListaDeCamionesScreen from "../screens/listaDeCamionesScreen";
-import ListaDeViajesScreen from "../screens/listaDeViajesScreen";
+import ListadoCamionerosViaje from "../screens/listadoCamionerosViaje";
 import ListaViajesFede from "../screens/ListaViajesFede";
 import * as SecureStore from "expo-secure-store";
 import { AuthContext } from "../contexts/AuthContext";
@@ -138,6 +138,16 @@ export default function MyNavigation() {
           options={{
             headerShown: true,
             title: "Actualizar viaje",
+            headerStyle: { backgroundColor: Colors.primary, height: 100 },
+            headerTintColor: Colors.white,
+          }}
+        />
+        <Drawer.Screen
+          name="DriversTrip"
+          component={ListadoCamionerosViaje}
+          options={{
+            headerShown: true,
+            title: "Choferes por viaje",
             headerStyle: { backgroundColor: Colors.primary, height: 100 },
             headerTintColor: Colors.white,
           }}
