@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext, useMemo } from "react";
-import { SafeAreaView, ScrollView } from "react-native";
+import React, { useState, useEffect, useContext, useCallback } from "react";
+import { SafeAreaView, ScrollView,RefreshControl } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 //Axios
 import { AxiosContext } from "../contexts/AxiosContext";
@@ -27,32 +27,39 @@ export default function ListaViajesFede() {
   //ModalAlert
   const [modalVisible, setModalVisible] = useState(false);
   const [msj, setMsj] = useState(null);
-  const [modalType,setModalType] = useState('error')
+  const [modalType, setModalType] = useState('error')
   //Plain moda
-  const [showModal,setShowModal] = useState(false)
+  const [showModal, setShowModal] = useState(false)
   //
-  const [selectedTrip,setSelectedTrip] = useState(null)
-  const [reloadTrips,setReloadTrips] = useState(false)
+  const [selectedTrip, setSelectedTrip] = useState(null)
+  const [reloadTrips, setReloadTrips] = useState(false)
+  //Recargar 
+  const [refreshing, setRefreshing] = useState(false);
   /*
     Primero hay que ver si se esa viendo la pantalla
     ya que el useEffect se ejecuta cuando salis de la misma tamb
   */
-    const getTrips = async () => {
-      try {
-        setLoading(true);
-        const response = await authAxios.get("/api/trips");
-        setTrips(response.data);
-      } catch (error) {
-        setModalType('error')
-        setModalVisible(true);
-        setMsj(error.response.data.msj);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const getTrips = async () => {
+    try {
+      const response = await authAxios.get("/api/trips");
+      setTrips(response.data);
+    } catch (error) {
+      console.log(error)
+      setModalType('error')
+      setModalVisible(true);
+      setMsj(error.response.data.msj);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    getTrips().then(()=>setRefreshing(false))
+  }, []);
   useEffect(() => {
     if (isFocused) {
       getTrips();
+      setLoading(true);
     } else {
       /*
         En este caso se pierde el foco de la pantalla
@@ -64,25 +71,32 @@ export default function ListaViajesFede() {
       setModalType('error')
       setLoading(false);
       setTrips([]);
+      setExpanded([])
     }
   }, [isFocused]);
-  useEffect(()=>{
+  useEffect(() => {
     getTrips()
-  },[reloadTrips])
+    setLoading(true);
+    setExpanded([])
+  }, [reloadTrips])
   if (loading) return <Spinner />;
-  const handleLinkTruckDriver = async(id_equipo) =>{
+  const handleLinkTruckDriver = async (id_equipo) => {
     try {
-      const api_response = await authAxios.post('/api/app/link-truck-drivers',{
+      const api_response = await authAxios.post('/api/app/link-truck-drivers', {
         id_equipo,
         id_viaje: selectedTrip
       })
-      if(api_response === 200){
+      if (api_response.status === 200) {
         /*
           TODO
           Cerrar modal camiones
           Mostrar modal succes
-          Act lista viajes hint::reloadTrips
-        */
+          Act lista viajes hint::reloadTrips*/
+        setReloadTrips(!reloadTrips)
+        setShowModal(false)
+        setModalVisible(true);
+        setMsj(api_response.data.msj);
+        setModalType('ok')
       }
     } catch (error) {
       setModalVisible(true);
@@ -93,7 +107,10 @@ export default function ListaViajesFede() {
   return (
     <>
       <SafeAreaView>
-        <ScrollView style={{ width: "100%" }}>
+        <ScrollView style={{ width: "100%" }}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }>
           {!loading
             ? trips.map((v, i) => {
               return (
@@ -150,13 +167,13 @@ export default function ListaViajesFede() {
                       {
                         v.camiones_asigandos != v.camiones_cantidad ?
                           <MyButton
-                          label={'Asignar chofer'}
-                          onPress={() => {
-                            setSelectedTrip(v.id)
-                            setShowModal(!showModal)
-                          }}
-                        />
-                        : null
+                            label={'Asignar chofer'}
+                            onPress={() => {
+                              setSelectedTrip(v.id)
+                              setShowModal(!showModal)
+                            }}
+                          />
+                          : null
                       }
                     </ListItem.Content>
                     <ListItem.Chevron />
