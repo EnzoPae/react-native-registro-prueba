@@ -9,8 +9,8 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
+src/constants.js
 
 # macOS
 .DS_Store
-src/constants.js
 src/constants.js
