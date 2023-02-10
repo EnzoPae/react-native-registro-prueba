@@ -13,11 +13,11 @@ import { AxiosContext } from "../contexts/AxiosContext";
 const TruckDriverItem = ({ item, onPress }) => (
     <TouchableOpacity onPress={onPress} style={[styles.item]}>
         <View style={{ flexDirection: 'row'}}>
-            <Text>{item.camion}</Text>
+            <Text>{String(item.camion).toUpperCase()}</Text>
             <Text>{` | `}</Text>
-            <Text>{item.batea}</Text>
+            <Text>{String(item.batea).toUpperCase()}</Text>
             <Text>{` | `}</Text>
-            <Text>{item.apenom}</Text>
+            <Text>{String(item.apenom).toUpperCase()}</Text>
             <Text>{` | `}</Text>
             <Text>{item.dni}</Text>
         </View>
