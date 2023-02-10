@@ -13,7 +13,7 @@ import Login from "../screens/login";
 import RecoverPassword from "../screens/recoverPassword";
 import CrearViajeScreen from "../screens/crearViajeScreen";
 import ListaDeCamionesScreen from "../screens/listaDeCamionesScreen";
-import ListadoCamionerosViaje from "../screens/listadoCamionerosViaje";
+import ListadoCamionerosViaje from "../screens/ListadoCamionerosViaje";
 import ListaViajesFede from "../screens/ListaViajesFede";
 import * as SecureStore from "expo-secure-store";
 import { AuthContext } from "../contexts/AuthContext";
