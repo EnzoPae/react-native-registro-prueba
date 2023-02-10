@@ -28,7 +28,7 @@ export default function ListaViajesFede() {
   const [modalVisible, setModalVisible] = useState(false);
   const [msj, setMsj] = useState(null);
   const [modalType, setModalType] = useState('error')
-  //Plain moda
+  //Plain modal
   const [showModal, setShowModal] = useState(false)
   //
   const [selectedTrip, setSelectedTrip] = useState(null)
@@ -174,7 +174,7 @@ export default function ListaViajesFede() {
                         v.camiones_asigandos > 0 ?
                           <MyButton
                             label={'Ver choferes asignados'}
-                            onPress={() => navigation.navigate('DriversTrip', v.drivers)}
+                            onPress={() => navigation.navigate('DriversTrip', v)}
                           />
                           : null
                       }
