@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
-import { SafeAreaView, ScrollView,RefreshControl } from "react-native";
+import { SafeAreaView, ScrollView, RefreshControl } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 //Axios
 import { AxiosContext } from "../contexts/AxiosContext";
@@ -54,7 +54,7 @@ export default function ListaViajesFede() {
   };
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    getTrips().then(()=>setRefreshing(false))
+    getTrips().then(() => setRefreshing(false))
   }, []);
   useEffect(() => {
     if (isFocused) {
@@ -171,6 +171,16 @@ export default function ListaViajesFede() {
                             onPress={() => {
                               setSelectedTrip(v.id)
                               setShowModal(!showModal)
+                            }}
+                          />
+                          : null
+                      }
+                      {
+                        v.camiones_asigandos > 0 ?
+                          <MyButton
+                            label={'Ver choferes asignados'}
+                            onPress={() => {
+                              console.log('se abre un modal')
                             }}
                           />
                           : null
