@@ -87,11 +87,6 @@ export default function ListaViajesFede() {
         id_viaje: selectedTrip
       })
       if (api_response.status === 200) {
-        /*
-          TODO
-          Cerrar modal camiones
-          Mostrar modal succes
-          Act lista viajes hint::reloadTrips*/
         setReloadTrips(!reloadTrips)
         setShowModal(false)
         setModalVisible(true);
@@ -179,7 +174,7 @@ export default function ListaViajesFede() {
                         v.camiones_asigandos > 0 ?
                           <MyButton
                             label={'Ver choferes asignados'}
-                            onPress={() => navigation.navigate('DriversTrip', v)}
+                            onPress={() => navigation.navigate('DriversTrip', v.drivers)}
                           />
                           : null
                       }
