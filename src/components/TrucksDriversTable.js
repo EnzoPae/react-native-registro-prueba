@@ -62,6 +62,7 @@ export default function TrucksDriversTable({handleLinkTruckDriver}) {
     return (
         <SafeAreaView>
             <FlatList
+                style={{marginTop: 28}}
                 data={data}
                 renderItem={renderItem}
                 onPress={() => handleClik(data)}
@@ -77,9 +78,10 @@ const styles = StyleSheet.create({
         marginTop: StatusBar.currentHeight || 0,
     },
     item: {
-        padding: 20,
-        marginVertical: 8,
-        marginHorizontal: 16,
+        padding: 12,
+        marginVertical: 3,
+        backgroundColor: '#dedede',
+        borderRadius: 5
     },
     title: {
         fontSize: 32,
