@@ -1,9 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import {
-  SafeAreaView,
-  ScrollView,
-  Text,
-} from "react-native";
+import { SafeAreaView, ScrollView, Text, View } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 //Axios
 import { AxiosContext } from "../contexts/AxiosContext";
@@ -55,50 +51,59 @@ const ListaDeCamionesScreen = () => {
   return (
     <SafeAreaView>
       <ScrollView style={{ width: "100%" }}>
-      {!loading
-            ? trucks.map((v, i) => {
-                return (
-                  <ListItem.Accordion
-                    topDivider
-                    key={`accordion${i}`}
-                    content={
-                      <>
-                        <Icon name="chevron-right" size={25} />
-                        <ListItem.Content>
-                          <ListItem.Title style={tripListStyles.itemStyle}>
-                            {v.apenom}
-                          </ListItem.Title>
-                        </ListItem.Content>
-                      </>
-                    }
-                    isExpanded={expandedItems.includes(i)}
-                    onPress={() => {
-                      if (expandedItems.includes(i)) {
-                        setExpanded(expandedItems.filter((id) => id !== i));
-                      } else {
-                        setExpanded([...expandedItems, i]);
-                      }
-                    }}
-                  >
-                    {/*Contenido acordion*/}
-                    <ListItem key={`item${i}`} bottomDivider>
+        {!loading
+          ? trucks.map((v, i) => {
+              return (
+                <ListItem.Accordion
+                  topDivider
+                  key={`accordion${i}`}
+                  content={
+                    <>
+                      <Icon name="chevron-right" size={25} />
                       <ListItem.Content>
-                        <ListItem.Subtitle>
-                          Camion: {v.camion}{"\n"}
-                          Batea: {v.batea}{"\n"}
-                          Dni: {v.dni}{"\n"}
-                        </ListItem.Subtitle>
+                        <ListItem.Title style={tripListStyles.itemStyle}>
+                          {v.apenom}
+                        </ListItem.Title>
                       </ListItem.Content>
-                    </ListItem>
-                  </ListItem.Accordion>
-                );
-              })
-            : null}
-        <ModalAlert
-            modalVisible={error}
-            setModalVisible={setError}
-            msj={msj}
-          />
+                    </>
+                  }
+                  isExpanded={expandedItems.includes(i)}
+                  onPress={() => {
+                    if (expandedItems.includes(i)) {
+                      setExpanded(expandedItems.filter((id) => id !== i));
+                    } else {
+                      setExpanded([...expandedItems, i]);
+                    }
+                  }}
+                >
+                  {/*Contenido acordion*/}
+                  <ListItem key={`item${i}`} bottomDivider>
+                    <ListItem.Content style={{marginVertical: -10}}>
+                      <View style={{ flexDirection: "row", marginLeft:'8%' }}>
+                        <View style={{ width: "45%" }}>
+                          <Text>DNI Chofer:</Text>
+                          <Text>Patente Camion:</Text>
+                          <Text>Patente Acoplado:</Text>
+                        </View>
+                        <View>
+                          <ListItem.Subtitle>
+                            {v.dni}
+                          </ListItem.Subtitle>
+                          <ListItem.Subtitle>
+                            {v.camion.toUpperCase()}
+                          </ListItem.Subtitle>
+                          <ListItem.Subtitle>
+                            {v.batea.toUpperCase()}
+                          </ListItem.Subtitle>
+                        </View>
+                      </View>
+                    </ListItem.Content>
+                  </ListItem>
+                </ListItem.Accordion>
+              );
+            })
+          : null}
+        <ModalAlert modalVisible={error} setModalVisible={setError} msj={msj} />
       </ScrollView>
     </SafeAreaView>
   );
