@@ -8,7 +8,7 @@ export default function PlainModal({showModal, setShowModal,children }) {
     <View style={{width:100}}>
       <Modal
         animationType="fade"
-        transparent={true}
+        transparent={false}
         visible={showModal}
         onRequestClose={() => {
           Alert.alert("Se recomienda cerrar la advertencia previo a cambiar de pantalla");
@@ -32,14 +32,14 @@ const styles = StyleSheet.create({
   modalView: {
     backgroundColor: Colors.white,
     borderRadius: 10,
-    width: '95%',
-    height: '85%',
+    width: '85%',
+    height: '70%',
     alignItems: "center",
     justifyContent: "flex-end",
     elevation: 8,
     overflow: "hidden",
     alignSelf: 'center',
-    marginVertical: '10%'
+    marginVertical: '20%'
   },
   textStyle: {
     color: "white",
