@@ -159,6 +159,7 @@ const CrearViajeScreen = () => {
 
   return (
     <SafeAreaView style={{ backgroundColor: Colors.white, flex: 1 }}>
+      <StatusBar style="light" backgroundColor={Colors.primary} />
       <Formik
         initialValues={initialValues}
         validationSchema={crearViajeValidationSchema}
@@ -194,7 +195,7 @@ const CrearViajeScreen = () => {
                   />
                 </View>
                 <View style={{ marginBottom: 10 }}>
-                  {!loadingLocalidadesO ? !origen.id_provincia ? <View style={{height:0}}/> :
+                  {!loadingLocalidadesO ? !origen.id_provincia ? <View/> :
                     <SelectList
                       setSelected={(val) => setOrigen({
                         ...origen,
@@ -210,7 +211,7 @@ const CrearViajeScreen = () => {
                       boxStyles={createTripStyles.boxSelect}
                       dropdownStyles={createTripStyles.dropdownStyles}
                     />
-                    : <Text>Cargando localidades...</Text>}
+                    : <Text style={createTripStyles.text}>Cargando localidades...</Text>}
                 </View>
                 <Text style={createTripStyles.text}>Destino</Text>
                 <View style={{ marginBottom: 10 }}>
@@ -232,7 +233,7 @@ const CrearViajeScreen = () => {
                 </View>
 
                 <View style={{marginBottom: 30 }}>
-                  {!loadingLocalidadesD ? !destino.id_provincia ? <View style={{height:0}}/> :
+                  {!loadingLocalidadesD ? !destino.id_provincia ? <View/> :
                     <SelectList
                       setSelected={(val) => setDestino({
                         ...destino,
@@ -248,7 +249,7 @@ const CrearViajeScreen = () => {
                       boxStyles={createTripStyles.boxSelect}
                       dropdownStyles={createTripStyles.dropdownStyles}
                     />
-                    : <Text>Cargando localidades...</Text>}
+                    : <Text style={createTripStyles.text}>Cargando localidades...</Text>}
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
                   <Input
@@ -346,7 +347,7 @@ const CrearViajeScreen = () => {
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
         msj={msjModal} />
-      <StatusBar style="light" backgroundColor={Colors.primary} />
+      
     </SafeAreaView>
   );
 };
