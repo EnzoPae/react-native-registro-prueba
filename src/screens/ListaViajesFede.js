@@ -151,10 +151,12 @@ export default function ListaViajesFede() {
                           </View>
                           <View>
                             <ListItem.Subtitle>
-                              {v.desc_localidad_o.toLowerCase()}
+                              {v.desc_localidad_o[0].toUpperCase()}
+                              {v.desc_localidad_o.slice(1).toLowerCase()}
                             </ListItem.Subtitle>
                             <ListItem.Subtitle>
-                              {v.desc_localidad_d.toLowerCase()}
+                              {v.desc_localidad_d[0].toUpperCase()}
+                              {v.desc_localidad_d.slice(1).toLowerCase()}
                             </ListItem.Subtitle>
                             <ListItem.Subtitle>
                               {String(v.fecha_viaje).split("T")[0]} -{" "}
@@ -168,7 +170,15 @@ export default function ListaViajesFede() {
                             </ListItem.Subtitle>
                           </View>
                         </View>
-                        <View style={{borderBottomWidth: 1, borderBottomColor:'#dedede', width: '90%', marginTop:5, marginBottom:10}}/>
+                        <View
+                          style={{
+                            borderBottomWidth: 1,
+                            borderBottomColor: "#dedede",
+                            width: "90%",
+                            marginTop: 5,
+                            marginBottom: 10,
+                          }}
+                        />
                         <MyButton
                           type={"trip-list"}
                           label={"Modificar"}
