@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
-import { SafeAreaView, ScrollView, RefreshControl } from "react-native";
+import {
+  SafeAreaView,
+  ScrollView,
+  RefreshControl,
+  View,
+  Text,
+} from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 //Axios
 import { AxiosContext } from "../contexts/AxiosContext";
@@ -17,7 +23,7 @@ import { useNavigation } from "@react-navigation/native";
 import PlainModal from "../components/PlainModal";
 import TrucksDriversTable from "../components/TrucksDriversTable";
 export default function ListaViajesFede() {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   const isFocused = useIsFocused();
   const { authAxios } = useContext(AxiosContext);
   const [expandedItems, setExpanded] = useState([]);
@@ -26,13 +32,13 @@ export default function ListaViajesFede() {
   //ModalAlert
   const [modalVisible, setModalVisible] = useState(false);
   const [msj, setMsj] = useState(null);
-  const [modalType, setModalType] = useState('error')
+  const [modalType, setModalType] = useState("error");
   //Plain modal
-  const [showModal, setShowModal] = useState(false)
+  const [showModal, setShowModal] = useState(false);
   //
-  const [selectedTrip, setSelectedTrip] = useState(null)
-  const [reloadTrips, setReloadTrips] = useState(false)
-  //Recargar 
+  const [selectedTrip, setSelectedTrip] = useState(null);
+  const [reloadTrips, setReloadTrips] = useState(false);
+  //Recargar
   const [refreshing, setRefreshing] = useState(false);
   /*
     Primero hay que ver si se esa viendo la pantalla
@@ -43,8 +49,8 @@ export default function ListaViajesFede() {
       const response = await authAxios.get("/api/trips");
       setTrips(response.data);
     } catch (error) {
-      console.log(error)
-      setModalType('error')
+      console.log(error);
+      setModalType("error");
       setModalVisible(true);
       setMsj(error.response.data.msj);
     } finally {
@@ -53,7 +59,7 @@ export default function ListaViajesFede() {
   };
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    getTrips().then(() => setRefreshing(false))
+    getTrips().then(() => setRefreshing(false));
   }, []);
   useEffect(() => {
     if (isFocused) {
@@ -66,123 +72,134 @@ export default function ListaViajesFede() {
         con sus valores iniciales
       */
       setModalVisible(false);
-      setShowModal(false)
-      setModalType('error')
+      setShowModal(false);
+      setModalType("error");
       setLoading(false);
       setTrips([]);
-      setExpanded([])
+      setExpanded([]);
     }
   }, [isFocused]);
   useEffect(() => {
-    getTrips()
+    getTrips();
     setLoading(true);
-    setExpanded([])
-  }, [reloadTrips])
+    setExpanded([]);
+  }, [reloadTrips]);
   if (loading) return <Spinner />;
   const handleLinkTruckDriver = async (id_equipo) => {
     try {
-      const api_response = await authAxios.post('/api/app/link-truck-drivers', {
+      const api_response = await authAxios.post("/api/app/link-truck-drivers", {
         id_equipo,
-        id_viaje: selectedTrip
-      })
+        id_viaje: selectedTrip,
+      });
       if (api_response.status === 200) {
-        setReloadTrips(!reloadTrips)
-        setShowModal(false)
+        setReloadTrips(!reloadTrips);
+        setShowModal(false);
         setModalVisible(true);
         setMsj(api_response.data.msj);
-        setModalType('ok')
+        setModalType("ok");
       }
     } catch (error) {
       setModalVisible(true);
       setMsj(error.response.data.msj);
-      setModalType('error')
+      setModalType("error");
     }
-  }
+  };
   return (
     <>
       <SafeAreaView>
-        <ScrollView style={{ width: "100%" }}
+        <ScrollView
+          style={{ width: "100%" }}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }>
+          }
+        >
           {!loading
             ? trips.map((v, i) => {
-              return (
-                <ListItem.Accordion
-                  topDivider
-                  key={`accordion${i}`}
-                  content={
-                    <>
-                      <Icon name="place" size={25} />
-                      <ListItem.Content>
-                        <ListItem.Title style={tripListStyles.itemStyle}>
-                          {v.desc_localidad_o} - {v.desc_localidad_d}
-                        </ListItem.Title>
-                      </ListItem.Content>
-                    </>
-                  }
-                  isExpanded={expandedItems.includes(i)}
-                  onPress={() => {
-                    if (expandedItems.includes(i)) {
-                      setExpanded(expandedItems.filter((id) => id !== i));
-                    } else {
-                      setExpanded([...expandedItems, i]);
+                return (
+                  <ListItem.Accordion
+                    topDivider
+                    key={`accordion${i}`}
+                    content={
+                      <>
+                        <Icon name="place" size={25} />
+                        <ListItem.Content>
+                          <ListItem.Title style={tripListStyles.itemStyle}>
+                            {v.desc_localidad_o} - {v.desc_localidad_d}
+                          </ListItem.Title>
+                        </ListItem.Content>
+                      </>
                     }
-                  }}
-                >
-                  {/*CONTENIDO DEL ACORDION*/}
-                  <ListItem key={`item${i}`} bottomDivider>
-                    <ListItem.Content>
-                      <ListItem.Title>*Origen</ListItem.Title>
-                      <ListItem.Subtitle>
-                        {v.desc_localidad_o}
-                      </ListItem.Subtitle>
-                      <ListItem.Title>*Destino</ListItem.Title>
-                      <ListItem.Subtitle>
-                        {v.desc_localidad_d}
-                      </ListItem.Subtitle>
-                      <ListItem.Title>*Fecha</ListItem.Title>
-                      <ListItem.Subtitle>
-                        {String(v.fecha_viaje).split("T")[0]} -{" "}
-                        {String(v.fecha_viaje).split("T")[1].slice(0, 8)}
-                      </ListItem.Subtitle>
-                      <ListItem.Title>*Cantidad camiones</ListItem.Title>
-                      <ListItem.Subtitle>
-                        {v.camiones_cantidad}
-                      </ListItem.Subtitle>
-                      <ListItem.Title>*Camiones asignados</ListItem.Title>
-                      <ListItem.Subtitle>
-                        {v.camiones_asigandos}
-                      </ListItem.Subtitle>
-                      <MyButton
-                        label={'Modificar'}
-                        onPress={() => navigation.navigate('ActViaje', v)}
-                      />
-                      {
-                        v.camiones_asigandos != v.camiones_cantidad ?
-                          <MyButton
-                            label={'Asignar chofer'}
-                            onPress={() => {
-                              setSelectedTrip(v.id)
-                              setShowModal(!showModal)
-                            }}
-                          />
-                          : null
+                    isExpanded={expandedItems.includes(i)}
+                    onPress={() => {
+                      if (expandedItems.includes(i)) {
+                        setExpanded(expandedItems.filter((id) => id !== i));
+                      } else {
+                        setExpanded([...expandedItems, i]);
                       }
-                      {
-                        v.camiones_asigandos > 0 ?
-                          <MyButton
-                            label={'Ver choferes asignados'}
-                            onPress={() => navigation.navigate('DriversTrip', v)}
-                          />
-                          : null
-                      }
-                    </ListItem.Content>
-                    <ListItem.Chevron />
-                  </ListItem>
-                </ListItem.Accordion>
-              );
-            })
+                    }}
+                  >
+                    {/*CONTENIDO DEL ACORDION*/}
+                    <ListItem key={`item${i}`} bottomDivider>
+                      <ListItem.Content>
+                        <View style={{ flexDirection: "row" }}>
+                          <View style={{ width: "45%" }}>
+                            <Text>Origen:</Text>
+                            <Text>Destino:</Text>
+                            <Text>Fecha:</Text>
+                            <Text>Cant. camiones:</Text>
+                            <Text>Camiones asignados:</Text>
+                          </View>
+                          <View>
+                            <ListItem.Subtitle>
+                              {v.desc_localidad_o.toLowerCase()}
+                            </ListItem.Subtitle>
+                            <ListItem.Subtitle>
+                              {v.desc_localidad_d.toLowerCase()}
+                            </ListItem.Subtitle>
+                            <ListItem.Subtitle>
+                              {String(v.fecha_viaje).split("T")[0]} -{" "}
+                              {String(v.fecha_viaje).split("T")[1].slice(0, 8)}
+                            </ListItem.Subtitle>
+                            <ListItem.Subtitle>
+                              {v.camiones_cantidad}
+                            </ListItem.Subtitle>
+                            <ListItem.Subtitle>
+                              {v.camiones_asigandos}/{v.camiones_cantidad}
+                            </ListItem.Subtitle>
+                          </View>
+                        </View>
+                        <View style={{borderBottomWidth: 1, borderBottomColor:'#dedede', width: '90%', marginTop:5, marginBottom:10}}/>
+                        <MyButton
+                          type={"trip-list"}
+                          label={"Modificar"}
+                          onPress={() => navigation.navigate("ActViaje", v)}
+                        />
+                        <View style={{ flexDirection: "row" }}>
+                          {v.camiones_asigandos != v.camiones_cantidad ? (
+                            <MyButton
+                              type={"trip-list"}
+                              label={"Asignar chofer"}
+                              onPress={() => {
+                                setSelectedTrip(v.id);
+                                setShowModal(!showModal);
+                              }}
+                            />
+                          ) : null}
+                          {v.camiones_asigandos > 0 ? (
+                            <MyButton
+                              type={"trip-list"}
+                              label={"Ver choferes asignados"}
+                              onPress={() =>
+                                navigation.navigate("DriversTrip", v)
+                              }
+                            />
+                          ) : null}
+                        </View>
+                      </ListItem.Content>
+                    </ListItem>
+                  </ListItem.Accordion>
+                );
+              })
             : null}
           <ModalAlert
             modalVisible={modalVisible}
@@ -191,13 +208,8 @@ export default function ListaViajesFede() {
             type={modalType}
           />
         </ScrollView>
-        <PlainModal
-          showModal={showModal}
-          setShowModal={setShowModal}
-        >
-          <TrucksDriversTable
-            handleLinkTruckDriver={handleLinkTruckDriver}
-          />
+        <PlainModal showModal={showModal} setShowModal={setShowModal}>
+          <TrucksDriversTable handleLinkTruckDriver={handleLinkTruckDriver} />
         </PlainModal>
       </SafeAreaView>
       <FloatButton />
