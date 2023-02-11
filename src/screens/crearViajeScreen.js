@@ -174,8 +174,9 @@ const CrearViajeScreen = () => {
         }) => (
           <>
             <ScrollView style={{ width: "100%" }}>
-              <View style={{ marginHorizontal: 10, marginTop: 20}}>
-                <View style={{ marginBottom: 20 }}>
+              <View style={{ marginHorizontal: 10, marginTop: 20 }}>
+                <Text style={createTripStyles.text}>Origen</Text>
+                <View style={{ marginBottom: 10 }}>
                   <SelectList
                     setSelected={(val) => setOrigen({
                       ...origen,
@@ -189,10 +190,11 @@ const CrearViajeScreen = () => {
                     searchPlaceholder={'Buscar provincia'}
                     placeholder={'Provincia'}
                     boxStyles={createTripStyles.boxSelect}
+                    dropdownStyles={createTripStyles.dropdownStyles}
                   />
                 </View>
-                <View style={{ marginBottom: 20 }}>
-                  {!loadingLocalidadesO ? !origen.id_provincia ? <Text>Seleccione una provincia...</Text> :
+                <View style={{ marginBottom: 10 }}>
+                  {!loadingLocalidadesO ? !origen.id_provincia ? <View style={{height:0}}/> :
                     <SelectList
                       setSelected={(val) => setOrigen({
                         ...origen,
@@ -206,10 +208,12 @@ const CrearViajeScreen = () => {
                       searchPlaceholder={'Buscar localidad'}
                       placeholder={'Localidad'}
                       boxStyles={createTripStyles.boxSelect}
+                      dropdownStyles={createTripStyles.dropdownStyles}
                     />
                     : <Text>Cargando localidades...</Text>}
                 </View>
-                <View style={{ marginBottom: 20 }}>
+                <Text style={createTripStyles.text}>Destino</Text>
+                <View style={{ marginBottom: 10 }}>
                   <SelectList
                     setSelected={(val) => setDestino({
                       ...destino,
@@ -223,11 +227,12 @@ const CrearViajeScreen = () => {
                     searchPlaceholder={'Buscar provincia'}
                     placeholder={'Provincia'}
                     boxStyles={createTripStyles.boxSelect}
+                    dropdownStyles={createTripStyles.dropdownStyles}
                   />
                 </View>
 
-                <View style={{marginBottom: 20 }}>
-                  {!loadingLocalidadesD ? !destino.id_provincia ? <Text>Seleccione una provincia...</Text> :
+                <View style={{marginBottom: 30 }}>
+                  {!loadingLocalidadesD ? !destino.id_provincia ? <View style={{height:0}}/> :
                     <SelectList
                       setSelected={(val) => setDestino({
                         ...destino,
@@ -241,6 +246,7 @@ const CrearViajeScreen = () => {
                       searchPlaceholder={'Buscar localidad'}
                       placeholder={'Localidad'}
                       boxStyles={createTripStyles.boxSelect}
+                      dropdownStyles={createTripStyles.dropdownStyles}
                     />
                     : <Text>Cargando localidades...</Text>}
                 </View>
