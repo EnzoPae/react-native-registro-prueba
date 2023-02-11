@@ -6,6 +6,7 @@ import {
   createDrawerNavigator,
   DrawerContentScrollView,
 } from "@react-navigation/drawer";
+import MenuDrawer from "../components/MenuDrawer";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import Registro from "../screens/registro";
@@ -17,7 +18,6 @@ import ListadoCamionerosViaje from "../screens/ListadoCamionerosViaje";
 import ListaViajesFede from "../screens/ListaViajesFede";
 import * as SecureStore from "expo-secure-store";
 import { AuthContext } from "../contexts/AuthContext";
-import DrawerButton from "../components/DrawerButton";
 import Logout from "../services/logout";
 import Spinner from "../components/Spinner";
 import jwt from 'jwt-decode'
@@ -156,66 +156,3 @@ export default function MyNavigation() {
     </>
   );
 }
-
-const MenuDrawer = ({ navigation, handleLogout, userData }) => {
-  return (
-    <View style={styles.container}>
-      <View
-        style={{ flexDirection: "row", alignItems: "center", marginBottom: 15, overflow: 'hidden' }}
-      >
-        <Icon name="account-circle" size={80} />
-        <View style={{ marginLeft: 5 }}>
-          <Text style={styles.nameText}>{userData.userName}</Text>
-          <View style={styles.separator} />
-        </View>
-      </View>
-      <DrawerButton
-        text={"Lista de viajes"}
-        onPress={() => navigation.navigate("ListaDeViajes")}
-        label={'map-marker'}
-      />
-      <DrawerButton
-        text={"Lista de camiones"}
-        onPress={() => navigation.navigate("ListaDeCamiones")}
-        label={'truck'}
-      />
-      <DrawerButton
-        text={"Crear nuevo viaje"}
-        onPress={() => navigation.navigate("CrearViaje")}
-        label={'plus-circle'}
-      />
-      <View style={styles.cerrarSesion}>
-        <TouchableOpacity onPress={handleLogout}>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Icon name="cog" size={14} />
-            <Text> Cerrar sesión</Text>
-          </View>
-          <View style={styles.separator} />
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 15,
-    marginTop: 30,
-    overflow: 'hidden'
-  },
-  subText: {
-    fontSize: 12,
-    color: Colors.pseudoWhite,
-  },
-  separator: {
-    borderBottomColor: Colors.pseudoWhite,
-    borderBottomWidth: 1,
-    marginTop: 5,
-  },
-  cerrarSesion: {
-    position: "absolute",
-    bottom: 15,
-    right: 20,
-  },
-});
