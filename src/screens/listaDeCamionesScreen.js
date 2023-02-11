@@ -8,7 +8,6 @@ import { useIsFocused } from "@react-navigation/native";
 //Axios
 import { AxiosContext } from "../contexts/AxiosContext";
 //Components
-import { StatusBar } from "expo-status-bar";
 import { ListItem, Icon } from "@rneui/themed";
 import Spinner from "../components/Spinner";
 import ModalAlert from "../components/ModalAlert";

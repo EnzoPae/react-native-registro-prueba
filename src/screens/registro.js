@@ -11,7 +11,6 @@ import {
 //Components
 import { Input } from "@rneui/themed";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { StatusBar } from "expo-status-bar";
 import MyButton from "../components/MyButton";
 import ModalAlert from "../components/ModalAlert";
 import Spinner from "../components/Spinner";
@@ -192,7 +191,6 @@ const Registro = () => {
           </>
         )}
       </Formik>
-      <StatusBar style="light" backgroundColor={Colors.primary} />
       <ModalAlert
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}

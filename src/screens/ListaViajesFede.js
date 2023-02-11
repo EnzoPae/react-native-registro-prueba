@@ -7,7 +7,6 @@ import { AxiosContext } from "../contexts/AxiosContext";
 import { ListItem, Icon } from "@rneui/themed";
 import ModalAlert from "../components/ModalAlert";
 import Spinner from "../components/Spinner";
-import { StatusBar } from "expo-status-bar";
 import FloatButton from "../components/floatButton";
 //Styles
 import { Colors } from "../styles/Colors";
@@ -200,7 +199,6 @@ export default function ListaViajesFede() {
             handleLinkTruckDriver={handleLinkTruckDriver}
           />
         </PlainModal>
-        <StatusBar style="light" backgroundColor={Colors.primary} />
       </SafeAreaView>
       <FloatButton />
     </>

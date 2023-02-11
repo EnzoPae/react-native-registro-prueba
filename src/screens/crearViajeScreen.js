@@ -159,7 +159,6 @@ const CrearViajeScreen = () => {
 
   return (
     <SafeAreaView style={{ backgroundColor: Colors.white, flex: 1 }}>
-      <StatusBar style="light" backgroundColor={Colors.primary} />
       <Formik
         initialValues={initialValues}
         validationSchema={crearViajeValidationSchema}

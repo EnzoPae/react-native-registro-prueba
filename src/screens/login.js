@@ -15,7 +15,6 @@ import { signInValidationSchema } from "../Schemas/signInFormSchema";
 //Components
 import { Input } from "@rneui/themed";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { StatusBar } from "expo-status-bar";
 import MyButton from "../components/MyButton";
 import LoginLink from "../components/LoginLink";
 import RecoverPassLink from "../components/RecoverPassLink";
@@ -144,7 +143,6 @@ const Login = () => {
           </>
         )}
       </Formik>
-      <StatusBar style="light" backgroundColor={Colors.primary} />
     </SafeAreaView>
   );
 };

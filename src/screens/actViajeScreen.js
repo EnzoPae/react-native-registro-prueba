@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 //Components
-import { StatusBar } from "expo-status-bar";
 import { Input } from "@rneui/themed";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import MyButton from "../components/MyButton";
@@ -369,7 +368,6 @@ const ActViajeScreen = ({ route }) => {
                 modalVisible={modalVisible}
                 setModalVisible={setModalVisible}
                 msj={msjModal} />
-            <StatusBar style="light" backgroundColor={Colors.primary} />
         </SafeAreaView>
     );
 };

@@ -7,7 +7,6 @@ import { recoverPassValidationSchema } from "../Schemas/recoverPassSchema";
 import { login } from "../styles/GlobalStyles";
 import { Colors } from "../styles/Colors";
 //Components
-import { StatusBar } from "expo-status-bar";
 import { Input, Icon } from "@rneui/themed";
 import MyButton from "../components/MyButton";
 
@@ -17,7 +16,6 @@ const RecoverPassword = () => {
   };
   return (
     <SafeAreaView style={login.container}>
-      <StatusBar style="light" backgroundColor={Colors.primary} />
       <Formik
         initialValues={initialValues}
         validationSchema={recoverPassValidationSchema}
