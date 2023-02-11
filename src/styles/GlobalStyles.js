@@ -70,10 +70,15 @@ export const createTripStyles = StyleSheet.create({
     borderBottomWidth: 0.5,
     borderColor: '#000',
     borderRadius: 3,
-    width: '97%',
+    width: '95%',
     alignSelf: 'center'
   },
-  inputSelect: {
-    
+  dropdownStyles: {
+    width: '95%', 
+    marginHorizontal: 10
+  },
+  text: {
+    marginLeft: '3%',
+    color: Colors.subBlack
   }
 }) 
