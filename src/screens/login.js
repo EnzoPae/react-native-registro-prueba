@@ -43,7 +43,7 @@ const Login = () => {
   const onLogin = async (values) => {
     setLoading(true);
     try {
-      const response = await publicAxios.post("/api/user/login", {
+      const response = await publicAxios.post("/api/user/admin/login", {
         userMail: values.email,
         userPassword: values.password,
       });
