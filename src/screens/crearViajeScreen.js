@@ -35,6 +35,8 @@ const CrearViajeScreen = () => {
   const [modalVisible, setModalVisible] = useState(false)
   const [msjModal, setMsjModal] = useState(null)
   const [modalType, setModalType] = useState('error')
+  const [clients, setClients] = useState([])
+  const [selectedClient, setSelectedClient] = useState([])
   const [provincias, setProvincias] = useState([])
   const [localidadesD, setLocalidadesD] = useState(undefined)
   const [localidadesO, setLocalidadesO] = useState(undefined)
@@ -97,12 +99,18 @@ const CrearViajeScreen = () => {
       setModalVisible(true)
     }
   };
-  //Pedir provincias a la API
-  const getProvincias = async () => {
+  //Pedir provincias y clientes a la API
+  const getProvinciasYClientes = async () => {
     setLoading(true)
+    const promise_array = []
+    promise_array.push(await authAxios.get("/api/clients"))
+    if(!provincias.length > 0) promise_array.push(await authAxios.get("/api/locations/provincias"))
+    console.log(promise_array.length)
     try {
-      const response = await authAxios.get("/api/locations/provincias")
-      setProvincias(response.data)
+      const results = await Promise.all(promise_array)
+      const [clients_result,provincias_result ] = results
+      if(provincias_result) setProvincias(provincias_result.data)
+      setClients(clients_result.data)
     } catch (error) {
       console.log(error)
       setModalType('error')
@@ -139,7 +147,7 @@ const CrearViajeScreen = () => {
 
   useEffect(() => {
     if (isFocused) {
-      getProvincias()
+      getProvinciasYClientes()
     } else {
       setOrigen({
         id_provincia: null,
@@ -152,9 +160,10 @@ const CrearViajeScreen = () => {
       setLoading(false)
       setModalVisible(false)
       setMsjModal(null)
+      setClients([])
     }
   }, [isFocused])
-
+  console.log(clients)
   if (loading) return <Spinner />
 
   return (
@@ -231,7 +240,7 @@ const CrearViajeScreen = () => {
                   />
                 </View>
 
-                <View style={{marginBottom: 30 }}>
+                <View style={{marginBottom: 10 }}>
                   {!loadingLocalidadesD ? !destino.id_provincia ? <View/> :
                     <SelectList
                       setSelected={(val) => setDestino({
@@ -249,6 +258,24 @@ const CrearViajeScreen = () => {
                       dropdownStyles={createTripStyles.dropdownStyles}
                     />
                     : <Text style={createTripStyles.text}>Cargando localidades...</Text>}
+                </View>
+                <Text style={createTripStyles.text}>Cliente</Text>
+                <View style={{ marginBottom: 30 }}>
+                  <SelectList
+                  setSelected={(val) => setSelectedClient({
+                    ...selectedClient,
+                    id_client: val
+                  })}
+                    //onSelect={() => handleSelectProvincia('o')}
+                    data={clients}
+                    //save="value"
+                    search={true}
+                    notFoundText={'No hay resultados'}
+                    searchPlaceholder={'Buscar clientes'}
+                    placeholder={'Clientes'}
+                    boxStyles={createTripStyles.boxSelect}
+                    dropdownStyles={createTripStyles.dropdownStyles}
+                  />
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
                   <Input
