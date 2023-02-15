@@ -26,6 +26,7 @@ export default function ListaViajesFede() {
   const navigation = useNavigation();
   const isFocused = useIsFocused();
   const { authAxios } = useContext(AxiosContext);
+  //Estado para saber que item tendria que estar expandido
   const [expandedItems, setExpanded] = useState([]);
   const [trips, setTrips] = useState([]);
   const [loading, setLoading] = useState(false);
