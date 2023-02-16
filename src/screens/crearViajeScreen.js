@@ -28,6 +28,7 @@ import { AxiosContext } from "../contexts/AxiosContext";
 const CrearViajeScreen = () => {
   const { authAxios } = useContext(AxiosContext);
   const isFocused = useIsFocused()
+  const [reload,setReload]= useState(false)
   const [date, setDate] = useState(new Date(1598051730000));
   const [loading, setLoading] = useState(false)
   const [loadingLocalidadesD, setLoadingLocalidadesD] = useState(false)
@@ -36,7 +37,7 @@ const CrearViajeScreen = () => {
   const [msjModal, setMsjModal] = useState(null)
   const [modalType, setModalType] = useState('error')
   const [clients, setClients] = useState([])
-  const [selectedClient, setSelectedClient] = useState([])
+  const [selectedClient, setSelectedClient] = useState(undefined)
   const [provincias, setProvincias] = useState([])
   const [localidadesD, setLocalidadesD] = useState(undefined)
   const [localidadesO, setLocalidadesO] = useState(undefined)
@@ -76,26 +77,53 @@ const CrearViajeScreen = () => {
     showMode("time");
   };
 
-  //Func que se ejecuta cuando se aprieta crear viaje
-  const handleCreateTrip = async (values) => {
-    if (!origen.id_localidad || !origen.id_provincia || !destino.id_localidad || !destino.id_provincia) {
+  /*
+    Funcion para validar que se haya seleccionado
+      -prov y loc de origen
+      -pro y loc de destino
+      -un cliente
+  */
+  const validateSelectLists = () => {
+    if (!origen.id_localidad || !origen.id_provincia) {
       setModalType('error')
-      setMsjModal('Faltan completar datos del origen o destino.')
+      setMsjModal('Faltan completar datos del origen.')
       setModalVisible(true)
-      return
+      return false
     }
-    const merged = { ...values, date, origen, destino };
+    if(!destino.id_localidad || !destino.id_provincia){
+      setModalType('error')
+      setMsjModal('Faltan completar datos del destino.')
+      setModalVisible(true)
+      return false
+    }
+    console.log(selectedClient)
+    if(!selectedClient){
+      setModalType('error')
+      setMsjModal('Debe seleccionar un cliente.')
+      setModalVisible(true)
+      return false
+    }
+    return true
+  }
+  //Func que se ejecuta cuando se aprieta crear viaje
+  const handleCreateTrip = async (values,actions) => {
+    const allSelectAreSelected = validateSelectLists()
+    if(!allSelectAreSelected) return
+    const merged = { ...values, date, origen, destino, id_cliente:selectedClient };
     try {
       const api_response = await authAxios.post("/api/trips", merged);
       if (api_response.status) {
+        actions.resetForm(values={initialValues})
+        clearStates()
+        setReload(!reload)
         setModalType('ok')
         setMsjModal('Viaje creado con exito.')
         setModalVisible(true)
       }
     } catch (error) {
       console.log(`Error creando viaje: ${error}`);
+      setMsjModal('Algo salió mal.')
       setModalType('error')
-      setMsjModal('Error interno del servidor.')
       setModalVisible(true)
     }
   };
@@ -103,13 +131,18 @@ const CrearViajeScreen = () => {
   const getProvinciasYClientes = async () => {
     setLoading(true)
     const promise_array = []
+    /*
+      Siempre se va a intentar resolver la promesa de obtener clientes
+      En las provincias solo se agrega la promersa al arreglo, cuando no hay
+      provincias en memoria, si ya las pidio y se vuelve a la pantalla, no se 
+      vuelven a pedir a la API
+    */
     promise_array.push(await authAxios.get("/api/clients"))
-    if(!provincias.length > 0) promise_array.push(await authAxios.get("/api/locations/provincias"))
-    console.log(promise_array.length)
+    if (!provincias.length > 0) promise_array.push(await authAxios.get("/api/locations/provincias"))
     try {
       const results = await Promise.all(promise_array)
-      const [clients_result,provincias_result ] = results
-      if(provincias_result) setProvincias(provincias_result.data)
+      const [clients_result, provincias_result] = results
+      if (provincias_result) setProvincias(provincias_result.data)
       setClients(clients_result.data)
     } catch (error) {
       console.log(error)
@@ -144,34 +177,35 @@ const CrearViajeScreen = () => {
       setLoadingLocalidadesD(false)
     }
   }
-
+  const clearStates = ()=>{
+    setLoading(false)
+    setModalVisible(false)
+    setMsjModal(null)
+    setClients([])
+    setSelectedClient(undefined)
+    setOrigen({
+      id_provincia: null,
+      id_localidad: null,
+    })
+    setDestino({
+      id_provincia: null,
+      id_localidad: null,
+    })
+  }
   useEffect(() => {
     if (isFocused) {
       getProvinciasYClientes()
-    } else {
-      setOrigen({
-        id_provincia: null,
-        id_localidad: null,
-      })
-      setDestino({
-        id_provincia: null,
-        id_localidad: null,
-      })
-      setLoading(false)
-      setModalVisible(false)
-      setMsjModal(null)
-      setClients([])
-    }
-  }, [isFocused])
-  console.log(clients)
+    } else {clearStates()}
+  }, [isFocused,reload])
+  console.log(selectedClient)
   if (loading) return <Spinner />
-
   return (
     <SafeAreaView style={{ backgroundColor: Colors.white, flex: 1 }}>
       <Formik
+        enableReinitialize
         initialValues={initialValues}
         validationSchema={crearViajeValidationSchema}
-        onSubmit={(values) => handleCreateTrip(values)}
+        onSubmit={(values,actions) => handleCreateTrip(values,actions)}
       >
         {({
           handleChange,
@@ -203,7 +237,7 @@ const CrearViajeScreen = () => {
                   />
                 </View>
                 <View style={{ marginBottom: 10 }}>
-                  {!loadingLocalidadesO ? !origen.id_provincia ? <View/> :
+                  {!loadingLocalidadesO ? !origen.id_provincia ? <View /> :
                     <SelectList
                       setSelected={(val) => setOrigen({
                         ...origen,
@@ -240,8 +274,8 @@ const CrearViajeScreen = () => {
                   />
                 </View>
 
-                <View style={{marginBottom: 10 }}>
-                  {!loadingLocalidadesD ? !destino.id_provincia ? <View/> :
+                <View style={{ marginBottom: 10 }}>
+                  {!loadingLocalidadesD ? !destino.id_provincia ? <View /> :
                     <SelectList
                       setSelected={(val) => setDestino({
                         ...destino,
@@ -262,10 +296,7 @@ const CrearViajeScreen = () => {
                 <Text style={createTripStyles.text}>Cliente</Text>
                 <View style={{ marginBottom: 30 }}>
                   <SelectList
-                  setSelected={(val) => setSelectedClient({
-                    ...selectedClient,
-                    id_client: val
-                  })}
+                    setSelected={(val) => setSelectedClient(val)}
                     //onSelect={() => handleSelectProvincia('o')}
                     data={clients}
                     //save="value"
@@ -373,7 +404,7 @@ const CrearViajeScreen = () => {
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
         msj={msjModal} />
-      
+
     </SafeAreaView>
   );
 };
