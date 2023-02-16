@@ -44,6 +44,8 @@ const ActViajeScreen = ({ route }) => {
   const [provincias, setProvincias] = useState([]);
   const [localidadesD, setLocalidadesD] = useState(undefined);
   const [localidadesO, setLocalidadesO] = useState(undefined);
+  const [clients, setClients] = useState([])
+  const [selectedClient, setSelectedClient] = useState(undefined)
   const [origen, setOrigen] = useState({
     id_provincia: null,
     id_localidad: null,
@@ -73,21 +75,39 @@ const ActViajeScreen = ({ route }) => {
   const showTimepicker = () => {
     showMode("time");
   };
-
+  /*
+  Funcion para validar que se haya seleccionado
+    -prov y loc de origen
+    -pro y loc de destino
+    -un cliente
+*/
+  const validateSelectLists = () => {
+    if (!origen.id_localidad || !origen.id_provincia) {
+      setModalType('error')
+      setMsjModal('Faltan completar datos del origen.')
+      setModalVisible(true)
+      return false
+    }
+    if (!destino.id_localidad || !destino.id_provincia) {
+      setModalType('error')
+      setMsjModal('Faltan completar datos del destino.')
+      setModalVisible(true)
+      return false
+    }
+    console.log(selectedClient)
+    if (!selectedClient) {
+      setModalType('error')
+      setMsjModal('Debe seleccionar un cliente.')
+      setModalVisible(true)
+      return false
+    }
+    return true
+  }
   //Func que se ejecuta cuando se aprieta crear viaje
   const handleUpdateTrip = async (values) => {
-    if (
-      !origen.id_localidad ||
-      !origen.id_provincia ||
-      !destino.id_localidad ||
-      !destino.id_provincia
-    ) {
-      setModalType("error");
-      setMsjModal("Faltan completar datos del origen o destino.");
-      setModalVisible(true);
-      return;
-    }
-    const merged = { ...values, date, origen, destino, id: viajeParam.id };
+    const allSelectAreSelected = validateSelectLists()
+    if (!allSelectAreSelected) return
+    const merged = { ...values, date, origen, destino, id: viajeParam.id,id_cliente:selectedClient };
     try {
       const api_response = await authAxios.patch("/api/trips", merged);
       if (api_response.status) {
@@ -102,21 +122,32 @@ const ActViajeScreen = ({ route }) => {
       setModalVisible(true);
     }
   };
-  //Pedir provincias a la API
-  const getProvincias = async () => {
-    setLoading(true);
+  //Pedir provincias y clientes a la API
+  const getProvinciasYClientes = async () => {
+    setLoading(true)
+    const promise_array = []
+    /*
+      Siempre se va a intentar resolver la promesa de obtener clientes
+      En las provincias solo se agrega la promersa al arreglo, cuando no hay
+      provincias en memoria, si ya las pidio y se vuelve a la pantalla, no se 
+      vuelven a pedir a la API
+    */
+    promise_array.push(await authAxios.get("/api/clients"))
+    if (!provincias.length > 0) promise_array.push(await authAxios.get("/api/locations/provincias"))
     try {
-      const response = await authAxios.get("/api/locations/provincias");
-      setProvincias(response.data);
+      const results = await Promise.all(promise_array)
+      const [clients_result, provincias_result] = results
+      if (provincias_result) setProvincias(provincias_result.data)
+      setClients(clients_result.data)
     } catch (error) {
-      console.log(error);
-      setModalType("error");
-      setMsjModal("Error obteniendo provincias");
-      setModalVisible(true);
+      console.log(error)
+      setModalType('error')
+      setMsjModal('Error obteniendo provincias')
+      setModalVisible(true)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
   /*
     Cuando se selecciona una provincia
     se filtran las localidades por id de provincia
@@ -161,29 +192,31 @@ const ActViajeScreen = ({ route }) => {
       id_provincia: viajeParam.id_localidad_d,
       id_localidad: viajeParam.id_localidad_d,
     });
+    setSelectedClient(viajeParam.id_cliente)
   };
+  const clearStates = () => {
+    setInitialValues({
+      distancia: null,
+      cantidad: null,
+      comentarios: null,
+    });
+    setOrigen({
+      id_provincia: null,
+      id_localidad: null,
+    });
+    setDestino({
+      id_provincia: null,
+      id_localidad: null,
+    });
+    setLoading(false);
+    setModalVisible(false);
+    setMsjModal(null);
+  }
   useEffect(() => {
     if (isFocused) {
       handleLoad();
-      getProvincias();
-    } else {
-      setInitialValues({
-        distancia: null,
-        cantidad: null,
-        comentarios: null,
-      });
-      setOrigen({
-        id_provincia: null,
-        id_localidad: null,
-      });
-      setDestino({
-        id_provincia: null,
-        id_localidad: null,
-      });
-      setLoading(false);
-      setModalVisible(false);
-      setMsjModal(null);
-    }
+      getProvinciasYClientes();
+    } else { clearStates }
   }, [isFocused]);
 
   if (loading) return <Spinner />;
@@ -237,7 +270,7 @@ const ActViajeScreen = ({ route }) => {
                 >
                   {!loadingLocalidadesO ? (
                     !origen.id_provincia ? (
-                      <View/>
+                      <View />
                     ) : (
                       <SelectList
                         setSelected={(val) =>
@@ -256,7 +289,7 @@ const ActViajeScreen = ({ route }) => {
                           value: viajeParam.desc_localidad_o,
                         }}
                         boxStyles={createTripStyles.boxSelect}
-                      dropdownStyles={createTripStyles.dropdownStyles}
+                        dropdownStyles={createTripStyles.dropdownStyles}
                       />
                     )
                   ) : (
@@ -287,7 +320,7 @@ const ActViajeScreen = ({ route }) => {
                       value: viajeParam.desc_prov_d,
                     }}
                     boxStyles={createTripStyles.boxSelect}
-                      dropdownStyles={createTripStyles.dropdownStyles}
+                    dropdownStyles={createTripStyles.dropdownStyles}
                   />
                 </View>
 
@@ -298,7 +331,7 @@ const ActViajeScreen = ({ route }) => {
                 >
                   {!loadingLocalidadesD ? (
                     !destino.id_provincia ? (
-                      <View/>
+                      <View />
                     ) : (
                       <SelectList
                         setSelected={(val) =>
@@ -319,19 +352,33 @@ const ActViajeScreen = ({ route }) => {
                           value: viajeParam.desc_localidad_d,
                         }}
                         boxStyles={createTripStyles.boxSelect}
-                      dropdownStyles={createTripStyles.dropdownStyles}
+                        dropdownStyles={createTripStyles.dropdownStyles}
                       />
                     )
                   ) : (
                     <Text style={createTripStyles.text}>Cargando localidades...</Text>
                   )}
                 </View>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-around",
-                  }}
-                >
+                <Text style={createTripStyles.text}>Cliente</Text>
+                <View style={{ marginBottom: 30 }}>
+                  <SelectList
+                    setSelected={(val) => setSelectedClient(val)}
+                    //onSelect={() => handleSelectProvincia('o')}
+                    data={clients}
+                    //save="value"
+                    search={true}
+                    notFoundText={'No hay resultados'}
+                    searchPlaceholder={'Buscar clientes'}
+                    placeholder={'Clientes'}
+                    defaultOption={{
+                      key: viajeParam.id_cliente,
+                      value: viajeParam.razonsocial,
+                    }}
+                    boxStyles={createTripStyles.boxSelect}
+                    dropdownStyles={createTripStyles.dropdownStyles}
+                  />
+                </View>
+                <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
                   <Input
                     name="distancia"
                     onChangeText={handleChange("distancia")}
