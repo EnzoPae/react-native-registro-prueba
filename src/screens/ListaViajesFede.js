@@ -146,6 +146,7 @@ export default function ListaViajesFede() {
                           <View style={{ width: "45%" }}>
                             <Text>Origen:</Text>
                             <Text>Destino:</Text>
+                            <Text>Cliente:</Text>
                             <Text>Fecha:</Text>
                             <Text>Cant. camiones:</Text>
                             <Text>Camiones asignados:</Text>
@@ -158,6 +159,9 @@ export default function ListaViajesFede() {
                             <ListItem.Subtitle>
                               {v.desc_localidad_d[0].toUpperCase()}
                               {v.desc_localidad_d.slice(1).toLowerCase()}
+                            </ListItem.Subtitle>
+                            <ListItem.Subtitle>
+                              {v.razonsocial}
                             </ListItem.Subtitle>
                             <ListItem.Subtitle>
                               {String(v.fecha_viaje).split("T")[0]} -{" "}
