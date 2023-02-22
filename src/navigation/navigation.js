@@ -127,7 +127,7 @@ export default function MyNavigation() {
           component={ListaDeCamionesScreen}
           options={{
             headerShown: true,
-            title: "Listado de Camiones",
+            title: "Listado de Choferes",
             headerStyle: { backgroundColor: Colors.primary, height: 100 },
             headerTintColor: Colors.white,
           }}
