@@ -4,7 +4,8 @@ import { useIsFocused } from "@react-navigation/native";
 //Axios
 import { AxiosContext } from "../contexts/AxiosContext";
 //Components
-import { ListItem, Icon } from "@rneui/themed";
+import { ListItem } from "@rneui/themed";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Spinner from "../components/Spinner";
 import ModalAlert from "../components/ModalAlert";
 //Styles
@@ -59,7 +60,7 @@ const ListaDeCamionesScreen = () => {
                   key={`accordion${i}`}
                   content={
                     <>
-                      <Icon name="chevron-right" size={25} />
+                      <Icon name="truck" size={25} />
                       <ListItem.Content>
                         <ListItem.Title style={tripListStyles.itemStyle}>
                           {v.apenom}

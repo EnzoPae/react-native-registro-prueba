@@ -2,7 +2,8 @@ import React, { useState, useContext, useEffect } from "react";
 import { SafeAreaView, ScrollView, View, Text } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 //Components
-import { ListItem, Icon } from "@rneui/themed";
+import { ListItem } from "@rneui/themed";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Spinner from "../components/Spinner";
 import MyButton from "../components/MyButton";
 import ModalAlert from "../components/ModalAlert";
@@ -78,7 +79,7 @@ export default function ListadoCamionerosViaje({ route }) {
               key={`accordion${i}`}
               content={
                 <>
-                  <Icon name="chevron-right" size={25} />
+                  <Icon name="truck" size={25} />
                   <ListItem.Content>
                     <ListItem.Title style={tripListStyles.itemStyle}>
                       {d.apenom}
