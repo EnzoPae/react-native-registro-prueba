@@ -19,6 +19,7 @@ const MenuDrawer = ({ navigation, handleLogout, userData }) => {
         <View style={{ marginLeft: 5 }}>
           <Text style={styles.nameText}>{userData.userName}</Text>
           <View style={styles.separator} />
+          <Text style={styles.subText}>Administrador</Text>
         </View>
       </View>
       <DrawerButton
@@ -39,8 +40,7 @@ const MenuDrawer = ({ navigation, handleLogout, userData }) => {
       <View style={styles.cerrarSesion}>
         <TouchableOpacity onPress={handleLogout}>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Icon name="cog" size={14} />
-            <Text> Cerrar sesión</Text>
+            <Text><Icon name="cog" size={14} /> Cerrar sesión</Text>
           </View>
           <View style={styles.separator} />
         </TouchableOpacity>
