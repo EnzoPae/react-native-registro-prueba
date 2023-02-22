@@ -118,6 +118,10 @@ export default function ListaViajesFede() {
             ? trips.map((v, i) => {
                 return (
                   <ListItem.Accordion
+                    containerStyle={{
+                      borderLeftWidth: 4,
+                      borderStartColor: Colors.yellowState,
+                    }}
                     topDivider
                     key={`accordion${i}`}
                     content={
@@ -140,7 +144,14 @@ export default function ListaViajesFede() {
                     }}
                   >
                     {/*CONTENIDO DEL ACORDION*/}
-                    <ListItem key={`item${i}`} bottomDivider>
+                    <ListItem
+                      key={`item${i}`}
+                      bottomDivider
+                      containerStyle={{
+                        borderLeftWidth: 4,
+                        borderStartColor: Colors.yellowState,
+                      }}
+                    >
                       <ListItem.Content>
                         <View style={{ flexDirection: "row" }}>
                           <View style={{ width: "45%" }}>
@@ -152,7 +163,7 @@ export default function ListaViajesFede() {
                             <Text>Camiones asignados:</Text>
                             <Text>Detalles:</Text>
                           </View>
-                          <View style={{width:'55%'}}>
+                          <View style={{ width: "55%" }}>
                             <ListItem.Subtitle>
                               {v.desc_localidad_o[0].toUpperCase()}
                               {v.desc_localidad_o.slice(1).toLowerCase()}
@@ -174,7 +185,7 @@ export default function ListaViajesFede() {
                             <ListItem.Subtitle>
                               {v.camiones_asigandos}/{v.camiones_cantidad}
                             </ListItem.Subtitle>
-                            <ListItem.Subtitle style={{textAlign: 'justify'}}>
+                            <ListItem.Subtitle style={{ textAlign: "justify" }}>
                               {v.obs}
                             </ListItem.Subtitle>
                           </View>

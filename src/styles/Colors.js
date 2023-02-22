@@ -9,5 +9,8 @@ export const Colors = {
   backgroundGrey: '#f0f0f0',
   blackLabel: '#858585',
   modalError: '#ec4b4b',
-  modalOk: '#0e9a2d'
+  modalOk: '#0e9a2d',
+  redState: '#e33b3b',
+  greenState: '#6eea6c',
+  yellowState: '#e3f033' 
 }
