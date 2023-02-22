@@ -96,7 +96,7 @@ export default function ListadoCamionerosViaje({ route }) {
               }}
             >
               {/*Contenido acordion*/}
-              <ListItem key={`item${i}`} bottomDivider>
+              <ListItem key={`item${i}`}>
                 <ListItem.Content style={{marginVertical: -10}}>
                 <View style={{ flexDirection: "row", marginLeft:'8%' }}>
                         <View style={{ width: "45%" }}>
