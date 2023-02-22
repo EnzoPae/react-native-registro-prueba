@@ -150,8 +150,9 @@ export default function ListaViajesFede() {
                             <Text>Fecha:</Text>
                             <Text>Cant. camiones:</Text>
                             <Text>Camiones asignados:</Text>
+                            <Text>Detalles:</Text>
                           </View>
-                          <View>
+                          <View style={{width:'55%'}}>
                             <ListItem.Subtitle>
                               {v.desc_localidad_o[0].toUpperCase()}
                               {v.desc_localidad_o.slice(1).toLowerCase()}
@@ -173,13 +174,16 @@ export default function ListaViajesFede() {
                             <ListItem.Subtitle>
                               {v.camiones_asigandos}/{v.camiones_cantidad}
                             </ListItem.Subtitle>
+                            <ListItem.Subtitle style={{textAlign: 'justify'}}>
+                              {v.obs}
+                            </ListItem.Subtitle>
                           </View>
                         </View>
                         <View
                           style={{
                             borderBottomWidth: 1,
                             borderBottomColor: "#dedede",
-                            width: "90%",
+                            width: "100%",
                             marginTop: 5,
                             marginBottom: 10,
                           }}
