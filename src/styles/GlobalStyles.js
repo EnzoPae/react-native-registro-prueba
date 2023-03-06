@@ -79,6 +79,12 @@ export const createTripStyles = StyleSheet.create({
   },
   text: {
     marginLeft: '3%',
-    color: Colors.subBlack
-  }
+    fontWeight: 'bold'
+  },
+  labelStyle: {
+    fontSize: 14,
+    fontWeight: "bold",
+    marginTop: -15,
+    color: '#000'
+  },
 }) 
