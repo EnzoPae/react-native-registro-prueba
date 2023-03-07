@@ -5,20 +5,17 @@ import {
   StyleSheet,
   View,
   ScrollView,
-  TouchableOpacity,
 } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 //Components
 import { Input } from "@rneui/themed";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import MyButton from "../components/MyButton";
-import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import Spinner from "../components/Spinner";
 import ModalAlert from "../components/ModalAlert";
 import { SelectList } from "react-native-dropdown-select-list";
 //Styles
 import { Colors } from "../styles/Colors";
-import { createTripStyles, login } from "../styles/GlobalStyles";
+import { createTripStyles } from "../styles/GlobalStyles";
 //Formik & Yup
 import { crearViajeValidationSchema } from "../Schemas/crearViajeValidationSchema";
 import { Formik } from "formik";
@@ -28,7 +25,6 @@ const CrearViajeScreen = () => {
   const { authAxios } = useContext(AxiosContext);
   const isFocused = useIsFocused();
   const [reload, setReload] = useState(false);
-  const [date, setDate] = useState(new Date(1598051730000));
   const [loading, setLoading] = useState(false);
   const [loadingLocalidadesD, setLoadingLocalidadesD] = useState(false);
   const [loadingLocalidadesO, setLoadingLocalidadesO] = useState(false);
@@ -50,32 +46,16 @@ const CrearViajeScreen = () => {
     id_provincia: null,
     id_localidad: null,
   });
+  const [dateCarga, setDateCarga] = useState(null);
+  const [dateDescarga, setDateDescarga] = useState(null);
+  const [timeCarga, setTimeCarga] = useState(null);
+  const [timeDescarga, setTimeDescarga] = useState(null);
+
   const initialValues = {
     distancia: null,
     cantidad: null,
     comentarios: null,
-  };
-
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate;
-    setDate(currentDate);
-  };
-
-  const showMode = (currentMode) => {
-    DateTimePickerAndroid.open({
-      value: date,
-      onChange,
-      mode: currentMode,
-      is24Hour: true,
-    });
-  };
-
-  const showDatepicker = () => {
-    showMode("date");
-  };
-
-  const showTimepicker = () => {
-    showMode("time");
+    tarifa: null,
   };
 
   /*
@@ -85,6 +65,8 @@ const CrearViajeScreen = () => {
       -un cliente
   */
   const validateSelectLists = () => {
+    const regExpDate = /^(0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/\d{2}$/
+    const regExpTime = /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/
     if (!origen.id_localidad || !origen.id_provincia) {
       setModalType("error");
       setMsjModal("Faltan completar datos del origen.");
@@ -97,7 +79,6 @@ const CrearViajeScreen = () => {
       setModalVisible(true);
       return false;
     }
-    console.log(selectedClient);
     if (!selectedClient) {
       setModalType("error");
       setMsjModal("Debe seleccionar un cliente.");
@@ -110,6 +91,30 @@ const CrearViajeScreen = () => {
       setModalVisible(true);
       return false;
     }
+    if (!dateCarga.match(regExpDate)) {
+      setModalType("error");
+      setMsjModal("Debe ingresar una fecha valida.");
+      setModalVisible(true);
+      return false;
+    }
+    if (!dateDescarga.match(regExpDate)) {
+      setModalType("error");
+      setMsjModal("Debe ingresar una fecha valida.");
+      setModalVisible(true);
+      return false;
+    }
+    if (!timeCarga.match(regExpTime)) {
+      setModalType("error");
+      setMsjModal("Debe ingresar una hora valida.");
+      setModalVisible(true);
+      return false;
+    }
+    if (!timeDescarga.match(regExpTime)) {
+      setModalType("error");
+      setMsjModal("Debe ingresar una hora valida.");
+      setModalVisible(true);
+      return false;
+    }
     return true;
   };
   //Func que se ejecuta cuando se aprieta crear viaje
@@ -118,11 +123,12 @@ const CrearViajeScreen = () => {
     if (!allSelectAreSelected) return;
     const merged = {
       ...values,
-      date,
       origen,
       destino,
       id_cliente: selectedClient,
       id_producto: selectedProduct,
+      fechaCarga,
+      fechaDescarga,
     };
     console.log(merged);
     try {
@@ -199,6 +205,37 @@ const CrearViajeScreen = () => {
       setLoadingLocalidadesD(false);
     }
   };
+
+  //FECHA
+  const formatDate = (text, selector) => {
+    // Elimina cualquier caracter que no sea un número
+    let cleaned = text.replace(/[^0-9]/g, "");
+    // Divide el texto en grupos de dos caracteres
+    let formatted = cleaned.match(/.{1,2}/g)?.join("/");
+    // Actualiza el estado con el texto formateado
+    if (selector === "c") {
+      setDateCarga(formatted || "");
+    } else {
+      setDateDescarga(formatted || "");
+    }
+  };
+  //Hora
+  const formatTime = (text, selector) => {
+    // Elimina cualquier caracter que no sea un número
+    let cleaned = text.replace(/[^0-9]/g, "");
+    // Divide el texto en grupos de dos caracteres
+    let formatted = cleaned.match(/.{1,2}/g)?.join(":");
+    // Actualiza el estado con el texto formateado
+    if (selector === "c") {
+      setTimeCarga(formatted || "");
+    } else {
+      setTimeDescarga(formatted || "");
+    }
+  };
+  //Join fecha y hora
+  const fechaCarga = dateCarga + " " + timeCarga;
+  const fechaDescarga = dateDescarga + " " + timeDescarga;
+
   const clearStates = () => {
     setLoading(false);
     setModalVisible(false);
@@ -215,6 +252,10 @@ const CrearViajeScreen = () => {
       id_provincia: null,
       id_localidad: null,
     });
+    setDateCarga(null);
+    setDateDescarga(null);
+    setTimeCarga(null);
+    setTimeDescarga(null);
   };
 
   useEffect(() => {
@@ -377,71 +418,119 @@ const CrearViajeScreen = () => {
                   style={{
                     flexDirection: "row",
                     justifyContent: "space-around",
+                    marginBottom: 10,
                   }}
                 >
-                  <Input
-                    name="distancia"
-                    onChangeText={handleChange("distancia")}
-                    onBlur={handleBlur("distancia")}
-                    value={values.distancia}
-                    containerStyle={[login.containerStyle, { width: "50%" }]}
-                    inputContainerStyle={login.inputContainerStyle}
-                    inputStyle={login.inputStyle}
-                    label={"Distancia"}
-                    labelStyle={createTripStyles.labelStyle}
-                    keyboardType={"numeric"}
-                    leftIcon={<Icon name="map-marker-right" size={25} />}
-                    leftIconContainerStyle={login.leftIconContainerStyle}
-                    errorMessage={
-                      errors.distancia && touched.distancia && errors.distancia
-                    }
-                    errorStyle={login.errorStyle}
-                  />
                   <Input
                     name="cantidad"
                     onChangeText={handleChange("cantidad")}
                     onBlur={handleBlur("cantidad")}
                     value={values.cantidad}
-                    containerStyle={[login.containerStyle, { width: "50%" }]}
-                    inputContainerStyle={login.inputContainerStyle}
-                    inputStyle={login.inputStyle}
-                    label={"Cantidad de camiones"}
+                    containerStyle={[createTripStyles.containerStyle, { width: "25%" }]}
+                    inputContainerStyle={createTripStyles.inputContainerStyle}
+                    inputStyle={createTripStyles.inputStyle}
+                    label={"Cant."}
                     labelStyle={createTripStyles.labelStyle}
                     keyboardType={"numeric"}
-                    leftIcon={<Icon name="truck-check" size={25} />}
-                    leftIconContainerStyle={login.leftIconContainerStyle}
                     errorMessage={
                       errors.cantidad && touched.cantidad && errors.cantidad
                     }
-                    errorStyle={login.errorStyle}
+                    errorStyle={createTripStyles.errorStyle}
+                  />
+                  <Input
+                    name="distancia"
+                    onChangeText={handleChange("distancia")}
+                    onBlur={handleBlur("distancia")}
+                    value={values.distancia}
+                    containerStyle={[createTripStyles.containerStyle, { width: "37%" }]}
+                    inputContainerStyle={createTripStyles.inputContainerStyle}
+                    inputStyle={createTripStyles.inputStyle}
+                    label={"Distancia"}
+                    labelStyle={createTripStyles.labelStyle}
+                    keyboardType={"numeric"}
+                    errorMessage={
+                      errors.distancia && touched.distancia && errors.distancia
+                    }
+                    errorStyle={createTripStyles.errorStyle}
+                  />
+                  <Input
+                    name="tarifa"
+                    onChangeText={handleChange("tarifa")}
+                    onBlur={handleBlur("tarifa")}
+                    value={values.tarifa}
+                    containerStyle={[createTripStyles.containerStyle, { width: "37%" }]}
+                    inputContainerStyle={createTripStyles.inputContainerStyle}
+                    inputStyle={createTripStyles.inputStyle}
+                    label={"Tarifa"}
+                    labelStyle={createTripStyles.labelStyle}
+                    keyboardType={"numeric"}
+                    errorMessage={
+                      errors.tarifa && touched.tarifa && errors.tarifa
+                    }
+                    errorStyle={createTripStyles.errorStyle}
                   />
                 </View>
                 <View
                   style={{
                     flexDirection: "row",
                     justifyContent: "space-around",
-                    alignItems: "baseline",
-                    marginBottom: 30,
                   }}
                 >
-                  <TouchableOpacity
-                    style={styles.dateButtom}
-                    onPress={showDatepicker}
-                    title="Show date picker!"
-                  >
-                    <Text>Fecha</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.dateButtom}
-                    onPress={showTimepicker}
-                    title="Show time picker!"
-                  >
-                    <Text>Hora</Text>
-                  </TouchableOpacity>
-                  <Text>
-                    {String(date.toISOString()).split("T")[0]} -{" "}
-                    {String(date.toISOString()).split("T")[1].slice(0, 8)}
-                  </Text>
+                  <Input
+                    containerStyle={[createTripStyles.containerStyle, { width: "50%" }]}
+                    inputContainerStyle={createTripStyles.inputContainerStyle}
+                    inputStyle={createTripStyles.inputStyle}
+                    placeholder={"xx/xx/xx"}
+                    label={"Fecha Carga"}
+                    labelStyle={createTripStyles.labelStyle}
+                    keyboardType={"numeric"}
+                    onChangeText={(text) => formatDate(text, "c")}
+                    maxLength={8}
+                    value={dateCarga}
+                  />
+                  <Input
+                    containerStyle={[createTripStyles.containerStyle, { width: "50%" }]}
+                    inputContainerStyle={createTripStyles.inputContainerStyle}
+                    inputStyle={createTripStyles.inputStyle}
+                    placeholder={"xx:xx"}
+                    label={"Hs carga"}
+                    labelStyle={createTripStyles.labelStyle}
+                    keyboardType={"numeric"}
+                    onChangeText={(text) => formatTime(text, "c")}
+                    maxLength={5}
+                    value={timeCarga}
+                  />
+                </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-around",
+                  }}
+                >
+                  <Input
+                    containerStyle={[createTripStyles.containerStyle, { width: "50%" }]}
+                    inputContainerStyle={createTripStyles.inputContainerStyle}
+                    inputStyle={createTripStyles.inputStyle}
+                    placeholder={"xx/xx/xx"}
+                    label={"Fecha Descarga"}
+                    labelStyle={createTripStyles.labelStyle}
+                    keyboardType={"numeric"}
+                    onChangeText={(text) => formatDate(text, "d")}
+                    maxLength={8}
+                    value={dateDescarga}
+                  />
+                  <Input
+                    containerStyle={[createTripStyles.containerStyle, { width: "50%" }]}
+                    inputContainerStyle={createTripStyles.inputContainerStyle}
+                    inputStyle={createTripStyles.inputStyle}
+                    placeholder={"xx:xx"}
+                    label={"Hs descarga"}
+                    labelStyle={createTripStyles.labelStyle}
+                    keyboardType={"numeric"}
+                    onChangeText={(text) => formatTime(text, "d")}
+                    maxLength={5}
+                    value={timeDescarga}
+                  />
                 </View>
                 <Input
                   name={"comentarios"}
@@ -449,16 +538,16 @@ const CrearViajeScreen = () => {
                   onBlur={handleBlur("comentarios")}
                   value={values.comentarios}
                   style={{ textAlignVertical: "top" }}
-                  containerStyle={login.containerStyle}
-                  inputContainerStyle={login.inputContainerStyle}
+                  containerStyle={createTripStyles.containerStyle}
+                  inputContainerStyle={createTripStyles.inputContainerStyle}
                   inputStyle={[
-                    login.inputStyle,
+                    createTripStyles.inputStyle,
                     { marginTop: 5, marginLeft: 10 },
                   ]}
                   label={"Comentarios"}
                   labelStyle={createTripStyles.labelStyle}
                   multiline={true}
-                  numberOfLines={5}
+                  numberOfLines={3}
                   textAlignVertical={"top"}
                 />
               </View>
