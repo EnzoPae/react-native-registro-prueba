@@ -78,13 +78,34 @@ export const createTripStyles = StyleSheet.create({
     marginHorizontal: 10
   },
   text: {
+    fontSize: 12,
     marginLeft: '3%',
     fontWeight: 'bold'
   },
   labelStyle: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: "bold",
     marginTop: -15,
     color: '#000'
   },
+  inputStyle: {
+    fontSize: 14,
+    marginLeft: 15,
+    marginRight: 3,
+  },
+  errorStyle: {
+    marginLeft: 5,
+    fontSize: 10,
+    marginTop: 0,
+  },
+  containerStyle: {
+    marginBottom: 5,
+  },
+  inputContainerStyle: {
+    backgroundColor: "#fff",
+    borderWidth: 0.5,
+    borderBottomWidth: 0.5,
+    borderColor: '#000',
+    borderRadius: 3,
+  }
 }) 
