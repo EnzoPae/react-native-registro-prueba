@@ -4,10 +4,16 @@ export const crearViajeValidationSchema = yup.object().shape({
   cantidad: yup
     .string()
     .matches(/^[0-9]*$/, "Solo acepta numeros")
-    .required("Este campo es obligatorio")
-    .typeError("Este campo es obligatorio"),
+    .required("Campo obligatorio")
+    .typeError("Campo obligatorio"),
   distancia: yup
     .string()
-    .required("Este campo es obligatorio")
-    .typeError("Este campo es obligatorio"),
+    .matches(/^[0-9]*$/, "Solo acepta numeros")
+    .required("Campo obligatorio")
+    .typeError("Campo obligatorio"),
+  tarifa: yup
+    .string()
+    .matches(/^[0-9]*$/, "Solo acepta numeros")
+    .required("Campo obligatorio")
+    .typeError("Campo obligatorio"),
 });
