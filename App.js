@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect } from "react";
+import { SafeAreaView } from "react-native";
 import MyNavigation from "./src/navigation/navigation";
 import { AuthProvider } from "./src/contexts/AuthContext";
 import { AxiosProvider } from "./src/contexts/AxiosContext";
@@ -13,7 +13,7 @@ export default function App() {
       <NavigationContainer>
         <AxiosProvider>
           <>
-          <StatusBar style="light" backgroundColor={'#474747'}/>
+          <StatusBar style="light" backgroundColor={Colors.secondary}/>
           <MyNavigation />
           </>
         </AxiosProvider>
