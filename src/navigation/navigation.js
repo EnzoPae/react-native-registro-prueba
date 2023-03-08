@@ -107,8 +107,9 @@ export default function MyNavigation() {
         <Drawer.Screen name="ListaDeViajes" component={ListaViajesFede}
           options={{
             headerShown: true,
-            title: "Listado de Viajes",
-            headerStyle: { backgroundColor: Colors.primary, height: 100 },
+            title: "Listado de viajes",
+            headerTitleStyle: {fontSize: 16},
+            headerStyle: { backgroundColor: '#474747', height: 100, borderBottomLeftRadius: -30, borderBottomRightRadius: 30 },
             headerTintColor: Colors.white,
           }} />
         <Drawer.Screen name="Logout" component={Logout} />
