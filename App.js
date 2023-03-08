@@ -13,7 +13,7 @@ export default function App() {
       <NavigationContainer>
         <AxiosProvider>
           <>
-          <StatusBar style="light" backgroundColor={Colors.primary}/>
+          <StatusBar style="light" backgroundColor={'#474747'}/>
           <MyNavigation />
           </>
         </AxiosProvider>
