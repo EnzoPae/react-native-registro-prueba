@@ -12,5 +12,6 @@ export const Colors = {
   modalOk: '#0e9a2d',
   redState: '#e33b3b',
   greenState: '#6eea6c',
-  yellowState: '#e3f033' 
+  yellowState: '#e3f033',
+  secondary: '#474747', 
 }
