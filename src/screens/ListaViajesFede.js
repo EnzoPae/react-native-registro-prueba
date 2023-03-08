@@ -5,18 +5,25 @@ import {
   RefreshControl,
   View,
   Text,
+  StyleSheet,
+  TouchableOpacity
 } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 //Axios
 import { AxiosContext } from "../contexts/AxiosContext";
 //Components
-import { ListItem, Icon } from "@rneui/themed";
+import { ListItem, Input, Icon } from "@rneui/themed";
 import ModalAlert from "../components/ModalAlert";
 import Spinner from "../components/Spinner";
 import FloatButton from "../components/floatButton";
+//Info list components
+import Coments from "../components/listContent/coments";
+import DateTable from "../components/listContent/dateTable";
+import InfoLocalidad from "../components/listContent/infoLocalidad";
+import InfoTable from "../components/listContent/infoTable";
+import ProgresBar from "../components/listContent/progressBar";
 //Styles
 import { Colors } from "../styles/Colors";
-import { tripListStyles } from "../styles/GlobalStyles";
 import MyButton from "../components/MyButton";
 //Navigation
 import { useNavigation } from "@react-navigation/native";
@@ -62,6 +69,20 @@ export default function ListaViajesFede() {
     setRefreshing(true);
     getTrips().then(() => setRefreshing(false));
   }, []);
+
+  //CamelCase
+  const textCamelCase = (text) => {
+    //separo las palabras
+    const wordsSplit = text.split(" ");
+    //primera letra en mayuscula, demas en minuscula
+    const camelCase = wordsSplit.map((t) => {
+      return t.charAt(0).toUpperCase() + t.slice(1).toLowerCase();
+    });
+    //unir las palabras
+    const joinWordsCamelCase = camelCase.join(" ");
+    return joinWordsCamelCase;
+  };
+
   useEffect(() => {
     if (isFocused) {
       getTrips();
@@ -107,29 +128,93 @@ export default function ListaViajesFede() {
   };
   return (
     <>
-      <SafeAreaView>
+      <SafeAreaView style={{ backgroundColor: "#fff" }}>
         <ScrollView
           style={{ width: "100%" }}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
         >
+          {/*SEARCH y FILTROS*/}
+          <View
+            style={{
+              flexDirection: "row",
+              marginVertical: 10,
+            }}
+          >
+            <Input
+              placeholder="Buscar"
+              leftIcon={<Icon name="search" size={20} />}
+              leftIconContainerStyle={{ height: 20, marginHorizontal: 5 }}
+              //onChangeText={handleSearchFilter}
+              //value={search}
+              containerStyle={{ width: 130, height: 41 }}
+              inputContainerStyle={s.inputContainerStyle}
+              inputStyle={{ fontSize: 12 }}
+            />
+            <View style={s.buttonsContainer}>
+              <TouchableOpacity
+                style={[
+                  //state === "All" ? s.activeButton : s.inactiveButton,
+                  s.btn, s.activeButton
+                ]}
+                //onPress={() => handleStateFilter("All")}
+              >
+                <Text style={s.btnText}>All</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  //state === "p" ? s.activeButton : s.inactiveButton,
+                  s.btn, s.inactiveButton
+                ]}
+                //onPress={() => handleStateFilter("p")}
+              >
+                <Text style={s.btnText}>Pendiente</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  //state === "c" ? s.activeButton : s.inactiveButton,
+                  s.btn, s.inactiveButton
+                ]}
+                //onPress={() => handleStateFilter("c")}
+              >
+                <Text style={s.btnText}>Curso</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
           {!loading
             ? trips.map((v, i) => {
                 return (
                   <ListItem.Accordion
                     containerStyle={{
-                      borderLeftWidth: 4,
-                      borderStartColor: Colors.yellowState,
+                      borderLeftWidth: 0.5,
+                      //borderStartColor: Colors.yellowState,
+                      borderTopWidth: 0.5,
+                      borderTopStartRadius: 20,
+                      borderTopEndRadius: 20,
                     }}
                     topDivider
                     key={`accordion${i}`}
                     content={
                       <>
-                        <Icon name="place" size={25} />
                         <ListItem.Content>
-                          <ListItem.Title style={tripListStyles.itemStyle}>
-                            {v.desc_localidad_o} - {v.desc_localidad_d}
+                          <ListItem.Content
+                            style={{
+                              flexDirection: "row",
+                              justifyContent: "space-between",
+                              alignItems: "center",
+                              width: "100%",
+                            }}
+                          >
+                            <ListItem.Title style={s.title}>
+                              {textCamelCase(v.desc_localidad_o)}
+                            </ListItem.Title>
+                            <ListItem.Title style={{ fontSize: 12 }}>
+                              {"12/10/23"}
+                            </ListItem.Title>
+                          </ListItem.Content>
+                          <ListItem.Title style={s.title}>
+                            {textCamelCase(v.desc_localidad_d)}
                           </ListItem.Title>
                         </ListItem.Content>
                       </>
@@ -146,56 +231,45 @@ export default function ListaViajesFede() {
                     {/*CONTENIDO DEL ACORDION*/}
                     <ListItem
                       key={`item${i}`}
-                      bottomDivider
                       containerStyle={{
-                        borderLeftWidth: 4,
-                        borderStartColor: Colors.yellowState,
+                        borderLeftWidth: 0.5,
                       }}
                     >
                       <ListItem.Content>
-                        <View style={{ flexDirection: "row" }}>
-                          <View style={{ width: "45%" }}>
-                            <Text>Origen:</Text>
-                            <Text>Destino:</Text>
-                            <Text>Cliente:</Text>
-                            <Text>Fecha:</Text>
-                            <Text>Cant. camiones:</Text>
-                            <Text>Camiones asignados:</Text>
-                            <Text>Detalles:</Text>
-                          </View>
-                          <View style={{ width: "55%" }}>
-                            <ListItem.Subtitle>
-                              {v.desc_localidad_o[0].toUpperCase()}
-                              {v.desc_localidad_o.slice(1).toLowerCase()}
-                            </ListItem.Subtitle>
-                            <ListItem.Subtitle>
-                              {v.desc_localidad_d[0].toUpperCase()}
-                              {v.desc_localidad_d.slice(1).toLowerCase()}
-                            </ListItem.Subtitle>
-                            <ListItem.Subtitle>
-                              {v.razonsocial}
-                            </ListItem.Subtitle>
-                            <ListItem.Subtitle>
-                              {String(v.fecha_viaje).split("T")[0]} -{" "}
-                              {String(v.fecha_viaje).split("T")[1].slice(0, 8)}
-                            </ListItem.Subtitle>
-                            <ListItem.Subtitle>
-                              {v.camiones_cantidad}
-                            </ListItem.Subtitle>
-                            <ListItem.Subtitle>
-                              {v.camiones_asigandos}/{v.camiones_cantidad}
-                            </ListItem.Subtitle>
-                            <ListItem.Subtitle style={{ textAlign: "justify" }}>
-                              {v.obs}
-                            </ListItem.Subtitle>
-                          </View>
+                        <View style={{ width: "100%" }}>
+                          <InfoLocalidad
+                            l1={textCamelCase(v.desc_localidad_o)}
+                            p1={v.desc_prov_o}
+                            l2={textCamelCase(v.desc_localidad_d)}
+                            p2={v.desc_prov_d}
+                          />
+                          <InfoTable
+                            header1={"Cliente"}
+                            header2={"Producto"}
+                            text1={v.razonsocial}
+                            text2={
+                              v.nombre_producto === null
+                                ? null
+                                : v.nombre_producto
+                            }
+                          />
+                          <InfoTable
+                            header1={"Km"}
+                            header2={"Tarifa"}
+                            text1={v.kilometros}
+                            text2={v.tarifa}
+                          />
+                          <DateTable />
+                          {v.obs === null ? null : <Coments coments={v.obs} />}
+                          <ProgresBar
+                            total={v.camiones_cantidad}
+                            current={v.camiones_asigandos}
+                          />
                         </View>
+                        {/*BOTONES*/}
                         <View
                           style={{
-                            borderBottomWidth: 1,
-                            borderBottomColor: "#dedede",
                             width: "100%",
-                            marginTop: 5,
                             marginBottom: 10,
                           }}
                         />
@@ -246,3 +320,38 @@ export default function ListaViajesFede() {
     </>
   );
 }
+
+const s = StyleSheet.create({
+  title: {
+    fontSize: 14,
+  },
+  buttonsContainer: {
+    flex: 1,
+    flexDirection: "row",
+    height: 40,
+    marginRight: 10,
+  },
+  activeButton: {
+    backgroundColor: Colors.primary,
+  },
+  inactiveButton: {
+    backgroundColor: "#474747",
+  },
+  inputContainerStyle: {
+    backgroundColor: "#fff",
+    borderWidth: 0.5,
+    borderBottomWidth: 0.5,
+    borderColor: "#000",
+    borderRadius: 20,
+  },
+  btn: {
+    paddingHorizontal: 10,
+    marginHorizontal: 0.5,
+    borderRadius: 3,
+    justifyContent: "center",
+  },
+  btnText: {
+    fontWeight: "bold",
+    color: "#fff",
+  },
+});
