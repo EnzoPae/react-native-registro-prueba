@@ -6,7 +6,7 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 //Axios
@@ -16,6 +16,7 @@ import { ListItem, Input, Icon } from "@rneui/themed";
 import ModalAlert from "../components/ModalAlert";
 import Spinner from "../components/Spinner";
 import FloatButton from "../components/floatButton";
+import ExpandableInfo from "../components/expandableInfo";
 //Info list components
 import Coments from "../components/listContent/coments";
 import DateTable from "../components/listContent/dateTable";
@@ -156,7 +157,8 @@ export default function ListaViajesFede() {
               <TouchableOpacity
                 style={[
                   //state === "All" ? s.activeButton : s.inactiveButton,
-                  s.btn, s.activeButton
+                  s.btn,
+                  s.activeButton,
                 ]}
                 //onPress={() => handleStateFilter("All")}
               >
@@ -165,7 +167,8 @@ export default function ListaViajesFede() {
               <TouchableOpacity
                 style={[
                   //state === "p" ? s.activeButton : s.inactiveButton,
-                  s.btn, s.inactiveButton
+                  s.btn,
+                  s.inactiveButton,
                 ]}
                 //onPress={() => handleStateFilter("p")}
               >
@@ -174,7 +177,8 @@ export default function ListaViajesFede() {
               <TouchableOpacity
                 style={[
                   //state === "c" ? s.activeButton : s.inactiveButton,
-                  s.btn, s.inactiveButton
+                  s.btn,
+                  s.inactiveButton,
                 ]}
                 //onPress={() => handleStateFilter("c")}
               >
@@ -188,7 +192,6 @@ export default function ListaViajesFede() {
                   <ListItem.Accordion
                     containerStyle={{
                       borderLeftWidth: 0.5,
-                      //borderStartColor: Colors.yellowState,
                       borderTopWidth: 0.5,
                       borderTopStartRadius: 20,
                       borderTopEndRadius: 20,
@@ -235,37 +238,46 @@ export default function ListaViajesFede() {
                         borderLeftWidth: 0.5,
                       }}
                     >
-                      <ListItem.Content>
-                        <View style={{ width: "100%" }}>
-                          <InfoLocalidad
-                            l1={textCamelCase(v.desc_localidad_o)}
-                            p1={v.desc_prov_o}
-                            l2={textCamelCase(v.desc_localidad_d)}
-                            p2={v.desc_prov_d}
-                          />
-                          <InfoTable
-                            header1={"Cliente"}
-                            header2={"Producto"}
-                            text1={v.razonsocial}
-                            text2={
-                              v.nombre_producto === null
-                                ? null
-                                : v.nombre_producto
-                            }
-                          />
-                          <InfoTable
-                            header1={"Km"}
-                            header2={"Tarifa"}
-                            text1={v.kilometros}
-                            text2={v.tarifa}
-                          />
-                          <DateTable />
-                          {v.obs === null ? null : <Coments coments={v.obs} />}
-                          <ProgresBar
-                            total={v.camiones_cantidad}
-                            current={v.camiones_asigandos}
-                          />
-                        </View>
+                      <ListItem.Content style={{marginTop: -20}}>
+                        <ExpandableInfo>
+                          <View style={{ width: "100%" }}>
+                            <InfoLocalidad
+                              l1={textCamelCase(v.desc_localidad_o)}
+                              p1={v.desc_prov_o}
+                              l2={textCamelCase(v.desc_localidad_d)}
+                              p2={v.desc_prov_d}
+                            />
+                            <InfoTable
+                              header1={"Cliente"}
+                              header2={"Producto"}
+                              text1={v.razonsocial}
+                              text2={
+                                v.nombre_producto === null
+                                  ? null
+                                  : v.nombre_producto
+                              }
+                            />
+                            <InfoTable
+                              header1={"Km"}
+                              header2={"Tarifa"}
+                              text1={v.kilometros}
+                              text2={v.tarifa}
+                            />
+                            <DateTable />
+                            {v.obs === null ? null : (
+                              <Coments coments={v.obs} />
+                            )}
+                            <View style={{}}>
+                              <MyButton
+                                type={"trip-list"}
+                                label={"Modificar"}
+                                onPress={() =>
+                                  navigation.navigate("ActViaje", v)
+                                }
+                              />
+                            </View>
+                          </View>
+                        </ExpandableInfo>
                         {/*BOTONES*/}
                         <View
                           style={{
@@ -273,10 +285,9 @@ export default function ListaViajesFede() {
                             marginBottom: 10,
                           }}
                         />
-                        <MyButton
-                          type={"trip-list"}
-                          label={"Modificar"}
-                          onPress={() => navigation.navigate("ActViaje", v)}
+                        <ProgresBar
+                          total={v.camiones_cantidad}
+                          current={v.camiones_asigandos}
                         />
                         <View style={{ flexDirection: "row" }}>
                           {v.camiones_asigandos != v.camiones_cantidad ? (
@@ -335,7 +346,7 @@ const s = StyleSheet.create({
     backgroundColor: Colors.primary,
   },
   inactiveButton: {
-    backgroundColor: "#474747",
+    backgroundColor: Colors.secondary,
   },
   inputContainerStyle: {
     backgroundColor: "#fff",
