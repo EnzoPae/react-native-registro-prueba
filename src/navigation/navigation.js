@@ -109,7 +109,7 @@ export default function MyNavigation() {
             headerShown: true,
             title: "Listado de viajes",
             headerTitleStyle: {fontSize: 16},
-            headerStyle: { backgroundColor: '#474747', height: 100, borderBottomLeftRadius: -30, borderBottomRightRadius: 30 },
+            headerStyle: { backgroundColor: Colors.secondary, height: 100, borderBottomLeftRadius: -30, borderBottomRightRadius: 30 },
             headerTintColor: Colors.white,
           }} />
         <Drawer.Screen name="Logout" component={Logout} />

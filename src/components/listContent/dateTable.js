@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { Colors } from "../../styles/Colors";
 
 const DateTable = ({}) => {
   return (
@@ -41,8 +42,9 @@ const styles = StyleSheet.create({
   header: {
     borderBottomWidth: 0.5,
     textAlign: "center",
-    backgroundColor: '#ededed',
-    borderRadius: 3
+    backgroundColor: "#474747",
+    borderRadius: 3,
+    color: '#fff'
   },
 });
 

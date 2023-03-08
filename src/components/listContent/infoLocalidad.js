@@ -4,21 +4,19 @@ import { Icon } from "@rneui/base";
 
 const InfoLocalidad = ({ l1, l2, p1, p2 }) => {
   return (
-    <>
-    <View style={{flexDirection: 'row'}}>
+    <View style={styles.megaContainer}>
       <View style={styles.container}>
         <Text style={styles.text1}>{l1}</Text>
         <Text style={styles.text2}>{p1}</Text>
       </View>
       <View style={styles.iconContainer}>
-        <Icon name="chevrons-right" size={20} type={'feather'}/>
+        <Icon name="chevrons-down" size={20} type={'feather'}/>
       </View>
       <View style={styles.container}>
         <Text style={styles.text1}>{l2}</Text>
         <Text style={styles.text2}>{p2}</Text>
       </View>
-      </View>
-    </>
+    </View>
   );
 };
 
@@ -26,14 +24,15 @@ export default InfoLocalidad;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#ededed",
     borderRadius: 5,
     paddingVertical: 0,
-    width: "50%",
-    marginBottom: 10,
-    marginTop: -20,
+    width: "100%",
+    marginBottom: 0,
+    marginTop: 0,
     flex: 1,
     alignItems: "flex-start",
+    overflow: 'hidden',
+    borderWidth: 0.5,
   },
   text1: {
     marginLeft: 5,
@@ -44,8 +43,10 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   iconContainer: {
+    width: '100%',
     justifyContent: 'center',
-    marginVertical: 20,
-    marginTop: -8
+  },
+  megaContainer: {
+    marginVertical: 10
   }
 });

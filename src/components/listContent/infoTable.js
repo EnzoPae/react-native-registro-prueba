@@ -33,8 +33,9 @@ const styles = StyleSheet.create({
   header: {
     borderBottomWidth: 0.5,
     textAlign: "center",
-    backgroundColor: '#ededed',
-    borderRadius: 3
+    backgroundColor: '#474747',
+    borderRadius: 3,
+    color: '#fff'
   },
   text: {
     textAlign: "center",

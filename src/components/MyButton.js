@@ -14,7 +14,7 @@ export default function MyButton({ children, onPress, label, type }) {
     paddingVertical: btnType === 'trip-list' ? 7 : 15,
     borderRadius: btnType === 'trip-list' ? 20 : 5,
     marginVertical: 5,
-    marginRight: btnType === 'trip-list' ? 10 : 5,
+    marginRight: btnType === 'trip-list' ? 0 : 5,
     backgroundColor: Colors.primary,
 
   };
