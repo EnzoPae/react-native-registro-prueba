@@ -269,7 +269,8 @@ const CrearViajeScreen = () => {
   //console.log(products)
   if (loading) return <Spinner />;
   return (
-    <SafeAreaView style={{ backgroundColor: Colors.white, flex: 1 }}>
+    <SafeAreaView style={{ backgroundColor: Colors.white, flex: 1, marginTop: -50}}>
+      <View style={{marginTop: 50}}>
       <Formik
         enableReinitialize
         initialValues={initialValues}
@@ -305,6 +306,8 @@ const CrearViajeScreen = () => {
                     placeholder={"Provincia"}
                     boxStyles={createTripStyles.boxSelect}
                     dropdownStyles={createTripStyles.dropdownStyles}
+                    dropdownTextStyles={createTripStyles.fontSize12}
+                    inputStyles={createTripStyles.fontSize12}                    
                   />
                 </View>
                 <View style={{ marginBottom: 10 }}>
@@ -328,6 +331,8 @@ const CrearViajeScreen = () => {
                         placeholder={"Localidad"}
                         boxStyles={createTripStyles.boxSelect}
                         dropdownStyles={createTripStyles.dropdownStyles}
+                        dropdownTextStyles={createTripStyles.fontSize12}
+                        inputStyles={createTripStyles.fontSize12}
                       />
                     )
                   ) : (
@@ -354,6 +359,8 @@ const CrearViajeScreen = () => {
                     placeholder={"Provincia"}
                     boxStyles={createTripStyles.boxSelect}
                     dropdownStyles={createTripStyles.dropdownStyles}
+                    dropdownTextStyles={createTripStyles.fontSize12}
+                    inputStyles={createTripStyles.fontSize12}
                   />
                 </View>
 
@@ -377,7 +384,8 @@ const CrearViajeScreen = () => {
                         searchPlaceholder={"Buscar localidad"}
                         placeholder={"Localidad"}
                         boxStyles={createTripStyles.boxSelect}
-                        dropdownStyles={createTripStyles.dropdownStyles}
+                        dropdownTextStyles={createTripStyles.fontSize12}
+                        inputStyles={createTripStyles.fontSize12}
                       />
                     )
                   ) : (
@@ -398,6 +406,8 @@ const CrearViajeScreen = () => {
                     placeholder={"Clientes"}
                     boxStyles={createTripStyles.boxSelect}
                     dropdownStyles={createTripStyles.dropdownStyles}
+                    dropdownTextStyles={createTripStyles.fontSize12}
+                    inputStyles={createTripStyles.fontSize12}
                   />
                 </View>
                 <Text style={createTripStyles.text}>Producto</Text>
@@ -412,6 +422,8 @@ const CrearViajeScreen = () => {
                     placeholder={"Productos"}
                     boxStyles={createTripStyles.boxSelect}
                     dropdownStyles={createTripStyles.dropdownStyles}
+                    dropdownTextStyles={createTripStyles.fontSize12}
+                    inputStyles={createTripStyles.fontSize12}
                   />
                 </View>
                 <View
@@ -480,7 +492,7 @@ const CrearViajeScreen = () => {
                     containerStyle={[createTripStyles.containerStyle, { width: "50%" }]}
                     inputContainerStyle={createTripStyles.inputContainerStyle}
                     inputStyle={createTripStyles.inputStyle}
-                    placeholder={"xx/xx/xx"}
+                    placeholder={"DD/MM/YY"}
                     label={"Fecha Carga"}
                     labelStyle={createTripStyles.labelStyle}
                     keyboardType={"numeric"}
@@ -492,7 +504,7 @@ const CrearViajeScreen = () => {
                     containerStyle={[createTripStyles.containerStyle, { width: "50%" }]}
                     inputContainerStyle={createTripStyles.inputContainerStyle}
                     inputStyle={createTripStyles.inputStyle}
-                    placeholder={"xx:xx"}
+                    placeholder={"HH:MM"}
                     label={"Hs carga"}
                     labelStyle={createTripStyles.labelStyle}
                     keyboardType={"numeric"}
@@ -511,7 +523,7 @@ const CrearViajeScreen = () => {
                     containerStyle={[createTripStyles.containerStyle, { width: "50%" }]}
                     inputContainerStyle={createTripStyles.inputContainerStyle}
                     inputStyle={createTripStyles.inputStyle}
-                    placeholder={"xx/xx/xx"}
+                    placeholder={"DD/MM/YY"}
                     label={"Fecha Descarga"}
                     labelStyle={createTripStyles.labelStyle}
                     keyboardType={"numeric"}
@@ -523,7 +535,7 @@ const CrearViajeScreen = () => {
                     containerStyle={[createTripStyles.containerStyle, { width: "50%" }]}
                     inputContainerStyle={createTripStyles.inputContainerStyle}
                     inputStyle={createTripStyles.inputStyle}
-                    placeholder={"xx:xx"}
+                    placeholder={"HH:MM"}
                     label={"Hs descarga"}
                     labelStyle={createTripStyles.labelStyle}
                     keyboardType={"numeric"}
@@ -564,18 +576,9 @@ const CrearViajeScreen = () => {
         setModalVisible={setModalVisible}
         msj={msjModal}
       />
+      </View>
     </SafeAreaView>
   );
 };
 
 export default CrearViajeScreen;
-
-const styles = StyleSheet.create({
-  dateButtom: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    backgroundColor: Colors.white,
-    borderRadius: 5,
-    elevation: 3,
-  },
-});

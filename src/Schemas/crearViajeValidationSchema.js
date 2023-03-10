@@ -4,8 +4,8 @@ export const crearViajeValidationSchema = yup.object().shape({
   cantidad: yup
     .string()
     .matches(/^[0-9]*$/, "Solo acepta numeros")
-    .required("Campo obligatorio")
-    .typeError("Campo obligatorio"),
+    .required("Obligatorio")
+    .typeError("Obligatorio"),
   distancia: yup
     .string()
     .matches(/^[0-9]*$/, "Solo acepta numeros")

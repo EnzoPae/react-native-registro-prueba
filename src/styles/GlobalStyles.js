@@ -71,11 +71,12 @@ export const createTripStyles = StyleSheet.create({
     borderColor: '#000',
     borderRadius: 3,
     width: '95%',
-    alignSelf: 'center'
+    alignSelf: 'center',
+    alignItems: 'center'
   },
   dropdownStyles: {
     width: '95%', 
-    marginHorizontal: 10
+    marginHorizontal: 10,
   },
   text: {
     fontSize: 12,
@@ -89,7 +90,7 @@ export const createTripStyles = StyleSheet.create({
     color: '#000'
   },
   inputStyle: {
-    fontSize: 14,
+    fontSize: 12,
     marginLeft: 15,
     marginRight: 3,
   },
@@ -107,5 +108,8 @@ export const createTripStyles = StyleSheet.create({
     borderBottomWidth: 0.5,
     borderColor: '#000',
     borderRadius: 3,
+  },
+  fontSize12: {
+    fontSize: 12
   }
 }) 
