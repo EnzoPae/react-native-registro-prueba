@@ -377,5 +377,6 @@ const s = StyleSheet.create({
   btnText: {
     fontWeight: "bold",
     color: "#fff",
+    fontSize: 12
   },
 });
