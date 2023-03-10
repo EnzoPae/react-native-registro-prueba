@@ -138,7 +138,9 @@ export default function ListaViajesFede() {
   };
   return (
     <>
-      <SafeAreaView style={{ backgroundColor: "#fff", flex: 1, marginTop: -50 }}>
+      <SafeAreaView
+        style={{ backgroundColor: "#fff", flex: 1, marginTop: -50 }}
+      >
         <View style={{ marginTop: 50 }}>
           <ScrollView
             style={{ width: "100%" }}
@@ -277,7 +279,7 @@ export default function ListaViajesFede() {
                               {v.obs === null ? null : (
                                 <Coments coments={v.obs} />
                               )}
-                              <View style={{}}>
+                              {v.camiones_asigandos > 0 ? null : (
                                 <MyButton
                                   type={"trip-list"}
                                   label={"Modificar viaje"}
@@ -285,7 +287,7 @@ export default function ListaViajesFede() {
                                     navigation.navigate("ActViaje", v)
                                   }
                                 />
-                              </View>
+                              )}
                             </View>
                           </ExpandableInfo>
                           {/*BOTONES*/}
@@ -304,7 +306,7 @@ export default function ListaViajesFede() {
                               <MyButton
                                 type={"trip-list"}
                                 label={"Asignar chofer"}
-                                color={'black'}
+                                color={"black"}
                                 onPress={() => {
                                   setSelectedTrip(v.id);
                                   setShowModal(!showModal);
@@ -315,7 +317,7 @@ export default function ListaViajesFede() {
                               <MyButton
                                 type={"trip-list"}
                                 label={"Ver choferes asignados"}
-                                color={'black'}
+                                color={"black"}
                                 onPress={() =>
                                   navigation.navigate("DriversTrip", v)
                                 }
@@ -377,6 +379,6 @@ const s = StyleSheet.create({
   btnText: {
     fontWeight: "bold",
     color: "#fff",
-    fontSize: 12
+    fontSize: 12,
   },
 });
