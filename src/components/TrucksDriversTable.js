@@ -6,7 +6,9 @@ import {
   FlatList,
   StyleSheet,
   TouchableOpacity,
-  TextInput
+  TextInput,
+  Alert,
+  Navigation
 } from "react-native";
 import { ListItem, Input } from "@rneui/base";
 import Spinner from "./Spinner";
@@ -49,9 +51,27 @@ export default function TrucksDriversTable({ handleLinkTruckDriver }) {
   const handleClik = (item) => {
     handleLinkTruckDriver(item.id);
   };
+  
+  const confirmClick = (item) => {
+    Alert.alert(
+      'Confirmación',
+      `${item.camion.toUpperCase()} - ${item.batea.toUpperCase()} ${"\n"}${item.apenom}`,
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Asignacion de camión cancelada'),
+        },
+        {
+          text: 'Confirm',
+          onPress: () => handleClik(item),
+        }
+      ],
+      {cancelable: false}
+    )
+  }
 
   const renderItem = ({ item }) => {
-    return <TruckDriverItem item={item} onPress={() => handleClik(item)} />;
+    return <TruckDriverItem item={item} onPress={() => confirmClick(item)} />;
   };
   if (loading) return <Spinner />;
   if (error)
