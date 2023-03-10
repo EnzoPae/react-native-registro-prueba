@@ -8,6 +8,7 @@ import { ListItem } from "@rneui/themed";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Spinner from "../components/Spinner";
 import ModalAlert from "../components/ModalAlert";
+import { Colors } from "../styles/Colors";
 //Styles
 import { tripListStyles } from "../styles/GlobalStyles";
 
@@ -50,62 +51,70 @@ const ListaDeCamionesScreen = () => {
   }, [isFocused]);
   if (loading) return <Spinner />;
   return (
-    <SafeAreaView>
-      <ScrollView style={{ width: "100%" }}>
-        {!loading
-          ? trucks.map((v, i) => {
-              return (
-                <ListItem.Accordion
-                  topDivider
-                  key={`accordion${i}`}
-                  content={
-                    <>
-                      <Icon name="truck" size={25} />
-                      <ListItem.Content>
-                        <ListItem.Title style={tripListStyles.itemStyle}>
-                          {v.apenom}
-                        </ListItem.Title>
-                      </ListItem.Content>
-                    </>
-                  }
-                  isExpanded={expandedItems.includes(i)}
-                  onPress={() => {
-                    if (expandedItems.includes(i)) {
-                      setExpanded(expandedItems.filter((id) => id !== i));
-                    } else {
-                      setExpanded([...expandedItems, i]);
+    <SafeAreaView
+      style={{ backgroundColor: Colors.white, flex: 1, marginTop: -50 }}
+    >
+      <View style={{ marginTop: 50 }}>
+        <ScrollView style={{ width: "100%" }}>
+          {!loading
+            ? trucks.map((v, i) => {
+                return (
+                  <ListItem.Accordion
+                    topDivider
+                    key={`accordion${i}`}
+                    content={
+                      <>
+                        <Icon name="truck" size={25} />
+                        <ListItem.Content>
+                          <ListItem.Title style={tripListStyles.itemStyle}>
+                            {v.apenom}
+                          </ListItem.Title>
+                        </ListItem.Content>
+                      </>
                     }
-                  }}
-                >
-                  {/*Contenido acordion*/}
-                  <ListItem key={`item${i}`}>
-                    <ListItem.Content style={{marginVertical: -10}}>
-                      <View style={{ flexDirection: "row", marginLeft:'8%' }}>
-                        <View style={{ width: "45%" }}>
-                          <Text>DNI Chofer:</Text>
-                          <Text>Patente Camion:</Text>
-                          <Text>Patente Acoplado:</Text>
+                    isExpanded={expandedItems.includes(i)}
+                    onPress={() => {
+                      if (expandedItems.includes(i)) {
+                        setExpanded(expandedItems.filter((id) => id !== i));
+                      } else {
+                        setExpanded([...expandedItems, i]);
+                      }
+                    }}
+                  >
+                    {/*Contenido acordion*/}
+                    <ListItem key={`item${i}`}>
+                      <ListItem.Content style={{ marginVertical: -10 }}>
+                        <View
+                          style={{ flexDirection: "row", marginLeft: "8%" }}
+                        >
+                          <View style={{ width: "45%" }}>
+                            <Text>DNI Chofer:</Text>
+                            <Text>Patente Camion:</Text>
+                            <Text>Patente Acoplado:</Text>
+                          </View>
+                          <View>
+                            <ListItem.Subtitle>{v.dni}</ListItem.Subtitle>
+                            <ListItem.Subtitle>
+                              {v.camion.toUpperCase()}
+                            </ListItem.Subtitle>
+                            <ListItem.Subtitle>
+                              {v.batea.toUpperCase()}
+                            </ListItem.Subtitle>
+                          </View>
                         </View>
-                        <View>
-                          <ListItem.Subtitle>
-                            {v.dni}
-                          </ListItem.Subtitle>
-                          <ListItem.Subtitle>
-                            {v.camion.toUpperCase()}
-                          </ListItem.Subtitle>
-                          <ListItem.Subtitle>
-                            {v.batea.toUpperCase()}
-                          </ListItem.Subtitle>
-                        </View>
-                      </View>
-                    </ListItem.Content>
-                  </ListItem>
-                </ListItem.Accordion>
-              );
-            })
-          : null}
-        <ModalAlert modalVisible={error} setModalVisible={setError} msj={msj} />
-      </ScrollView>
+                      </ListItem.Content>
+                    </ListItem>
+                  </ListItem.Accordion>
+                );
+              })
+            : null}
+          <ModalAlert
+            modalVisible={error}
+            setModalVisible={setError}
+            msj={msj}
+          />
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };

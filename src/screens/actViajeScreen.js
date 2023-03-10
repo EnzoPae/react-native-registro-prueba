@@ -222,7 +222,8 @@ const ActViajeScreen = ({ route }) => {
   if (loading) return <Spinner />;
 
   return (
-    <SafeAreaView style={{ backgroundColor: Colors.white, flex: 1 }}>
+    <SafeAreaView style={{ backgroundColor: Colors.white, flex: 1, marginTop: -50 }}>
+      <View style={{marginTop: 50}}>
       <Formik
         initialValues={initialValues}
         enableReinitialize
@@ -475,6 +476,7 @@ const ActViajeScreen = ({ route }) => {
         setModalVisible={setModalVisible}
         msj={msjModal}
       />
+      </View>
     </SafeAreaView>
   );
 };

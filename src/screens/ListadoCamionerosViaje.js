@@ -7,6 +7,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Spinner from "../components/Spinner";
 import MyButton from "../components/MyButton";
 import ModalAlert from "../components/ModalAlert";
+import { Colors } from "../styles/Colors";
 //API
 import { AxiosContext } from "../contexts/AxiosContext";
 //Styles
@@ -70,84 +71,90 @@ export default function ListadoCamionerosViaje({ route }) {
   if (loading) return <Spinner />;
   //console.log(drivers)
   return (
-    <SafeAreaView>
-      <ScrollView style={{ width: "100%" }}>
-        {drivers.map((d, i) => {
-          return (
-            <ListItem.Accordion
-              topDivider
-              key={`accordion${i}`}
-              content={
-                <>
-                  <Icon name="truck" size={25} />
-                  <ListItem.Content>
-                    <ListItem.Title style={tripListStyles.itemStyle}>
-                      {d.apenom}
-                    </ListItem.Title>
-                  </ListItem.Content>
-                </>
-              }
-              isExpanded={expandedItems.includes(i)}
-              onPress={() => {
-                if (expandedItems.includes(i)) {
-                  setExpanded(expandedItems.filter((id) => id !== i));
-                } else {
-                  setExpanded([...expandedItems, i]);
+    <SafeAreaView
+      style={{ backgroundColor: Colors.white, flex: 1, marginTop: -50 }}
+    >
+      <View style={{ marginTop: 50 }}>
+        <ScrollView style={{ width: "100%" }}>
+          {drivers.map((d, i) => {
+            return (
+              <ListItem.Accordion
+                key={`accordion${i}`}
+                containerStyle={{
+                  borderBottomWidth: 0.5,
+                  borderBottomStartRadius: 20,
+                  borderBottomEndRadius: 20,
+                }}
+                content={
+                  <>
+                    <Icon name="truck" size={25} />
+                    <ListItem.Content>
+                      <ListItem.Title style={tripListStyles.itemStyle}>
+                        {d.apenom}
+                      </ListItem.Title>
+                    </ListItem.Content>
+                  </>
                 }
-              }}
-            >
-              {/*Contenido acordion*/}
-              <ListItem key={`item${i}`}>
-                <ListItem.Content style={{marginVertical: -10}}>
-                <View style={{ flexDirection: "row", marginLeft:'8%' }}>
-                        <View style={{ width: "45%" }}>
-                          <Text>DNI Chofer:</Text>
-                          <Text>Patente Camion:</Text>
-                          <Text>Patente Acoplado:</Text>
-                        </View>
-                        <View>
-                          <ListItem.Subtitle>
-                            {d.dni}
-                          </ListItem.Subtitle>
-                          <ListItem.Subtitle>
-                            {d.camion.toUpperCase()}
-                          </ListItem.Subtitle>
-                          <ListItem.Subtitle>
-                            {d.acoplado.toUpperCase()}
-                          </ListItem.Subtitle>
-                        </View>
+                isExpanded={expandedItems.includes(i)}
+                onPress={() => {
+                  if (expandedItems.includes(i)) {
+                    setExpanded(expandedItems.filter((id) => id !== i));
+                  } else {
+                    setExpanded([...expandedItems, i]);
+                  }
+                }}
+              >
+                {/*Contenido acordion*/}
+                <ListItem key={`item${i}`}>
+                  <ListItem.Content style={{ marginVertical: -10 }}>
+                    <View style={{ flexDirection: "row", marginLeft: "8%" }}>
+                      <View style={{ width: "45%" }}>
+                        <Text>DNI Chofer:</Text>
+                        <Text>Patente Camion:</Text>
+                        <Text>Patente Acoplado:</Text>
                       </View>
-                      <View
-                          style={{
-                            borderBottomWidth: 1,
-                            borderBottomColor: "#dedede",
-                            width: "70%",
-                            marginTop: 5,
-                            marginBottom: 10,
-                            marginLeft:'8%'
-                          }}
-                        />
-                      <View style={{marginLeft:'8%'}}>
-                  <MyButton
-                    type={'trip-list'}
-                    label={"Desasignar"}
-                    onPress={() => {
-                      handleDesVinc(d.id_equipo);
-                    }}
-                  />
+                      <View>
+                        <ListItem.Subtitle>{d.dni}</ListItem.Subtitle>
+                        <ListItem.Subtitle>
+                          {d.camion.toUpperCase()}
+                        </ListItem.Subtitle>
+                        <ListItem.Subtitle>
+                          {d.acoplado.toUpperCase()}
+                        </ListItem.Subtitle>
                       </View>
-                </ListItem.Content>
-              </ListItem>
-            </ListItem.Accordion>
-          );
-        })}
-        <ModalAlert
-          modalVisible={modalVisible}
-          setModalVisible={setModalVisible}
-          msj={msj}
-          type={modalType}
-        />
-      </ScrollView>
+                    </View>
+                    <View
+                      style={{
+                        borderBottomWidth: 1,
+                        borderBottomColor: "#dedede",
+                        width: "70%",
+                        marginTop: 5,
+                        marginBottom: 10,
+                        marginLeft: "8%",
+                      }}
+                    />
+                    <View style={{ marginLeft: "8%" }}>
+                      <MyButton
+                        type={"trip-list"}
+                        label={"Desasignar"}
+                        onPress={() => {
+                          handleDesVinc(d.id_equipo);
+                        }}
+                      />
+                    </View>
+                  </ListItem.Content>
+                </ListItem>
+              </ListItem.Accordion>
+            );
+          })}
+          <ModalAlert
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+            msj={msj}
+            type={modalType}
+          />
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }
