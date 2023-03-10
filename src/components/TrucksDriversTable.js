@@ -10,10 +10,9 @@ import {
   Alert,
   Navigation
 } from "react-native";
-import { ListItem, Input } from "@rneui/base";
+import { ListItem } from "@rneui/base";
 import Spinner from "./Spinner";
 import { AxiosContext } from "../contexts/AxiosContext";
-import { Colors } from "../styles/Colors";
 const TruckDriverItem = ({ item, onPress }) => (
   <TouchableOpacity onPress={onPress}>
     <ListItem bottomDivider>
