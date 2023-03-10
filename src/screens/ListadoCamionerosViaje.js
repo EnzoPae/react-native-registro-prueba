@@ -10,8 +10,6 @@ import ModalAlert from "../components/ModalAlert";
 import { Colors } from "../styles/Colors";
 //API
 import { AxiosContext } from "../contexts/AxiosContext";
-//Styles
-import { tripListStyles } from "../styles/GlobalStyles";
 
 export default function ListadoCamionerosViaje({ route }) {
   const trip = route.params;
@@ -87,9 +85,8 @@ export default function ListadoCamionerosViaje({ route }) {
                 }}
                 content={
                   <>
-                    <Icon name="truck" size={25} />
                     <ListItem.Content>
-                      <ListItem.Title style={tripListStyles.itemStyle}>
+                      <ListItem.Title>
                         {d.apenom}
                       </ListItem.Title>
                     </ListItem.Content>
@@ -137,6 +134,7 @@ export default function ListadoCamionerosViaje({ route }) {
                       <MyButton
                         type={"trip-list"}
                         label={"Desasignar"}
+                        color={'red'}
                         onPress={() => {
                           handleDesVinc(d.id_equipo);
                         }}

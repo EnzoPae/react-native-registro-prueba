@@ -28,7 +28,7 @@ const MenuDrawer = ({ navigation, handleLogout, userData }) => {
         label={"map-marker"}
       />
       <DrawerButton
-        text={"Lista de choferes"}
+        text={"Lista de camiones"}
         onPress={() => navigation.navigate("ListaDeCamiones")}
         label={"truck"}
       />

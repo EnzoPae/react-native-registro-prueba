@@ -140,7 +140,7 @@ export default function MyNavigation() {
           component={ListaDeCamionesScreen}
           options={{
             headerShown: true,
-            title: "Listado de Choferes",
+            title: "Listado de camiones",
             headerTitleStyle: s.headerTitleStyle,
             headerStyle: s.headerStyle,
             headerTintColor: Colors.white,

@@ -1,16 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
-import { SafeAreaView, ScrollView, Text, View } from "react-native";
+import { SafeAreaView, ScrollView, Text, View, StyleSheet } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 //Axios
 import { AxiosContext } from "../contexts/AxiosContext";
 //Components
-import { ListItem } from "@rneui/themed";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { ListItem, Input, Icon } from "@rneui/themed";
 import Spinner from "../components/Spinner";
 import ModalAlert from "../components/ModalAlert";
 import { Colors } from "../styles/Colors";
-//Styles
-import { tripListStyles } from "../styles/GlobalStyles";
 
 const ListaDeCamionesScreen = () => {
   const isFocused = useIsFocused();
@@ -56,17 +53,31 @@ const ListaDeCamionesScreen = () => {
     >
       <View style={{ marginTop: 50 }}>
         <ScrollView style={{ width: "100%" }}>
+          <Input
+            placeholder="Buscar"
+            leftIcon={<Icon name="search" size={20} />}
+            leftIconContainerStyle={{ height: 20, marginHorizontal: 5 }}
+            //onChangeText={handleSearchFilter}
+            //value={search}
+            containerStyle={{ width: 140, height: 41, marginVertical: 10 }}
+            inputContainerStyle={s.inputContainerStyle}
+            inputStyle={{ fontSize: 12 }}
+          />
           {!loading
             ? trucks.map((v, i) => {
                 return (
                   <ListItem.Accordion
-                    topDivider
                     key={`accordion${i}`}
+                    containerStyle={{
+                      borderLeftWidth: 0.5,
+                      borderTopWidth: 0.5,
+                      borderTopStartRadius: 20,
+                      borderTopEndRadius: 20,
+                    }}
                     content={
                       <>
-                        <Icon name="truck" size={25} />
                         <ListItem.Content>
-                          <ListItem.Title style={tripListStyles.itemStyle}>
+                          <ListItem.Title>
                             {v.apenom}
                           </ListItem.Title>
                         </ListItem.Content>
@@ -120,3 +131,13 @@ const ListaDeCamionesScreen = () => {
 };
 
 export default ListaDeCamionesScreen;
+
+const s = StyleSheet.create({
+  inputContainerStyle: {
+    backgroundColor: "#fff",
+    borderWidth: 0.5,
+    borderBottomWidth: 0.5,
+    borderColor: "#000",
+    borderRadius: 20,
+  },
+});

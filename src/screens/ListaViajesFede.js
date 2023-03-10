@@ -138,7 +138,7 @@ export default function ListaViajesFede() {
   };
   return (
     <>
-      <SafeAreaView style={{ backgroundColor: "#fff", marginTop: -50 }}>
+      <SafeAreaView style={{ backgroundColor: "#fff", flex: 1, marginTop: -50 }}>
         <View style={{ marginTop: 50 }}>
           <ScrollView
             style={{ width: "100%" }}

@@ -57,13 +57,6 @@ export const login = StyleSheet.create({
   },
 });
 
-export const tripListStyles = StyleSheet.create({
-  itemStyle: {
-    fontSize: 12,
-    marginLeft: 3
-  }
-}) 
-
 export const createTripStyles = StyleSheet.create({
   boxSelect: {
     borderWidth: 0.5,
