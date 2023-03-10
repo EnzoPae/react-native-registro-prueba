@@ -55,7 +55,7 @@ export default function ListaViajesFede() {
   */
   const getTrips = async () => {
     try {
-      const response = await authAxios.get("/api/trips");
+      const response = await authAxios.get("/api/trips/0");
       setTrips(response.data);
     } catch (error) {
       console.log(error);
@@ -83,6 +83,16 @@ export default function ListaViajesFede() {
     const joinWordsCamelCase = camelCase.join(" ");
     return joinWordsCamelCase;
   };
+
+  //Fecha_gen Format
+  function formatDateGen(fecha_gen) {
+    const fecha = new Date(fecha_gen);
+    const dia = fecha.getUTCDate().toString().padStart(2, '0');
+    const mes = (fecha.getUTCMonth() + 1).toString().padStart(2, '0');
+    const anio = fecha.getUTCFullYear().toString().substr(-2);
+    return `${dia}/${mes}/${anio}`;
+  }
+
 
   useEffect(() => {
     if (isFocused) {
@@ -213,7 +223,7 @@ export default function ListaViajesFede() {
                               {textCamelCase(v.desc_localidad_o)}
                             </ListItem.Title>
                             <ListItem.Title style={{ fontSize: 12 }}>
-                              {"12/10/23"}
+                              {formatDateGen(v.fecha_gen)}
                             </ListItem.Title>
                           </ListItem.Content>
                           <ListItem.Title style={s.title}>
