@@ -20,23 +20,25 @@ import * as SecureStore from "expo-secure-store";
 import { AuthContext } from "../contexts/AuthContext";
 import Logout from "../services/logout";
 import Spinner from "../components/Spinner";
-import jwt from 'jwt-decode'
+import jwt from "jwt-decode";
 import actViajeScreen from "../screens/actViajeScreen";
 export default function MyNavigation() {
   const authContext = useContext(AuthContext);
   const Drawer = createDrawerNavigator();
   const Stack = createNativeStackNavigator();
   const [status, setStatus] = useState("loading");
-  const [userData, setUserData] = useState({})
+  const [userData, setUserData] = useState({});
   const loadJWT = useCallback(async () => {
     try {
-      const token_str = await SecureStore.getItemAsync('token')
+      const token_str = await SecureStore.getItemAsync("token");
       if (token_str) {
-        const token = (token_str.slice(16)).slice(0, -2)
-        const { userName, userMail } = jwt(token)
+        const token = token_str.slice(16).slice(0, -2);
+        const { userName, userMail } = jwt(token);
         setUserData({
-          ...userData, userName, userMail
-        })
+          ...userData,
+          userName,
+          userMail,
+        });
         authContext.setAuthState({
           accessToken: token,
           authenticated: true,
@@ -62,11 +64,11 @@ export default function MyNavigation() {
 
   const handleLogout = async () => {
     try {
-      await authContext.logout()
+      await authContext.logout();
     } catch (error) {
-      console.log(`Error en logoout: ${error}`)
+      console.log(`Error en logoout: ${error}`);
     }
-  }
+  };
 
   useEffect(() => {
     loadJWT();
@@ -102,24 +104,34 @@ export default function MyNavigation() {
     <>
       <Drawer.Navigator
         initialRouteName="ListaDeViajes"
-        drawerContent={(props) => <MenuDrawer {...props} handleLogout={handleLogout} userData={userData} />}
+        drawerContent={(props) => (
+          <MenuDrawer
+            {...props}
+            handleLogout={handleLogout}
+            userData={userData}
+          />
+        )}
       >
-        <Drawer.Screen name="ListaDeViajes" component={ListaViajesFede}
+        <Drawer.Screen
+          name="ListaDeViajes"
+          component={ListaViajesFede}
           options={{
             headerShown: true,
             title: "Listado de viajes",
-            headerTitleStyle: {fontSize: 16},
-            headerStyle: { backgroundColor: Colors.secondary, height: 100, borderBottomLeftRadius: -30, borderBottomRightRadius: 30 },
+            headerTitleStyle: s.headerTitleStyle,
+            headerStyle: s.headerStyle,
             headerTintColor: Colors.white,
-          }} />
+          }}
+        />
         <Drawer.Screen name="Logout" component={Logout} />
         <Drawer.Screen
           name="CrearViaje"
           component={CrearViajeScreen}
           options={{
             headerShown: true,
-            title: "Crear nuevo Viaje",
-            headerStyle: { backgroundColor: Colors.primary, height: 100 },
+            title: "Crear nuevo viaje",
+            headerTitleStyle: s.headerTitleStyle,
+            headerStyle: s.headerStyle,
             headerTintColor: Colors.white,
           }}
         />
@@ -129,7 +141,8 @@ export default function MyNavigation() {
           options={{
             headerShown: true,
             title: "Listado de Choferes",
-            headerStyle: { backgroundColor: Colors.primary, height: 100 },
+            headerTitleStyle: s.headerTitleStyle,
+            headerStyle: s.headerStyle,
             headerTintColor: Colors.white,
           }}
         />
@@ -139,7 +152,8 @@ export default function MyNavigation() {
           options={{
             headerShown: true,
             title: "Actualizar viaje",
-            headerStyle: { backgroundColor: Colors.primary, height: 100 },
+            headerTitleStyle: s.headerTitleStyle,
+            headerStyle: s.headerStyle,
             headerTintColor: Colors.white,
           }}
         />
@@ -149,7 +163,8 @@ export default function MyNavigation() {
           options={{
             headerShown: true,
             title: "Choferes por viaje",
-            headerStyle: { backgroundColor: Colors.primary, height: 100 },
+            headerTitleStyle: s.headerTitleStyle,
+            headerStyle: s.headerStyle,
             headerTintColor: Colors.white,
           }}
         />
@@ -157,3 +172,16 @@ export default function MyNavigation() {
     </>
   );
 }
+
+const s = StyleSheet.create({
+  headerTitleStyle: {
+    fontSize: 16,
+    marginLeft: -10,
+  },
+  headerStyle: {
+    backgroundColor: Colors.secondary,
+    height: 100,
+    borderBottomLeftRadius: -30,
+    borderBottomRightRadius: 30,
+  },
+});
