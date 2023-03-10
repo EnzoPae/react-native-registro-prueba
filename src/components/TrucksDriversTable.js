@@ -6,30 +6,25 @@ import {
   FlatList,
   StyleSheet,
   TouchableOpacity,
-  StatusBar,
+  TextInput
 } from "react-native";
+import { ListItem, Input } from "@rneui/base";
 import Spinner from "./Spinner";
 import { AxiosContext } from "../contexts/AxiosContext";
 import { Colors } from "../styles/Colors";
 const TruckDriverItem = ({ item, onPress }) => (
-  <TouchableOpacity onPress={onPress} style={[styles.item]}>
-    <View style={{ flexDirection: "row" }}>
-    {
-        /*
-            <Text style={styles.text}>{String(item.camion).toUpperCase()}</Text>
-            <Text>{` | `}</Text>
-            <Text style={styles.text}>{String(item.batea).toUpperCase()}</Text>
-            <Text>{` | `}</Text>
-        */
-    }
-      <Text style={styles.text}>{String(item.apenom).toUpperCase()}</Text>
-      <Text>{` | `}</Text>
-      <Text style={styles.text}>{item.dni}</Text>
-    </View>
+  <TouchableOpacity onPress={onPress}>
+    <ListItem bottomDivider>
+      <ListItem.Content>
+        <ListItem.Title>{String(item.camion).toUpperCase()} - {String(item.batea).toUpperCase()}</ListItem.Title>
+        <ListItem.Subtitle>{item.apenom}</ListItem.Subtitle>
+      </ListItem.Content>
+    </ListItem>
   </TouchableOpacity>
 );
 export default function TrucksDriversTable({ handleLinkTruckDriver }) {
   const [data, setData] = useState([]);
+  const [search, setSearch] = useState('');
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const { authAxios } = useContext(AxiosContext);
@@ -40,11 +35,13 @@ export default function TrucksDriversTable({ handleLinkTruckDriver }) {
       const api_response = await authAxios.get("/api/app/vehicles");
       setData(api_response.data);
     } catch (error) {
-      setError("Error al recuperar choferes");
+      setError("Error al recuperar camiones");
     } finally {
       setLoading(false);
     }
   };
+  const filteredData = data.filter(item => item.apenom.toLowerCase().includes(search.toLowerCase()))
+
   useEffect(() => {
     fetchTrucksDrivers();
   }, []);
@@ -65,9 +62,15 @@ export default function TrucksDriversTable({ handleLinkTruckDriver }) {
     );
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Asignar Chofer</Text>
+      <Text style={styles.title}>Asignar Camión</Text>
+      <TextInput
+        style={{}}
+        placeholder="Buscar..."
+        onChangeText={text => setSearch(text)}
+        value={search}
+      />
       <FlatList
-        data={data}
+        data={filteredData}
         renderItem={renderItem}
         onPress={() => handleClik(data)}
         keyExtractor={(item) => item.id}
@@ -82,18 +85,8 @@ const styles = StyleSheet.create({
     margin: 20,
     width: '90%'
   },
-  item: {
-    padding: 5,
-    backgroundColor: Colors.white,
-    marginVertical: 3,
-    borderRadius: 3,
-    borderWidth: 0.5,
-  },
-  text: {
-    fontSize: 12,
-  },
   title: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "bold",
     marginBottom: 10,
   },
