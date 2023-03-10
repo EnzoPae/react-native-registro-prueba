@@ -3,19 +3,21 @@ import { Text, TouchableOpacity } from "react-native";
 import { Colors } from "../styles/Colors";
 
 const TYPES = ["normal", "trip-list"];
+const COLOR = ['blue', 'black']
 
-export default function MyButton({ children, onPress, label, type }) {
+export default function MyButton({ onPress, label, type, color }) {
   const btnType = TYPES.includes(type) ? type : "normal";
+  const btnColor = COLOR.includes(color) ? color : "blue";
 
   const btnStyles = {
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: btnType === 'trip-list' ? 10 : 30,
     paddingVertical: btnType === 'trip-list' ? 7 : 15,
-    borderRadius: btnType === 'trip-list' ? 20 : 5,
+    borderRadius: 3,
     marginVertical: 5,
     marginRight: btnType === 'trip-list' ? 0 : 5,
-    backgroundColor: Colors.primary,
+    backgroundColor: btnColor === 'black' ? Colors.secondary : Colors.primary,
 
   };
 

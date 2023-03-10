@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
+import { Colors } from "../styles/Colors";
 
 const ExpandableInfo = ({ children }) => {
   const [expanded, setExpanded] = useState(false);
@@ -11,7 +12,7 @@ const ExpandableInfo = ({ children }) => {
   return (
     <>
       <TouchableOpacity onPress={handleExpandInfo} style={styles.btn}>
-        <Text style={styles.text}>{expanded ? "Menos Info" : "Mas Info"}</Text>
+        <Text style={styles.text}>{expanded ? "Cerrar..." : "Mas Info..."}</Text>
       </TouchableOpacity>
       <View style={{ width: "100%" }}>
         {expanded && <View>{children}</View>}
@@ -24,14 +25,14 @@ export default ExpandableInfo;
 
 const styles = StyleSheet.create({
   btn: {
-    backgroundColor: "#474747",
-    paddingHorizontal: 3,
-    borderRadius: 15
+    alignSelf: 'flex-end',
+    backgroundColor: Colors.secondary,
+    borderRadius: 3
   },
   text: {
     color: '#fff',
-    padding: 5,
     fontSize: 12,
-    fontWeight: 'bold',
+    paddingHorizontal: 3,
+    paddingVertical: 2
   }
 });

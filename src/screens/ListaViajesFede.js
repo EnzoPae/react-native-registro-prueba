@@ -87,12 +87,11 @@ export default function ListaViajesFede() {
   //Fecha_gen Format
   function formatDateGen(fecha_gen) {
     const fecha = new Date(fecha_gen);
-    const dia = fecha.getUTCDate().toString().padStart(2, '0');
-    const mes = (fecha.getUTCMonth() + 1).toString().padStart(2, '0');
+    const dia = fecha.getUTCDate().toString().padStart(2, "0");
+    const mes = (fecha.getUTCMonth() + 1).toString().padStart(2, "0");
     const anio = fecha.getUTCFullYear().toString().substr(-2);
     return `${dia}/${mes}/${anio}`;
   }
-
 
   useEffect(() => {
     if (isFocused) {
@@ -139,200 +138,204 @@ export default function ListaViajesFede() {
   };
   return (
     <>
-      <SafeAreaView style={{ backgroundColor: "#fff" }}>
-        <ScrollView
-          style={{ width: "100%" }}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-        >
-          {/*SEARCH y FILTROS*/}
-          <View
-            style={{
-              flexDirection: "row",
-              marginVertical: 10,
-            }}
+      <SafeAreaView style={{ backgroundColor: "#fff", marginTop: -50 }}>
+        <View style={{ marginTop: 50 }}>
+          <ScrollView
+            style={{ width: "100%" }}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
           >
-            <Input
-              placeholder="Buscar"
-              leftIcon={<Icon name="search" size={20} />}
-              leftIconContainerStyle={{ height: 20, marginHorizontal: 5 }}
-              //onChangeText={handleSearchFilter}
-              //value={search}
-              containerStyle={{ width: 130, height: 41 }}
-              inputContainerStyle={s.inputContainerStyle}
-              inputStyle={{ fontSize: 12 }}
-            />
-            <View style={s.buttonsContainer}>
-              <TouchableOpacity
-                style={[
-                  //state === "All" ? s.activeButton : s.inactiveButton,
-                  s.btn,
-                  s.activeButton,
-                ]}
-                //onPress={() => handleStateFilter("All")}
-              >
-                <Text style={s.btnText}>All</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[
-                  //state === "p" ? s.activeButton : s.inactiveButton,
-                  s.btn,
-                  s.inactiveButton,
-                ]}
-                //onPress={() => handleStateFilter("p")}
-              >
-                <Text style={s.btnText}>Pendiente</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[
-                  //state === "c" ? s.activeButton : s.inactiveButton,
-                  s.btn,
-                  s.inactiveButton,
-                ]}
-                //onPress={() => handleStateFilter("c")}
-              >
-                <Text style={s.btnText}>Curso</Text>
-              </TouchableOpacity>
+            {/*SEARCH y FILTROS*/}
+            <View
+              style={{
+                flexDirection: "row",
+                marginVertical: 10,
+              }}
+            >
+              <Input
+                placeholder="Buscar"
+                leftIcon={<Icon name="search" size={20} />}
+                leftIconContainerStyle={{ height: 20, marginHorizontal: 5 }}
+                //onChangeText={handleSearchFilter}
+                //value={search}
+                containerStyle={{ width: 130, height: 41 }}
+                inputContainerStyle={s.inputContainerStyle}
+                inputStyle={{ fontSize: 12 }}
+              />
+              <View style={s.buttonsContainer}>
+                <TouchableOpacity
+                  style={[
+                    //state === "All" ? s.activeButton : s.inactiveButton,
+                    s.btn,
+                    s.activeButton,
+                  ]}
+                  //onPress={() => handleStateFilter("All")}
+                >
+                  <Text style={s.btnText}>All</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[
+                    //state === "p" ? s.activeButton : s.inactiveButton,
+                    s.btn,
+                    s.inactiveButton,
+                  ]}
+                  //onPress={() => handleStateFilter("p")}
+                >
+                  <Text style={s.btnText}>Pendiente</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[
+                    //state === "c" ? s.activeButton : s.inactiveButton,
+                    s.btn,
+                    s.inactiveButton,
+                  ]}
+                  //onPress={() => handleStateFilter("c")}
+                >
+                  <Text style={s.btnText}>Curso</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-          {!loading
-            ? trips.map((v, i) => {
-                return (
-                  <ListItem.Accordion
-                    containerStyle={{
-                      borderLeftWidth: 0.5,
-                      borderTopWidth: 0.5,
-                      borderTopStartRadius: 20,
-                      borderTopEndRadius: 20,
-                    }}
-                    topDivider
-                    key={`accordion${i}`}
-                    content={
-                      <>
-                        <ListItem.Content>
-                          <ListItem.Content
-                            style={{
-                              flexDirection: "row",
-                              justifyContent: "space-between",
-                              alignItems: "center",
-                              width: "100%",
-                            }}
-                          >
-                            <ListItem.Title style={s.title}>
-                              {textCamelCase(v.desc_localidad_o)}
-                            </ListItem.Title>
-                            <ListItem.Title style={{ fontSize: 12 }}>
-                              {formatDateGen(v.fecha_gen)}
-                            </ListItem.Title>
-                          </ListItem.Content>
-                          <ListItem.Title style={s.title}>
-                            {textCamelCase(v.desc_localidad_d)}
-                          </ListItem.Title>
-                        </ListItem.Content>
-                      </>
-                    }
-                    isExpanded={expandedItems.includes(i)}
-                    onPress={() => {
-                      if (expandedItems.includes(i)) {
-                        setExpanded(expandedItems.filter((id) => id !== i));
-                      } else {
-                        setExpanded([...expandedItems, i]);
-                      }
-                    }}
-                  >
-                    {/*CONTENIDO DEL ACORDION*/}
-                    <ListItem
-                      key={`item${i}`}
+            {!loading
+              ? trips.map((v, i) => {
+                  return (
+                    <ListItem.Accordion
                       containerStyle={{
                         borderLeftWidth: 0.5,
+                        borderTopWidth: 0.5,
+                        borderTopStartRadius: 20,
+                        borderTopEndRadius: 20,
+                      }}
+                      topDivider
+                      key={`accordion${i}`}
+                      content={
+                        <>
+                          <ListItem.Content>
+                            <ListItem.Content
+                              style={{
+                                flexDirection: "row",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                width: "100%",
+                              }}
+                            >
+                              <ListItem.Title style={s.title}>
+                                {textCamelCase(v.desc_localidad_o)}
+                              </ListItem.Title>
+                              <ListItem.Title style={{ fontSize: 12 }}>
+                                {formatDateGen(v.fecha_gen)}
+                              </ListItem.Title>
+                            </ListItem.Content>
+                            <ListItem.Title style={s.title}>
+                              {textCamelCase(v.desc_localidad_d)}
+                            </ListItem.Title>
+                          </ListItem.Content>
+                        </>
+                      }
+                      isExpanded={expandedItems.includes(i)}
+                      onPress={() => {
+                        if (expandedItems.includes(i)) {
+                          setExpanded(expandedItems.filter((id) => id !== i));
+                        } else {
+                          setExpanded([...expandedItems, i]);
+                        }
                       }}
                     >
-                      <ListItem.Content style={{marginTop: -20}}>
-                        <ExpandableInfo>
-                          <View style={{ width: "100%" }}>
-                            <InfoLocalidad
-                              l1={textCamelCase(v.desc_localidad_o)}
-                              p1={v.desc_prov_o}
-                              l2={textCamelCase(v.desc_localidad_d)}
-                              p2={v.desc_prov_d}
-                            />
-                            <InfoTable
-                              header1={"Cliente"}
-                              header2={"Producto"}
-                              text1={v.razonsocial}
-                              text2={
-                                v.nombre_producto === null
-                                  ? null
-                                  : v.nombre_producto
-                              }
-                            />
-                            <InfoTable
-                              header1={"Km"}
-                              header2={"Tarifa"}
-                              text1={v.kilometros}
-                              text2={v.tarifa}
-                            />
-                            <DateTable />
-                            {v.obs === null ? null : (
-                              <Coments coments={v.obs} />
-                            )}
-                            <View style={{}}>
-                              <MyButton
-                                type={"trip-list"}
-                                label={"Modificar"}
-                                onPress={() =>
-                                  navigation.navigate("ActViaje", v)
+                      {/*CONTENIDO DEL ACORDION*/}
+                      <ListItem
+                        key={`item${i}`}
+                        containerStyle={{
+                          borderLeftWidth: 0.5,
+                        }}
+                      >
+                        <ListItem.Content style={{ marginTop: -40 }}>
+                          <ExpandableInfo>
+                            <View style={{ width: "100%" }}>
+                              <InfoLocalidad
+                                l1={textCamelCase(v.desc_localidad_o)}
+                                p1={v.desc_prov_o}
+                                l2={textCamelCase(v.desc_localidad_d)}
+                                p2={v.desc_prov_d}
+                              />
+                              <InfoTable
+                                header1={"Cliente"}
+                                header2={"Producto"}
+                                text1={v.razonsocial}
+                                text2={
+                                  v.nombre_producto === null
+                                    ? null
+                                    : v.nombre_producto
                                 }
                               />
+                              <InfoTable
+                                header1={"Km"}
+                                header2={"Tarifa"}
+                                text1={v.kilometros}
+                                text2={v.tarifa}
+                              />
+                              <DateTable />
+                              {v.obs === null ? null : (
+                                <Coments coments={v.obs} />
+                              )}
+                              <View style={{}}>
+                                <MyButton
+                                  type={"trip-list"}
+                                  label={"Modificar viaje"}
+                                  onPress={() =>
+                                    navigation.navigate("ActViaje", v)
+                                  }
+                                />
+                              </View>
                             </View>
+                          </ExpandableInfo>
+                          {/*BOTONES*/}
+                          <View
+                            style={{
+                              width: "100%",
+                              marginBottom: 10,
+                            }}
+                          />
+                          <ProgresBar
+                            total={v.camiones_cantidad}
+                            current={v.camiones_asigandos}
+                          />
+                          <View style={{ flexDirection: "row" }}>
+                            {v.camiones_asigandos != v.camiones_cantidad ? (
+                              <MyButton
+                                type={"trip-list"}
+                                label={"Asignar chofer"}
+                                color={'black'}
+                                onPress={() => {
+                                  setSelectedTrip(v.id);
+                                  setShowModal(!showModal);
+                                }}
+                              />
+                            ) : null}
+                            {v.camiones_asigandos > 0 ? (
+                              <MyButton
+                                type={"trip-list"}
+                                label={"Ver choferes asignados"}
+                                color={'black'}
+                                onPress={() =>
+                                  navigation.navigate("DriversTrip", v)
+                                }
+                              />
+                            ) : null}
                           </View>
-                        </ExpandableInfo>
-                        {/*BOTONES*/}
-                        <View
-                          style={{
-                            width: "100%",
-                            marginBottom: 10,
-                          }}
-                        />
-                        <ProgresBar
-                          total={v.camiones_cantidad}
-                          current={v.camiones_asigandos}
-                        />
-                        <View style={{ flexDirection: "row" }}>
-                          {v.camiones_asigandos != v.camiones_cantidad ? (
-                            <MyButton
-                              type={"trip-list"}
-                              label={"Asignar chofer"}
-                              onPress={() => {
-                                setSelectedTrip(v.id);
-                                setShowModal(!showModal);
-                              }}
-                            />
-                          ) : null}
-                          {v.camiones_asigandos > 0 ? (
-                            <MyButton
-                              type={"trip-list"}
-                              label={"Ver choferes asignados"}
-                              onPress={() =>
-                                navigation.navigate("DriversTrip", v)
-                              }
-                            />
-                          ) : null}
-                        </View>
-                      </ListItem.Content>
-                    </ListItem>
-                  </ListItem.Accordion>
-                );
-              })
-            : null}
-          <ModalAlert
-            modalVisible={modalVisible}
-            setModalVisible={setModalVisible}
-            msj={msj}
-            type={modalType}
-          />
-        </ScrollView>
+                        </ListItem.Content>
+                      </ListItem>
+                    </ListItem.Accordion>
+                  );
+                })
+              : null}
+            <ModalAlert
+              modalVisible={modalVisible}
+              setModalVisible={setModalVisible}
+              msj={msj}
+              type={modalType}
+            />
+          </ScrollView>
+        </View>
         <PlainModal showModal={showModal} setShowModal={setShowModal}>
           <TrucksDriversTable handleLinkTruckDriver={handleLinkTruckDriver} />
         </PlainModal>
