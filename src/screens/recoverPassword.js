@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import { SafeAreaView, ScrollView, Text, View } from "react-native";
 //Formik & Yup
 import { Formik } from "formik";
@@ -9,16 +9,51 @@ import { Colors } from "../styles/Colors";
 //Components
 import { Input, Icon } from "@rneui/themed";
 import MyButton from "../components/MyButton";
-
+import Spinner from "../components/Spinner";
+import ModalAlert from "../components/ModalAlert";
+//Hooks
+import { useModal } from "../hooks/useModal";
+//API
+import { sendUserMail } from "../api/userAPI";
 const RecoverPassword = () => {
+  const[loading,setLoading] = useState(false)
+  const {
+    setShowModal,
+    showModal,
+    modalType,
+    msjModal,
+    handleError,
+    handleSucces } = useModal()
   const initialValues = {
     email: null,
   };
+  const handleSendUserMail = async (values) => {
+    setLoading(true);
+    try {
+      const api_response = await sendUserMail(values.email)
+      console.log(api_response.status)
+      console.log(api_response.data)
+      if (api_response.status === 201) {
+        const msj = api_response.data.msj
+        handleSucces(msj)
+      }else{
+        handleError('Algo salio mal')
+      }
+    } catch (error) {
+      console.log(`Error enviando mail: ${error}`)
+      const msj = error.response.data.msj ? error.response.data.msj : 'Algo salió mal.'
+      handleError(msj)
+    } finally {
+      setLoading(false);
+    }
+  }
+  if (loading) return <Spinner />;
   return (
     <SafeAreaView style={login.container}>
       <Formik
         initialValues={initialValues}
         validationSchema={recoverPassValidationSchema}
+        onSubmit={handleSendUserMail}
       >
         {({
           handleChange,
@@ -27,7 +62,6 @@ const RecoverPassword = () => {
           values,
           errors,
           touched,
-          isValid,
         }) => (
           <>
             <ScrollView
@@ -41,8 +75,8 @@ const RecoverPassword = () => {
                 </View>
                 <Input
                   name="email"
-                  onChangeText={handleChange("email")}
-                  onBlur={handleBlur("email")}
+                  onChangeText={handleChange('email')}
+                  onBlur={handleBlur('email')}
                   value={values.email}
                   inputContainerStyle={login.inputContainerStyle}
                   placeholder="Email"
@@ -60,6 +94,12 @@ const RecoverPassword = () => {
           </>
         )}
       </Formik>
+      <ModalAlert
+        type={modalType}
+        modalVisible={showModal}
+        setModalVisible={setShowModal}
+        msj={msjModal}
+      />
     </SafeAreaView>
   );
 };
