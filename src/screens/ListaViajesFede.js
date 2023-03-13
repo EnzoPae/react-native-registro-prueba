@@ -23,6 +23,7 @@ import DateTable from "../components/listContent/dateTable";
 import InfoLocalidad from "../components/listContent/infoLocalidad";
 import InfoTable from "../components/listContent/infoTable";
 import ProgresBar from "../components/listContent/progressBar";
+import TruckState from "../components/truckState";
 //Styles
 import { Colors } from "../styles/Colors";
 import MyButton from "../components/MyButton";
@@ -301,11 +302,10 @@ export default function ListaViajesFede() {
                             total={v.camiones_cantidad}
                             current={v.camiones_asigandos}
                           />
-                          <View style={{ flexDirection: "row" }}>
                             {v.camiones_asigandos != v.camiones_cantidad ? (
                               <MyButton
                                 type={"trip-list"}
-                                label={"Asignar chofer"}
+                                label={"Asignar camión"}
                                 color={"black"}
                                 onPress={() => {
                                   setSelectedTrip(v.id);
@@ -316,14 +316,20 @@ export default function ListaViajesFede() {
                             {v.camiones_asigandos > 0 ? (
                               <MyButton
                                 type={"trip-list"}
-                                label={"Ver choferes asignados"}
+                                label={"Ver camiones asignados"}
                                 color={"black"}
                                 onPress={() =>
                                   navigation.navigate("DriversTrip", v)
                                 }
                               />
                             ) : null}
-                          </View>
+                            <ExpandableInfo type={'myBtn'}>
+                            {v.drivers.map(d =>(
+                              <View key={d.id_equipo}>
+                                <Text>{d.camion} - {d.estado}</Text>
+                              </View>
+                            )) }
+                            </ExpandableInfo>
                         </ListItem.Content>
                       </ListItem>
                     </ListItem.Accordion>

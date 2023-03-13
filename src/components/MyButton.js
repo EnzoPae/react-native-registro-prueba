@@ -10,6 +10,7 @@ export default function MyButton({ onPress, label, type, color }) {
   const btnColor = COLOR.includes(color) ? color : "blue";
 
   const btnStyles = {
+    width: btnType === 'trip-list' ? '100%' : null,
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: btnType === "trip-list" ? 10 : 30,
