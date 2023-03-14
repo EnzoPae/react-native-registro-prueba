@@ -23,7 +23,6 @@ import DateTable from "../components/listContent/dateTable";
 import InfoLocalidad from "../components/listContent/infoLocalidad";
 import InfoTable from "../components/listContent/infoTable";
 import ProgresBar from "../components/listContent/progressBar";
-import TruckState from "../components/truckState";
 //Styles
 import { Colors } from "../styles/Colors";
 import MyButton from "../components/MyButton";
@@ -302,34 +301,61 @@ export default function ListaViajesFede() {
                             total={v.camiones_cantidad}
                             current={v.camiones_asigandos}
                           />
-                            {v.camiones_asigandos != v.camiones_cantidad ? (
-                              <MyButton
-                                type={"trip-list"}
-                                label={"Asignar camión"}
-                                color={"black"}
-                                onPress={() => {
-                                  setSelectedTrip(v.id);
-                                  setShowModal(!showModal);
-                                }}
-                              />
-                            ) : null}
-                            {v.camiones_asigandos > 0 ? (
-                              <MyButton
-                                type={"trip-list"}
-                                label={"Ver camiones asignados"}
-                                color={"black"}
-                                onPress={() =>
-                                  navigation.navigate("DriversTrip", v)
-                                }
-                              />
-                            ) : null}
-                            <ExpandableInfo type={'myBtn'}>
-                            {v.drivers.map(d =>(
-                              <View key={d.id_equipo}>
-                                <Text>{d.camion} - {d.estado}</Text>
-                              </View>
-                            )) }
+                          {v.camiones_asigandos != v.camiones_cantidad ? (
+                            <MyButton
+                              type={"trip-list"}
+                              label={"Asignar camión"}
+                              color={"black"}
+                              onPress={() => {
+                                setSelectedTrip(v.id);
+                                setShowModal(!showModal);
+                              }}
+                            />
+                          ) : null}
+                          {v.camiones_asigandos > 0 ? (
+                            <MyButton
+                              type={"trip-list"}
+                              label={"Ver camiones asignados"}
+                              color={"black"}
+                              onPress={() =>
+                                navigation.navigate("DriversTrip", v)
+                              }
+                            />
+                          ) : null}
+                          {v.camiones_asigandos > 0 ? (
+                            <ExpandableInfo type={"myBtn"}>
+                              {v.drivers.map((d) => (
+                                <View key={d.id_equipo} style={s.a}>
+                                  <View style={s.b}>
+                                    <Text style={s.t1}>
+                                      {d.camion.toUpperCase()}
+                                    </Text>
+                                    <Text
+                                      style={[
+                                        s.t2,
+                                        {
+                                          backgroundColor:
+                                            d.id_estado === 1
+                                              ? Colors.lightBlue
+                                              : d.id_estado === 2
+                                              ? Colors.greenState
+                                              : d.id_estado === 3
+                                              ? Colors.yellowState
+                                              : d.id_estado === 4
+                                              ? Colors.primary
+                                              : Colors.modalError,
+                                          color: d.id_estado === 4 ? Colors.white : null
+                                        },
+                                      ]}
+                                    >
+                                      {textCamelCase(d.estado)}
+                                    </Text>
+                                  </View>
+                                  <Text style={s.t3}>{d.dni}</Text>
+                                </View>
+                              ))}
                             </ExpandableInfo>
+                          ) : null}
                         </ListItem.Content>
                       </ListItem>
                     </ListItem.Accordion>
@@ -386,5 +412,29 @@ const s = StyleSheet.create({
     fontWeight: "bold",
     color: "#fff",
     fontSize: 12,
+  },
+  //ACTIVIDAD CAMIONES
+  a: {
+    marginTop: 10,
+    borderBottomWidth: 0.5,
+    paddingHorizontal: 5,
+    borderBottomEndRadius: 10,
+    borderBottomStartRadius: 20,
+    borderColor: "#aeaeae",
+  },
+  b: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  t2: {
+    paddingHorizontal: 5,
+    paddingVertical: 2,
+    borderRadius: 20,
+    fontSize: 12,
+  },
+  t3: {
+    marginLeft: 15,
+    fontSize: 12,
+    color: "#aeaeae",
   },
 });
