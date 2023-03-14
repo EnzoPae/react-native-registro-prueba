@@ -35,7 +35,7 @@ export default function ListaViajesFede() {
   const isFocused = useIsFocused();
   const { authAxios } = useContext(AxiosContext);
   //Estado para saber que url se esta mostrando
-  const [currentUrl, setCurrentUrl] = useState('api/trips/1')
+  const [currentUrl, setCurrentUrl] = useState("api/trips/1");
   //Estado para saber que item tendria que estar expandido
   const [expandedItems, setExpanded] = useState([]);
   const [trips, setTrips] = useState([]);
@@ -57,7 +57,7 @@ export default function ListaViajesFede() {
   */
   const getTrips = async (url) => {
     try {
-      const response = await authAxios.get(url);
+      const response = await authAxios.get("api/trips/"+url);
       setTrips(response.data);
       setCurrentUrl(url);
     } catch (error) {
@@ -71,7 +71,7 @@ export default function ListaViajesFede() {
   };
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    getTrips().then(() => setRefreshing(false));
+    getTrips(1).then(() => setRefreshing(false));
   }, []);
 
   //CamelCase
@@ -98,7 +98,7 @@ export default function ListaViajesFede() {
 
   useEffect(() => {
     if (isFocused) {
-      getTrips('api/trips/1');
+      getTrips(1);
       setLoading(true);
     } else {
       /*
@@ -115,7 +115,7 @@ export default function ListaViajesFede() {
     }
   }, [isFocused]);
   useEffect(() => {
-    getTrips('api/trips/1');
+    getTrips(1);
     setLoading(true);
     setExpanded([]);
   }, [reloadTrips]);
@@ -171,30 +171,36 @@ export default function ListaViajesFede() {
               <View style={s.buttonsContainer}>
                 <TouchableOpacity
                   style={[
-                    currentUrl === 'api/trips/0' ? s.activeButton : s.inactiveButton,
+                    currentUrl === 1
+                      ? s.activeButton
+                      : s.inactiveButton,
                     s.btn,
                   ]}
-                  onPress={() => getTrips("api/trips/0")}
-                >
-                  <Text style={s.btnText}>All</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[
-                    currentUrl === 'api/trips/1' ? s.activeButton : s.inactiveButton,
-                    s.btn,
-                  ]}
-                  onPress={() => getTrips("api/trips/1")}
+                  onPress={() => getTrips(1)}
                 >
                   <Text style={s.btnText}>Operando</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={[
-                    currentUrl === 'api/trips/2' ? s.activeButton : s.inactiveButton,
+                    currentUrl === 2
+                      ? s.activeButton
+                      : s.inactiveButton,
                     s.btn,
                   ]}
-                  onPress={() => getTrips("api/trips/2")}
+                  onPress={() => getTrips(2)}
                 >
-                  <Text style={s.btnText}>Fin</Text>
+                  <Text style={s.btnText}>Cerrado</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[
+                    currentUrl === 0
+                      ? s.activeButton
+                      : s.inactiveButton,
+                    s.btn,
+                  ]}
+                  onPress={() => getTrips(0)}
+                >
+                  <Text style={s.btnText}>Todo</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -207,7 +213,6 @@ export default function ListaViajesFede() {
                         borderTopWidth: 0.5,
                         borderTopStartRadius: 20,
                         borderTopEndRadius: 20,
-                        borderTopColor: v.estado === 1 ? Colors.greenState : Colors.redState
                       }}
                       topDivider
                       key={`accordion${i}`}
@@ -345,7 +350,10 @@ export default function ListaViajesFede() {
                                               : d.id_estado === 4
                                               ? Colors.primary
                                               : Colors.modalError,
-                                          color: d.id_estado === 4 ? Colors.white : null
+                                          color:
+                                            d.id_estado === 4
+                                              ? Colors.white
+                                              : null,
                                         },
                                       ]}
                                     >
