@@ -34,6 +34,8 @@ export default function ListaViajesFede() {
   const navigation = useNavigation();
   const isFocused = useIsFocused();
   const { authAxios } = useContext(AxiosContext);
+  //Estado para saber que url se esta mostrando
+  const [currentUrl, setCurrentUrl] = useState('api/trips/1')
   //Estado para saber que item tendria que estar expandido
   const [expandedItems, setExpanded] = useState([]);
   const [trips, setTrips] = useState([]);
@@ -53,10 +55,11 @@ export default function ListaViajesFede() {
     Primero hay que ver si se esa viendo la pantalla
     ya que el useEffect se ejecuta cuando salis de la misma tamb
   */
-  const getTrips = async () => {
+  const getTrips = async (url) => {
     try {
-      const response = await authAxios.get("/api/trips/0");
+      const response = await authAxios.get(url);
       setTrips(response.data);
+      setCurrentUrl(url);
     } catch (error) {
       console.log(error);
       setModalType("error");
@@ -95,7 +98,7 @@ export default function ListaViajesFede() {
 
   useEffect(() => {
     if (isFocused) {
-      getTrips();
+      getTrips('api/trips/1');
       setLoading(true);
     } else {
       /*
@@ -112,7 +115,7 @@ export default function ListaViajesFede() {
     }
   }, [isFocused]);
   useEffect(() => {
-    getTrips();
+    getTrips('api/trips/1');
     setLoading(true);
     setExpanded([]);
   }, [reloadTrips]);
@@ -168,33 +171,30 @@ export default function ListaViajesFede() {
               <View style={s.buttonsContainer}>
                 <TouchableOpacity
                   style={[
-                    //state === "All" ? s.activeButton : s.inactiveButton,
+                    currentUrl === 'api/trips/0' ? s.activeButton : s.inactiveButton,
                     s.btn,
-                    s.activeButton,
                   ]}
-                  //onPress={() => handleStateFilter("All")}
+                  onPress={() => getTrips("api/trips/0")}
                 >
                   <Text style={s.btnText}>All</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={[
-                    //state === "p" ? s.activeButton : s.inactiveButton,
+                    currentUrl === 'api/trips/1' ? s.activeButton : s.inactiveButton,
                     s.btn,
-                    s.inactiveButton,
                   ]}
-                  //onPress={() => handleStateFilter("p")}
+                  onPress={() => getTrips("api/trips/1")}
                 >
-                  <Text style={s.btnText}>Pendiente</Text>
+                  <Text style={s.btnText}>Operando</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={[
-                    //state === "c" ? s.activeButton : s.inactiveButton,
+                    currentUrl === 'api/trips/2' ? s.activeButton : s.inactiveButton,
                     s.btn,
-                    s.inactiveButton,
                   ]}
-                  //onPress={() => handleStateFilter("c")}
+                  onPress={() => getTrips("api/trips/2")}
                 >
-                  <Text style={s.btnText}>Curso</Text>
+                  <Text style={s.btnText}>Fin</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -207,6 +207,7 @@ export default function ListaViajesFede() {
                         borderTopWidth: 0.5,
                         borderTopStartRadius: 20,
                         borderTopEndRadius: 20,
+                        borderTopColor: v.estado === 1 ? Colors.greenState : Colors.redState
                       }}
                       topDivider
                       key={`accordion${i}`}
