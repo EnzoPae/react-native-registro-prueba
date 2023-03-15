@@ -65,6 +65,25 @@ export default function ListadoCamionerosViaje({ route }) {
       setLoading(false);
     }
   };
+
+  //CONFIRMAR LOG OUT
+  const confirmClick = (item) => {
+    Alert.alert(
+      "Confirmar designación",
+      '',
+      [
+        {
+          text: "Cancel",
+        },
+        {
+          text: "Confirm",
+          onPress: () => handleDesVinc(item),
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+
   if (loading) return <Spinner />;
   //console.log(drivers)
   return (
@@ -103,15 +122,17 @@ export default function ListadoCamionerosViaje({ route }) {
                 {/*Contenido acordion*/}
                 <ListItem key={`item${i}`}>
                   <ListItem.Content style={{ marginTop: -20 }}>
-                    <ListItem.Subtitle>{d.apenom === null ? 'No defenido' : d.apenom}</ListItem.Subtitle>
+                    <ListItem.Subtitle>
+                      {d.apenom === null ? "No defenido" : d.apenom}
+                    </ListItem.Subtitle>
                     <ListItem.Subtitle>{d.dni}</ListItem.Subtitle>
                     <View style={{}}>
                       <MyButton
                         type={"trip-list"}
                         label={"Desasignar"}
-                        color={'red'}
+                        color={"red"}
                         onPress={() => {
-                          handleDesVinc(d.id_equipo);
+                          confirmClick(d.id_equipo);
                         }}
                       />
                     </View>
