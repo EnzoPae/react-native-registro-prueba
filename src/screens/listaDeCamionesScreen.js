@@ -17,9 +17,17 @@ const ListaDeCamionesScreen = () => {
   const [expandedItems, setExpanded] = useState([]);
   const [error, setError] = useState(false);
   const [msj, setMsj] = useState(null);
+  //Filtro de busqueda
+  const [search, setSearch] = useState("");
   /*
     Verificar si se esta viendo la pantalla mediante isFocused
   */
+  //SEARCH
+  const filteredTrucks = trucks.filter((t) =>
+      t.camion.toLowerCase().includes(search.toLowerCase()) ||
+      t.batea.toLowerCase().includes(search.toLowerCase())
+  );
+
   useEffect(() => {
     if (isFocused) {
       //Con el focus ya en la pantalla
@@ -57,14 +65,14 @@ const ListaDeCamionesScreen = () => {
             placeholder="Buscar"
             leftIcon={<Icon name="search" size={20} />}
             leftIconContainerStyle={{ height: 20, marginHorizontal: 5 }}
-            //onChangeText={handleSearchFilter}
-            //value={search}
+            onChangeText={(text) => setSearch(text)}
+            value={search}
             containerStyle={{ width: 140, height: 41, marginVertical: 10 }}
             inputContainerStyle={s.inputContainerStyle}
-            inputStyle={{ fontSize: 12 }}
+            inputStyle={{ fontSize: 12, marginRight: 5 }}
           />
           {!loading
-            ? trucks.map((v, i) => {
+            ? filteredTrucks.map((v, i) => {
                 return (
                   <ListItem.Accordion
                     key={`accordion${i}`}
@@ -77,9 +85,8 @@ const ListaDeCamionesScreen = () => {
                     content={
                       <>
                         <ListItem.Content>
-                          <ListItem.Title>
-                            {v.apenom}
-                          </ListItem.Title>
+                          <ListItem.Title>{v.camion.toUpperCase()} - {v.batea.toUpperCase()}</ListItem.Title>
+                          <ListItem.Subtitle>{v.apenom}</ListItem.Subtitle>
                         </ListItem.Content>
                       </>
                     }
@@ -94,25 +101,8 @@ const ListaDeCamionesScreen = () => {
                   >
                     {/*Contenido acordion*/}
                     <ListItem key={`item${i}`}>
-                      <ListItem.Content style={{ marginVertical: -10 }}>
-                        <View
-                          style={{ flexDirection: "row", marginLeft: "8%" }}
-                        >
-                          <View style={{ width: "45%" }}>
-                            <Text>DNI Chofer:</Text>
-                            <Text>Patente Camion:</Text>
-                            <Text>Patente Acoplado:</Text>
-                          </View>
-                          <View>
-                            <ListItem.Subtitle>{v.dni}</ListItem.Subtitle>
-                            <ListItem.Subtitle>
-                              {v.camion.toUpperCase()}
-                            </ListItem.Subtitle>
-                            <ListItem.Subtitle>
-                              {v.batea.toUpperCase()}
-                            </ListItem.Subtitle>
-                          </View>
-                        </View>
+                      <ListItem.Content>
+                        <ListItem.Subtitle>Que miras boton?</ListItem.Subtitle>
                       </ListItem.Content>
                     </ListItem>
                   </ListItem.Accordion>
