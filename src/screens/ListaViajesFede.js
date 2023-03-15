@@ -57,7 +57,7 @@ export default function ListaViajesFede() {
   */
   const getTrips = async (url) => {
     try {
-      const response = await authAxios.get("api/trips/"+url);
+      const response = await authAxios.get("api/trips/" + url);
       setTrips(response.data);
       setCurrentUrl(url);
     } catch (error) {
@@ -171,9 +171,7 @@ export default function ListaViajesFede() {
               <View style={s.buttonsContainer}>
                 <TouchableOpacity
                   style={[
-                    currentUrl === 1
-                      ? s.activeButton
-                      : s.inactiveButton,
+                    currentUrl === 1 ? s.activeButton : s.inactiveButton,
                     s.btn,
                   ]}
                   onPress={() => getTrips(1)}
@@ -182,9 +180,7 @@ export default function ListaViajesFede() {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={[
-                    currentUrl === 2
-                      ? s.activeButton
-                      : s.inactiveButton,
+                    currentUrl === 2 ? s.activeButton : s.inactiveButton,
                     s.btn,
                   ]}
                   onPress={() => getTrips(2)}
@@ -193,9 +189,7 @@ export default function ListaViajesFede() {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={[
-                    currentUrl === 0
-                      ? s.activeButton
-                      : s.inactiveButton,
+                    currentUrl === 0 ? s.activeButton : s.inactiveButton,
                     s.btn,
                   ]}
                   onPress={() => getTrips(0)}
@@ -230,7 +224,13 @@ export default function ListaViajesFede() {
                               <ListItem.Title style={s.title}>
                                 {textCamelCase(v.desc_localidad_o)}
                               </ListItem.Title>
-                              <ListItem.Title style={{ fontSize: 12 }}>
+                              <ListItem.Title
+                                style={{
+                                  fontSize: 12,
+                                  borderBottomWidth: 1.5,
+                                  borderBottomColor: v.estado === 1 ? Colors.greenState : Colors.modalError,
+                                }}
+                              >
                                 {formatDateGen(v.fecha_gen)}
                               </ListItem.Title>
                             </ListItem.Content>
@@ -412,7 +412,7 @@ const s = StyleSheet.create({
     borderRadius: 20,
   },
   btn: {
-    paddingHorizontal: 10,
+    paddingHorizontal: 5,
     marginHorizontal: 0.5,
     borderRadius: 3,
     justifyContent: "center",
@@ -420,6 +420,9 @@ const s = StyleSheet.create({
   btnText: {
     fontWeight: "bold",
     color: "#fff",
+    fontSize: 12,
+  },
+  subTitle: {
     fontSize: 12,
   },
   //ACTIVIDAD CAMIONES
