@@ -79,10 +79,10 @@ export default function ListaViajesFede() {
 
   //SEARCH
   const filteredTrips = trips.filter((t) =>
-    t.desc_localidad_o.toLowerCase().includes(search.toLowerCase()) ||
-    t.desc_localidad_d.toLowerCase().includes(search.toLowerCase())
-    //t.razonsocial.toString().toLowerCase().includes(search.toLowerCase())
-    //t.nombre_producto.toString().toLowerCase().includes(search.toLowerCase())
+      t.desc_localidad_o.toLowerCase().includes(search.toLowerCase()) ||
+      t.desc_localidad_d.toLowerCase().includes(search.toLowerCase())
+      //t.razonsocial.toString().toLowerCase().includes(search.toLowerCase()) ||
+      //t.nombre_producto.toString().toLowerCase().includes(search.toLowerCase())
   );
 
   //CamelCase
@@ -286,15 +286,21 @@ export default function ListaViajesFede() {
                                 text1={v.razonsocial}
                                 text2={
                                   v.nombre_producto === null
-                                    ? null
+                                    ? "No definido"
                                     : v.nombre_producto
                                 }
                               />
                               <InfoTable
                                 header1={"Km"}
                                 header2={"Tarifa"}
-                                text1={v.kilometros}
-                                text2={v.tarifa}
+                                text1={
+                                  v.kilometros === null
+                                    ? "No definido"
+                                    : v.kilometros
+                                }
+                                text2={
+                                  v.tarifa === null ? "No definido" : v.tarifa
+                                }
                               />
                               <DateTable />
                               {v.obs === null ? null : (
