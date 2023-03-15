@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   TextInput,
   Alert,
-  Navigation
+  Navigation,
 } from "react-native";
 import { ListItem } from "@rneui/base";
 import Spinner from "./Spinner";
@@ -17,7 +17,10 @@ const TruckDriverItem = ({ item, onPress }) => (
   <TouchableOpacity onPress={onPress}>
     <ListItem bottomDivider>
       <ListItem.Content>
-        <ListItem.Title>{String(item.camion).toUpperCase()} - {String(item.batea).toUpperCase()}</ListItem.Title>
+        <ListItem.Title>
+          {String(item.camion).toUpperCase()} -{" "}
+          {String(item.batea).toUpperCase()}
+        </ListItem.Title>
         <ListItem.Subtitle>{item.apenom}</ListItem.Subtitle>
       </ListItem.Content>
     </ListItem>
@@ -25,7 +28,7 @@ const TruckDriverItem = ({ item, onPress }) => (
 );
 export default function TrucksDriversTable({ handleLinkTruckDriver }) {
   const [data, setData] = useState([]);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const { authAxios } = useContext(AxiosContext);
@@ -41,7 +44,10 @@ export default function TrucksDriversTable({ handleLinkTruckDriver }) {
       setLoading(false);
     }
   };
-  const filteredData = data.filter(item => item.apenom.toLowerCase().includes(search.toLowerCase()))
+  const filteredData = data.filter((item) =>
+    item.apenom.toLowerCase().includes(search.toLowerCase())||
+    item.camion.toLowerCase().includes(search.toLowerCase())
+  );
 
   useEffect(() => {
     fetchTrucksDrivers();
@@ -50,24 +56,26 @@ export default function TrucksDriversTable({ handleLinkTruckDriver }) {
   const handleClik = (item) => {
     handleLinkTruckDriver(item.id);
   };
-  
+
   const confirmClick = (item) => {
     Alert.alert(
-      'Confirmación',
-      `${item.camion.toUpperCase()} - ${item.batea.toUpperCase()} ${"\n"}${item.apenom}`,
+      "Confirmación",
+      `${item.camion.toUpperCase()} - ${item.batea.toUpperCase()} ${"\n"}${
+        item.apenom
+      }`,
       [
         {
-          text: 'Cancel',
-          onPress: () => console.log('Asignacion de camión cancelada'),
+          text: "Cancel",
+          onPress: () => console.log("Asignacion de camión cancelada"),
         },
         {
-          text: 'Confirm',
+          text: "Confirm",
           onPress: () => handleClik(item),
-        }
+        },
       ],
-      {cancelable: false}
-    )
-  }
+      { cancelable: false }
+    );
+  };
 
   const renderItem = ({ item }) => {
     return <TruckDriverItem item={item} onPress={() => confirmClick(item)} />;
@@ -85,7 +93,7 @@ export default function TrucksDriversTable({ handleLinkTruckDriver }) {
       <TextInput
         style={{}}
         placeholder="Buscar..."
-        onChangeText={text => setSearch(text)}
+        onChangeText={(text) => setSearch(text)}
         value={search}
       />
       <FlatList
@@ -102,7 +110,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     margin: 20,
-    width: '90%'
+    width: "90%",
   },
   title: {
     fontSize: 16,
