@@ -34,6 +34,8 @@ export default function ListaViajesFede() {
   const navigation = useNavigation();
   const isFocused = useIsFocused();
   const { authAxios } = useContext(AxiosContext);
+  //Filtro de busqueda
+  const [search, setSearch] = useState("");
   //Estado para saber que url se esta mostrando
   const [currentUrl, setCurrentUrl] = useState("api/trips/1");
   //Estado para saber que item tendria que estar expandido
@@ -69,10 +71,19 @@ export default function ListaViajesFede() {
       setLoading(false);
     }
   };
+  //REFRESH
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     getTrips(1).then(() => setRefreshing(false));
   }, []);
+
+  //SEARCH
+  const filteredTrips = trips.filter((t) =>
+    t.desc_localidad_o.toLowerCase().includes(search.toLowerCase()) ||
+    t.desc_localidad_d.toLowerCase().includes(search.toLowerCase())
+    //t.razonsocial.toString().toLowerCase().includes(search.toLowerCase())
+    //t.nombre_producto.toString().toLowerCase().includes(search.toLowerCase())
+  );
 
   //CamelCase
   const textCamelCase = (text) => {
@@ -119,6 +130,7 @@ export default function ListaViajesFede() {
     setLoading(true);
     setExpanded([]);
   }, [reloadTrips]);
+
   if (loading) return <Spinner />;
   const handleLinkTruckDriver = async (id_equipo) => {
     try {
@@ -162,11 +174,11 @@ export default function ListaViajesFede() {
                 placeholder="Buscar"
                 leftIcon={<Icon name="search" size={20} />}
                 leftIconContainerStyle={{ height: 20, marginHorizontal: 5 }}
-                //onChangeText={handleSearchFilter}
-                //value={search}
+                onChangeText={(text) => setSearch(text)}
+                value={search}
                 containerStyle={{ width: 130, height: 41 }}
                 inputContainerStyle={s.inputContainerStyle}
-                inputStyle={{ fontSize: 12 }}
+                inputStyle={{ fontSize: 12, marginRight: 5 }}
               />
               <View style={s.buttonsContainer}>
                 <TouchableOpacity
@@ -199,7 +211,7 @@ export default function ListaViajesFede() {
               </View>
             </View>
             {!loading
-              ? trips.map((v, i) => {
+              ? filteredTrips.map((v, i) => {
                   return (
                     <ListItem.Accordion
                       containerStyle={{
@@ -228,7 +240,10 @@ export default function ListaViajesFede() {
                                 style={{
                                   fontSize: 12,
                                   borderBottomWidth: 1.5,
-                                  borderBottomColor: v.estado === 1 ? Colors.greenState : Colors.modalError,
+                                  borderBottomColor:
+                                    v.estado === 1
+                                      ? Colors.greenState
+                                      : Colors.modalError,
                                 }}
                               >
                                 {formatDateGen(v.fecha_gen)}
@@ -420,9 +435,6 @@ const s = StyleSheet.create({
   btnText: {
     fontWeight: "bold",
     color: "#fff",
-    fontSize: 12,
-  },
-  subTitle: {
     fontSize: 12,
   },
   //ACTIVIDAD CAMIONES
