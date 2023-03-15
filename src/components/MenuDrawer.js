@@ -1,10 +1,28 @@
 import React from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity, Alert } from "react-native";
 import DrawerButton from "./DrawerButton";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Colors } from "../styles/Colors";
 
 const MenuDrawer = ({ navigation, handleLogout, userData }) => {
+
+  //CONFIRMAR LOG OUT
+  const confirmClick = () => {
+    Alert.alert(
+      "¿Seguro quiere cerrar sesión?",
+      "",
+      [
+        {
+          text: "Cancel",
+        },
+        {
+          text: "Confirm",
+          onPress: () => handleLogout(),
+        },
+      ],
+      { cancelable: false }
+    );
+  };
   return (
     <View style={styles.container}>
       <View
@@ -38,7 +56,7 @@ const MenuDrawer = ({ navigation, handleLogout, userData }) => {
         label={"plus-circle"}
       />
       <View style={styles.cerrarSesion}>
-        <TouchableOpacity onPress={handleLogout}>
+        <TouchableOpacity onPress={confirmClick}>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Text><Icon name="cog" size={14} /> Cerrar sesión</Text>
           </View>
