@@ -69,7 +69,7 @@ export default function ListadoCamionerosViaje({ route }) {
   //CONFIRMAR LOG OUT
   const confirmClick = (item) => {
     Alert.alert(
-      "Confirmar designación",
+      "Confirmar desasignar camión",
       '',
       [
         {
