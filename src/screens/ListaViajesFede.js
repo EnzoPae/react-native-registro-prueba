@@ -302,7 +302,6 @@ export default function ListaViajesFede() {
                                   v.tarifa === null ? "No definido" : v.tarifa
                                 }
                               />
-                              <DateTable />
                               {v.obs === null ? null : (
                                 <Coments coments={v.obs} />
                               )}
@@ -381,7 +380,7 @@ export default function ListaViajesFede() {
                                       {textCamelCase(d.estado)}
                                     </Text>
                                   </View>
-                                  <Text style={s.t3}>{d.dni}</Text>
+                                  <Text style={s.t3}>{d.cuit}</Text>
                                 </View>
                               ))}
                             </ExpandableInfo>

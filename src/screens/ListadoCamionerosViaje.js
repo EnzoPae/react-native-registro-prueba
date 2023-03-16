@@ -125,8 +125,8 @@ export default function ListadoCamionerosViaje({ route }) {
                     <ListItem.Subtitle>
                       {d.apenom === null ? "No defenido" : d.apenom}
                     </ListItem.Subtitle>
-                    <ListItem.Subtitle>{d.dni}</ListItem.Subtitle>
-                    <View style={{}}>
+                    <ListItem.Subtitle>{d.cuit === null ? "No defenido" : d.cuit}</ListItem.Subtitle>
+                    <View>
                       <MyButton
                         type={"trip-list"}
                         label={"Desasignar"}

@@ -46,10 +46,8 @@ const CrearViajeScreen = () => {
     id_provincia: null,
     id_localidad: null,
   });
-  const [dateCarga, setDateCarga] = useState(null);
-  const [dateDescarga, setDateDescarga] = useState(null);
-  const [timeCarga, setTimeCarga] = useState(null);
-  const [timeDescarga, setTimeDescarga] = useState(null);
+  const [date, setDate] = useState(null);
+  const [time, setTime] = useState(null);
 
   const initialValues = {
     distancia: null,
@@ -91,25 +89,13 @@ const CrearViajeScreen = () => {
       setModalVisible(true);
       return false;
     }
-    if (!dateCarga.match(regExpDate)) {
+    if (!date.match(regExpDate)) {
       setModalType("error");
       setMsjModal("Debe ingresar una fecha valida.");
       setModalVisible(true);
       return false;
     }
-    if (!dateDescarga.match(regExpDate)) {
-      setModalType("error");
-      setMsjModal("Debe ingresar una fecha valida.");
-      setModalVisible(true);
-      return false;
-    }
-    if (!timeCarga.match(regExpTime)) {
-      setModalType("error");
-      setMsjModal("Debe ingresar una hora valida.");
-      setModalVisible(true);
-      return false;
-    }
-    if (!timeDescarga.match(regExpTime)) {
+    if (!time.match(regExpTime)) {
       setModalType("error");
       setMsjModal("Debe ingresar una hora valida.");
       setModalVisible(true);
@@ -127,8 +113,7 @@ const CrearViajeScreen = () => {
       destino,
       id_cliente: selectedClient,
       id_producto: selectedProduct,
-      fechaCarga,
-      fechaDescarga,
+      fecha_viaje,
     };
     console.log(merged);
     try {
@@ -214,9 +199,9 @@ const CrearViajeScreen = () => {
     let formatted = cleaned.match(/.{1,2}/g)?.join("/");
     // Actualiza el estado con el texto formateado
     if (selector === "c") {
-      setDateCarga(formatted || "");
+      setDate(formatted || "");
     } else {
-      setDateDescarga(formatted || "");
+      setDate(formatted || "");
     }
   };
   //Hora
@@ -227,14 +212,13 @@ const CrearViajeScreen = () => {
     let formatted = cleaned.match(/.{1,2}/g)?.join(":");
     // Actualiza el estado con el texto formateado
     if (selector === "c") {
-      setTimeCarga(formatted || "");
+      setTime(formatted || "");
     } else {
-      setTimeDescarga(formatted || "");
+      setTime(formatted || "");
     }
   };
   //Join fecha y hora
-  const fechaCarga = dateCarga + " " + timeCarga;
-  const fechaDescarga = dateDescarga + " " + timeDescarga;
+  const fecha_viaje = date + " " + time;
 
   const clearStates = () => {
     setLoading(false);
@@ -252,10 +236,8 @@ const CrearViajeScreen = () => {
       id_provincia: null,
       id_localidad: null,
     });
-    setDateCarga(null);
-    setDateDescarga(null);
-    setTimeCarga(null);
-    setTimeDescarga(null);
+    setDate(null);
+    setTime(null);
   };
 
   useEffect(() => {
@@ -384,6 +366,7 @@ const CrearViajeScreen = () => {
                         searchPlaceholder={"Buscar localidad"}
                         placeholder={"Localidad"}
                         boxStyles={createTripStyles.boxSelect}
+                        dropdownStyles={createTripStyles.dropdownStyles}
                         dropdownTextStyles={createTripStyles.fontSize12}
                         inputStyles={createTripStyles.fontSize12}
                       />
@@ -493,55 +476,24 @@ const CrearViajeScreen = () => {
                     inputContainerStyle={createTripStyles.inputContainerStyle}
                     inputStyle={createTripStyles.inputStyle}
                     placeholder={"DD/MM/YY"}
-                    label={"Fecha Carga"}
+                    label={"Fecha"}
                     labelStyle={createTripStyles.labelStyle}
                     keyboardType={"numeric"}
                     onChangeText={(text) => formatDate(text, "c")}
                     maxLength={8}
-                    value={dateCarga}
+                    value={date}
                   />
                   <Input
                     containerStyle={[createTripStyles.containerStyle, { width: "50%" }]}
                     inputContainerStyle={createTripStyles.inputContainerStyle}
                     inputStyle={createTripStyles.inputStyle}
                     placeholder={"HH:MM"}
-                    label={"Hs carga"}
+                    label={"Hora"}
                     labelStyle={createTripStyles.labelStyle}
                     keyboardType={"numeric"}
                     onChangeText={(text) => formatTime(text, "c")}
                     maxLength={5}
-                    value={timeCarga}
-                  />
-                </View>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-around",
-                  }}
-                >
-                  <Input
-                    containerStyle={[createTripStyles.containerStyle, { width: "50%" }]}
-                    inputContainerStyle={createTripStyles.inputContainerStyle}
-                    inputStyle={createTripStyles.inputStyle}
-                    placeholder={"DD/MM/YY"}
-                    label={"Fecha Descarga"}
-                    labelStyle={createTripStyles.labelStyle}
-                    keyboardType={"numeric"}
-                    onChangeText={(text) => formatDate(text, "d")}
-                    maxLength={8}
-                    value={dateDescarga}
-                  />
-                  <Input
-                    containerStyle={[createTripStyles.containerStyle, { width: "50%" }]}
-                    inputContainerStyle={createTripStyles.inputContainerStyle}
-                    inputStyle={createTripStyles.inputStyle}
-                    placeholder={"HH:MM"}
-                    label={"Hs descarga"}
-                    labelStyle={createTripStyles.labelStyle}
-                    keyboardType={"numeric"}
-                    onChangeText={(text) => formatTime(text, "d")}
-                    maxLength={5}
-                    value={timeDescarga}
+                    value={time}
                   />
                 </View>
                 <Input
