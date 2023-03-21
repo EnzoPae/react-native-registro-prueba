@@ -19,7 +19,6 @@ import FloatButton from "../components/floatButton";
 import ExpandableInfo from "../components/expandableInfo";
 //Info list components
 import Coments from "../components/listContent/coments";
-import DateTable from "../components/listContent/dateTable";
 import InfoLocalidad from "../components/listContent/infoLocalidad";
 import InfoTable from "../components/listContent/infoTable";
 import ProgresBar from "../components/listContent/progressBar";
@@ -364,8 +363,8 @@ export default function ListaViajesFede() {
                           ) : null}
                           {v.camiones_asigandos > 0 ? (
                             <ExpandableInfo type={"myBtn"}>
-                              {v.drivers.map((d) => (
-                                <View key={d.id_equipo} style={s.a}>
+                              {v.drivers.map((d, i) => (
+                                <View key={d.id_equipo} style={[s.a, {borderTopWidth: i === 0 ? null : 0.5}]}>
                                   <View style={s.b}>
                                     <Text style={s.t1}>
                                       {d.camion.toUpperCase()}
@@ -458,11 +457,10 @@ const s = StyleSheet.create({
   },
   //ACTIVIDAD CAMIONES
   a: {
-    marginTop: 10,
-    borderBottomWidth: 0.5,
     paddingHorizontal: 5,
-    borderBottomEndRadius: 10,
-    borderBottomStartRadius: 20,
+    paddingVertical: 5,
+    borderTopEndRadius: 10,
+    borderTopStartRadius: 20,
     borderColor: "#aeaeae",
   },
   b: {
