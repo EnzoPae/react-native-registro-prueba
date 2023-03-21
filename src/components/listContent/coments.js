@@ -1,11 +1,11 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 
-const Coments = ({coments}) => {
+const Coments = ({title, text}) => {
   return (
     <View style={{width: '100%'}}>
-        <Text style={{fontWeight:'bold'}}>Comentarios:</Text>
-        <Text style={{fontSize: 12}}>{coments}</Text>
+        <Text style={{fontWeight:'bold'}}>{title}</Text>
+        <Text style={{fontSize: 12}}>{text}</Text>
     </View>
   )
 }
