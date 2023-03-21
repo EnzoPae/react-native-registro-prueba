@@ -101,8 +101,8 @@ const ListaDeCamionesScreen = () => {
                   >
                     {/*Contenido acordion*/}
                     <ListItem key={`item${i}`}>
-                      <ListItem.Content>
-                        <ListItem.Subtitle>Que miras boton?</ListItem.Subtitle>
+                      <ListItem.Content style={{marginTop: -20}}>
+                        <ListItem.Subtitle>Cuit chofer: {v.cuit}</ListItem.Subtitle>
                       </ListItem.Content>
                     </ListItem>
                   </ListItem.Accordion>
