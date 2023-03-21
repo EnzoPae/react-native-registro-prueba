@@ -17,11 +17,12 @@ const TruckDriverItem = ({ item, onPress }) => (
   <TouchableOpacity onPress={onPress}>
     <ListItem bottomDivider>
       <ListItem.Content>
-        <ListItem.Title>
+        <ListItem.Subtitle>
           {String(item.camion).toUpperCase()} -{" "}
           {String(item.batea).toUpperCase()}
-        </ListItem.Title>
+        </ListItem.Subtitle>
         <ListItem.Subtitle>{item.apenom}</ListItem.Subtitle>
+        <ListItem.Subtitle>{item.cuit}</ListItem.Subtitle>
       </ListItem.Content>
     </ListItem>
   </TouchableOpacity>
