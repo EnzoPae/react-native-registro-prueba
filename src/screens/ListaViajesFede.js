@@ -106,6 +106,17 @@ export default function ListaViajesFede() {
     const anio = fecha.getUTCFullYear().toString().substr(-2);
     return `${dia}/${mes}/${anio}`;
   }
+  //Fecha y hora
+  const formatDate = (isoDate) => {
+    const dateObj = new Date(isoDate);
+    const day = dateObj.getUTCDate();
+    const month = dateObj.getUTCMonth() + 1; // Los meses comienzan desde 0, por lo que hay que sumar 1
+    const year = dateObj.getUTCFullYear();
+    const hours = dateObj.getUTCHours();
+    const minutes = dateObj.getUTCMinutes();
+    const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}`;
+    return formattedDate;
+  }
 
   useEffect(() => {
     if (isFocused) {
@@ -302,8 +313,11 @@ export default function ListaViajesFede() {
                                   v.tarifa === null ? "No definido" : v.tarifa
                                 }
                               />
+                              {v.fecha_viaje === null ? null : (
+                                <Coments title={'Fecha de viaje:'} text={formatDate(v.fecha_viaje)}/>
+                              )} 
                               {v.obs === null ? null : (
-                                <Coments coments={v.obs} />
+                                <Coments title={'Comentarios:'} text={v.obs} />
                               )}
                               {v.camiones_asigandos > 0 ? null : (
                                 <MyButton
