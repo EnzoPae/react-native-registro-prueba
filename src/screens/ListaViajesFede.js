@@ -366,9 +366,7 @@ export default function ListaViajesFede() {
                               {v.drivers.map((d, i) => (
                                 <View key={d.id_equipo} style={[s.a, {borderTopWidth: i === 0 ? null : 0.5}]}>
                                   <View style={s.b}>
-                                    <Text style={s.t1}>
-                                      {d.camion.toUpperCase()}
-                                    </Text>
+                                  <Text style={s.t3}>{d.apenom}</Text>
                                     <Text
                                       style={[
                                         s.t2,
@@ -393,7 +391,8 @@ export default function ListaViajesFede() {
                                       {textCamelCase(d.estado)}
                                     </Text>
                                   </View>
-                                  <Text style={s.t3}>{d.cuit}</Text>
+                                  <Text style={s.t3}>{d.camion.toUpperCase()}</Text>
+                                  <Text style={s.t3}>{d.cuit}</Text>                                  
                                 </View>
                               ))}
                             </ExpandableInfo>
@@ -460,7 +459,7 @@ const s = StyleSheet.create({
     paddingHorizontal: 5,
     paddingVertical: 5,
     borderTopEndRadius: 10,
-    borderTopStartRadius: 20,
+    borderTopStartRadius: 10,
     borderColor: "#aeaeae",
   },
   b: {
@@ -469,12 +468,10 @@ const s = StyleSheet.create({
   },
   t2: {
     paddingHorizontal: 5,
-    paddingVertical: 2,
     borderRadius: 20,
     fontSize: 12,
   },
   t3: {
-    marginLeft: 15,
     fontSize: 12,
     color: "#aeaeae",
   },
