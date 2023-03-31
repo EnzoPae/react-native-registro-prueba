@@ -13,4 +13,4 @@ src/constants.js
 src/constants.js
 # macOS
 .DS_Store
-
+.idea
