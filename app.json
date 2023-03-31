@@ -2,7 +2,7 @@
   "expo": {
     "name": "Admin La Kilometrica",
     "slug": "admin-la-kilometrica",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -22,7 +22,7 @@
     },
     "android": {
       "package": "com.ketah.reactnativeregistroprueba",
-      "versionCode": 1,
+      "versionCode": 2,
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#FFFFFF"
@@ -33,7 +33,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "b6d5f335-20ae-4cba-9f09-690062d3c1d2"
+        "projectId": "33133b16-06eb-4fc6-b792-e0d48c0dbbd9"
       }
     }
   }
