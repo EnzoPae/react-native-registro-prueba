@@ -45,6 +45,8 @@ const ActViajeScreen = ({ route }) => {
   const [provincias, setProvincias] = useState([]);
   const [localidadesD, setLocalidadesD] = useState(undefined);
   const [localidadesO, setLocalidadesO] = useState(undefined);
+  const [dateValue, setDateValue] = useState(null);
+  const [time, setTime] = useState(null);
   const [origen, setOrigen] = useState({
     id_provincia: null,
     id_localidad: null,
@@ -53,8 +55,6 @@ const ActViajeScreen = ({ route }) => {
     id_provincia: null,
     id_localidad: null,
   });
-  const [dateValue, setDateValue] = useState(null);
-  const [time, setTime] = useState(null);
 
   /*
   Funcion para validar que se haya seleccionado
@@ -215,6 +215,21 @@ const ActViajeScreen = ({ route }) => {
       setTime(formatted || "");
     }
   };
+  //Fecha_gen Format
+  function formatDateGen(fecha_viaje) {
+    const fecha = new Date(fecha_viaje);
+    const dia = fecha.getUTCDate().toString().padStart(2, "0");
+    const mes = (fecha.getUTCMonth() + 1).toString().padStart(2, "0");
+    const anio = fecha.getUTCFullYear().toString().substr(-2);
+    return `${dia}/${mes}/${anio}`;
+  }
+  function formatInitialTime(date) {
+    const fecha = new Date(date);
+    // Obtener las horas y minutos de la fecha en formato de texto
+    const horas = ('0' + fecha.getHours()).slice(-2); // agregar un cero a la izquierda si la hora es menor a 10
+    const minutos = ('0' + fecha.getMinutes()).slice(-2); // agregar un cero a la izquierda si los minutos son menores a 10
+    return horas + ":" + minutos
+  }
   //Join fecha y hora
   const fechaString = dateValue + " " + time; // fecha en formato DD/MM/YY XX:XX
 
@@ -232,6 +247,10 @@ const ActViajeScreen = ({ route }) => {
       comentarios: viajeParam.obs,
       tarifa: String(viajeParam.tarifa),
     });
+    const formatdeDate = formatDateGen(viajeParam.fecha_viaje)
+    setDateValue(formatdeDate)
+    const formatedTime = formatInitialTime(viajeParam.fecha_viaje)
+    setTime(formatedTime)
     setOrigen({
       id_provincia: viajeParam.id_prov_o,
       id_localidad: viajeParam.id_localidad_o,
@@ -271,7 +290,7 @@ const ActViajeScreen = ({ route }) => {
   }, [isFocused]);
 
   if (loading) return <Spinner />;
-
+  console.log(fechaSQL)
   return (
     <SafeAreaView
       style={{ backgroundColor: Colors.white, flex: 1, marginTop: -50 }}
@@ -347,7 +366,7 @@ const ActViajeScreen = ({ route }) => {
                           boxStyles={createTripStyles.boxSelect}
                           dropdownStyles={createTripStyles.dropdownStyles}
                           dropdownTextStyles={createTripStyles.fontSize12}
-                      inputStyles={createTripStyles.fontSize12}
+                          inputStyles={createTripStyles.fontSize12}
                         />
                       )
                     ) : (
@@ -416,7 +435,7 @@ const ActViajeScreen = ({ route }) => {
                           boxStyles={createTripStyles.boxSelect}
                           dropdownStyles={createTripStyles.dropdownStyles}
                           dropdownTextStyles={createTripStyles.fontSize12}
-                      inputStyles={createTripStyles.fontSize12}
+                          inputStyles={createTripStyles.fontSize12}
                         />
                       )
                     ) : (

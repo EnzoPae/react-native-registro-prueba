@@ -98,8 +98,8 @@ export default function ListaViajesFede() {
   };
 
   //Fecha_gen Format
-  function formatDateGen(fecha_gen) {
-    const fecha = new Date(fecha_gen);
+  function formatDateGen(fecha_viaje) {
+    const fecha = new Date(fecha_viaje);
     const dia = fecha.getUTCDate().toString().padStart(2, "0");
     const mes = (fecha.getUTCMonth() + 1).toString().padStart(2, "0");
     const anio = fecha.getUTCFullYear().toString().substr(-2);
@@ -256,7 +256,7 @@ export default function ListaViajesFede() {
                                       : Colors.modalError,
                                 }}
                               >
-                                {formatDateGen(v.fecha_gen)}
+                                {formatDateGen(v.fecha_viaje)}
                               </ListItem.Title>
                             </ListItem.Content>
                             <ListItem.Title style={s.title}>
