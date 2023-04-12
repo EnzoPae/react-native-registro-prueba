@@ -71,13 +71,13 @@ const CrearViajeScreen = () => {
       setModalVisible(true);
       return false;
     }
-    if (!selectedClient) {
+    if (selectedClient === null || selectedClient === undefined) {
       setModalType("error");
       setMsjModal("Debe seleccionar un cliente.");
       setModalVisible(true);
       return false;
     }
-    if (!selectedProduct) {
+    if (selectedProduct === null || selectedProduct === undefined) {
       setModalType("error");
       setMsjModal("Debe seleccionar un producto.");
       setModalVisible(true);
@@ -248,7 +248,7 @@ const CrearViajeScreen = () => {
     }
   }, [isFocused, reload]);
   //console.log(clients)
-  //console.log(products)
+  console.log(selectedProduct)
   if (loading) return <Spinner />;
   return (
     <SafeAreaView

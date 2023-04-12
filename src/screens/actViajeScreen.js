@@ -77,13 +77,13 @@ const ActViajeScreen = ({ route }) => {
       setModalVisible(true);
       return false;
     }
-    if (!selectedClient) {
+    if (selectedClient === null || selectedClient === undefined) {
       setModalType("error");
       setMsjModal("Debe seleccionar un cliente.");
       setModalVisible(true);
       return false;
     }
-    if (!selectedProduct) {
+    if (selectedProduct === null || selectedProduct === undefined) {
       setModalType("error");
       setMsjModal("Debe seleccionar un producto.");
       setModalVisible(true);
